@@ -1,4 +1,4 @@
-# mdbookfixer
+# mdbookfixerr
 
 works together with mdbook tool written in rust
 
