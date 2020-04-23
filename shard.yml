@@ -1,12 +1,12 @@
-name: mdbookfixer
+name: tfwiki
 version: 0.1.0
 
 authors:
   - kristof <kristof@incubaid.com>
 
 targets:
-  mdbookfixer:
-    main: src/mdbookfixer.cr
+  tfwiki:
+    main: src/tfwiki.cr
 
 crystal: 0.34.0
 
