@@ -19,8 +19,11 @@ module TfWiki
     def self.main
       if ARGV.size == 1
         w = Walker.new
-        w.check_dups(ARGV[0])
-        w.fixer(ARGV[0])
+        against = ARGV[0]
+        w.check_dups(against)
+        w.fixer(against)
+        puts "errors #{w.errors}"
+        w.errors_as_md(against)
       end
     end
   end
