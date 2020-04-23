@@ -52,13 +52,16 @@ To use for fixing the file structure:
 This will perform the following:
 
 - Makes sure that no duplicate names exists.Takes into consideration the new values for `readme` files
+- Renames `images` dir to `img`
 - Move images to `img` folder
 - Clean names(Removes space and downcase)
 - Change `readme` to parent directory name
 
 ## Development
 
-TODO: Write development instructions here
+- to add new processor for filesystem add your rocessor in `src/tfwiki/fs/processors`
+- register your processor in `src/tfwiki/fs/walker.cr` in `initialize` method
+- and in `fixer` method use your processor `match` method on the file name and then  call your `process` method
 
 ## Contributing
 

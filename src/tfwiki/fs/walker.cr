@@ -18,7 +18,7 @@ module TfWiki
       @img = ImageProcessor.new
       @md = MdProcessor.new
       @readme = ReadMeProcessor.new
-      @skips = [".git", "_archive"]
+      @skips = [".git", "_archive", "out"]
       @errors = [] of String
       @dirfilesinfo = Hash(String, FInfoTracker).new
       # {filename => {count: 5, paths=[] }}
@@ -58,8 +58,8 @@ module TfWiki
         if Dir.exists? child_path
           next if child.downcase == "img"
           check_dups child_path.to_s
-          # elsif @readme.match(child)
-          #   child = "#{child_path.parent.basename}.md"
+        elsif @readme.match(child)
+          child = "#{child_path.parent.basename}.md"
         end
         if !@dirfilesinfo.has_key?(child.to_s)
           finfo = FInfoTracker.new
@@ -72,10 +72,8 @@ module TfWiki
           finfo.paths << child_path.to_s
           @dirfilesinfo[child] = finfo
         end
-        # puts "DIR INFOooo"
-        # puts @dirfilesinfo
+
         @dirfilesinfo.each do |filename, theinfo|
-          puts "debug #{filename} => #{theinfo.to_s}"
           if theinfo.count > 1
             puts theinfo
             theinfo.paths.each do |dup_path|
