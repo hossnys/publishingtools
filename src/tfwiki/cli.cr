@@ -17,7 +17,11 @@ module TfWiki
     end
 
     def self.main
-      self.process_book
+      if ARGV.size == 1
+        w = Walker.new
+        w.check_dups(ARGV[0])
+        w.fixer(ARGV[0])
+      end
     end
   end
 end

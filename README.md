@@ -35,7 +35,26 @@ TODO: Write installation instructions here
 
 ## Usage
 
-TODO: Write usage instructions here
+To use the cli, first build using `build.sh` script.
+
+```bash
+bash build.sh
+```
+
+A binary `tfwiki` will be created in repo root.
+
+To use for fixing the file structure:
+
+```bash
+./bin/tfwiki {docs directory}
+```
+
+This will perform the following:
+
+- Makes sure that no duplicate names exists.Takes into consideration the new values for `readme` files
+- Move images to `img` folder
+- Clean names(Removes space and downcase)
+- Change `readme` to parent directory name
 
 ## Development
 
