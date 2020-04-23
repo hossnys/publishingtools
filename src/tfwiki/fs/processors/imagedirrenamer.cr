@@ -5,8 +5,8 @@ module TfWiki
     end
 
     def process(path_obj, child)
-      puts "renaming dir images at #{path_obj.to_s} to #{path_obj.to_s}/img"
-      File.rename("images", "img")
+      puts "[img->images]renaming dir images at #{path_obj.to_s} to #{path_obj.to_s}/img"
+      File.rename(path_obj.to_s, path_obj.parent.join("img").to_s)
     end
   end
 end

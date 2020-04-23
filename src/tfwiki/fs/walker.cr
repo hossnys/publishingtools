@@ -5,6 +5,10 @@ module TfWiki
   class FInfoTracker
     property count = 0
     property paths = [""]
+
+    def to_s
+      "FInfoTracker #{count} "
+    end
   end
 
   class Walker
@@ -14,7 +18,7 @@ module TfWiki
       @img = ImageProcessor.new
       @md = MdProcessor.new
       @readme = ReadMeProcessor.new
-      @skips = [".git"]
+      @skips = [".git", "_archive"]
       @errors = [] of String
       @dirfilesinfo = Hash(String, FInfoTracker).new
       # {filename => {count: 5, paths=[] }}
@@ -47,15 +51,17 @@ module TfWiki
       path_obj = Path.new(path)
       Dir.each_child path do |child|
         child_path = path_obj.join(child)
-        if Dir.exists? child_path
-          if child.downcase == "img"
-            next
-          end
-          check_dups child_path.to_s
-        elsif @readme.match(child)
-          child = "#{child_path.parent.basename}.md"
+        if Dir.exists?(child_path) && child.downcase == "images"
+          #   puts "++++will rename #{child_path} to #{path_obj.join("img").to_s}"
+          File.rename(child_path.to_s, path_obj.join("img").to_s)
         end
-        if !@dirfilesinfo.includes?(child)
+        if Dir.exists? child_path
+          next if child.downcase == "img"
+          check_dups child_path.to_s
+          # elsif @readme.match(child)
+          #   child = "#{child_path.parent.basename}.md"
+        end
+        if !@dirfilesinfo.has_key?(child.to_s)
           finfo = FInfoTracker.new
           finfo.count = 1
           finfo.paths = [child_path.to_s]
@@ -66,10 +72,14 @@ module TfWiki
           finfo.paths << child_path.to_s
           @dirfilesinfo[child] = finfo
         end
+        # puts "DIR INFOooo"
+        # puts @dirfilesinfo
         @dirfilesinfo.each do |filename, theinfo|
+          puts "debug #{filename} => #{theinfo.to_s}"
           if theinfo.count > 1
+            puts theinfo
             theinfo.paths.each do |dup_path|
-              @errors << "- {filename} existed #{theinfo.count.to_s} times. in paths #{theinfo.paths}"
+              @errors << "- #{filename} existed #{theinfo.count.to_s} times. in paths #{theinfo.paths}"
             end
           end
         end
