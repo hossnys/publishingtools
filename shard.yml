@@ -13,5 +13,6 @@ crystal: 0.34.0
 dependencies:
   markd:
     github: icyleaf/markd
-
+  kemal:
+    github: kemalcr/kemal
 license: MIT

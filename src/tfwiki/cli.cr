@@ -17,33 +17,29 @@ module TfWiki
     end
 
     def self.main
-      if ARGV.size == 1
-        w = Walker.new
-        against = ARGV[0]
-        w.check_dups(against)
-        w.fixer(against)
-        # puts "errors #{w.errors}"
-        w.errors_as_md(against)
+      server = false
+      docspath = ""
+      fix = false
+
+      OptionParser.parse! do |parser|
+        parser.banner = "Usage: tfwiki [arguments]"
+        parser.on("-d WIKIPATH", "--dir=WIKIPATH", "Wiki dir root") { |wikipath| docspath = wikipath }
+        parser.on("-f", "--fix", "fix a dir") { fix = true }
+        parser.on("-s", "--server", "starts server") { server = true }
+        parser.on("-h", "--help", "Show this help") { puts parser }
+      end
+
+      if docspath != ""
+        if server
+          w = Walker.new
+          w.check_dups(docspath)
+          w.fixer(docspath)
+          # puts "errors #{w.errors}"
+          w.errors_as_md(docspath)
+          WikiServer.setup(docspath, w)
+          WikiServer.serve
+        end
       end
     end
   end
 end
-
-# OptionParser.parse do |parser|
-#   parser.banner = "Welcome to The Beatles App!"
-
-#   parser.on "-v", "--version", "Show version" do
-#     puts "version 1.0"
-#     exit
-#   end
-#   parser.on "-h", "--help", "Show help" do
-#     puts parser
-#     exit
-#   end
-# end
-# this section must exist in book.toml for any wiki/book
-# [preprocessor.tfwiki]
-# # The command can also be specified manually
-# command = "tfwiki -p"
-# # Only run the `foo` preprocessor for the HTML and EPUB renderer
-# renderer = ["html", "epub"]

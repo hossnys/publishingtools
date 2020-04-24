@@ -35,11 +35,12 @@ module TfWiki
 
     def process(path_obj, child)
       child_path = path_obj.join(child)
+      content = ""
       content = File.read(child_path)
       processor = getlinks(content)
       links = processor.links
       images = processor.images
-      p links, images
+      #   p links, images
       links.each do |link|
         unless link.starts_with?("http")
           # on filesystem
@@ -49,16 +50,23 @@ module TfWiki
           if linkbasename.downcase == "readme.md"
             newlink = dirlink
           end
-          puts "old link is #{link}  and new link should be ", newlink
+          puts "[linksfixer]old link is #{link}  and new link should be ", newlink if link != newlink
+        end
 
-          content = content.gsub link, newlink if link != newlink
+        if link != newlink
+          newcontent = content.gsub link, newlink
+          content = newcontent
         end
       end
+
       images.each do |img|
         unless img.starts_with?("http")
           # on filesystem
-          puts "old img is #{img}  and new img should be ", File.basename(img)
-          content = content.gsub img, File.basename(img) if img != File.basename(img)
+          puts "[imagefixer]old img is #{img}  and new img should be ", File.basename(img) if img != File.basename(img)
+          if img != File.basename(img)
+            newcontent = content.gsub img, File.basename(img)
+            content = newcontent
+          end
         end
       end
       if images.size > 0 || links.size > 0

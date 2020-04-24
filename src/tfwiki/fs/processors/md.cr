@@ -6,9 +6,10 @@ module TfWiki
 
     def process(path_obj, child)
       child_path = path_obj.join(child)
+      return if child_path.to_s.ends_with?("README.md")
       clean_child = child.downcase.gsub({" ": "_"})
       new_path = path_obj.join(clean_child)
-      puts "[md]renaming #{child_path.to_s} to #{new_path.to_s} "
+      puts "[md]renaming #{child_path.to_s} to #{new_path.to_s} " if clean_child != child_path.to_s
       File.rename(child_path.to_s, new_path.to_s) if clean_child != child_path.to_s
     end
   end
