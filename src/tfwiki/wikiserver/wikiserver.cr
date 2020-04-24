@@ -22,6 +22,9 @@ module TfWiki
       end
     end
 
+    get "/reloadinfo" do |env|
+      @@awalker.reload_dirfilesinfo(@@awikipath)
+    end
     get "/filesinfo" do |env|
       p @@awalker.filesinfo.keys
       #   p @@awalker.filesinfo

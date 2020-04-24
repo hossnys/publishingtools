@@ -26,6 +26,7 @@ module TfWiki
       Dir.glob(path + "/**/*").each do |child_path|
         next unless File.directory?(child_path)
         # files only..
+        child = File.basename(child_path.to_s)
         if !@dirfilesinfo.has_key?(child.to_s)
           finfo = FInfoTracker.new
           finfo.count = 1
