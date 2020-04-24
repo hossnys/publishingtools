@@ -43,8 +43,15 @@ module TfWiki
       links.each do |link|
         unless link.starts_with?("http")
           # on filesystem
-          puts "old link is #{link}  and new link should be ", File.basename(link)
-          content = content.gsub link, File.basename(link) if link != File.basename(link)
+          linkbasename = File.basename(link)
+          dirlink = File.basename(File.dirname(link) + ".md")
+          newlink = linkbasename
+          if linkbasename.downcase == "readme.md"
+            newlink = dirlink
+          end
+          puts "old link is #{link}  and new link should be ", newlink
+
+          content = content.gsub link, newlink if link != newlink
         end
       end
       images.each do |img|
