@@ -56,6 +56,7 @@ This will perform the following:
 - Move images to `img` folder
 - Clean names(Removes space and downcase)
 - Change `readme` to parent directory name
+- Convert images and links to basename if they don't start with `http` as indicator they are on the filesystem
 
 ## Development
 
