@@ -22,7 +22,7 @@ module TfWiki
         against = ARGV[0]
         w.check_dups(against)
         w.fixer(against)
-        puts "errors #{w.errors}"
+        # puts "errors #{w.errors}"
         w.errors_as_md(against)
       end
     end

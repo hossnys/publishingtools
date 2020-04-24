@@ -10,4 +10,8 @@ targets:
 
 crystal: 0.34.0
 
+dependencies:
+  markd:
+    github: icyleaf/markd
+
 license: MIT

@@ -18,6 +18,7 @@ module TfWiki
       @img = ImageProcessor.new
       @md = MdProcessor.new
       @readme = ReadMeProcessor.new
+      @linksimagesfixer = LinksImagesProcessor.new
       @skips = [".git", "_archive", "out"]
       @errors = [] of String
       @dirfilesinfo = Hash(String, FInfoTracker).new
@@ -75,7 +76,7 @@ module TfWiki
 
         @dirfilesinfo.each do |filename, theinfo|
           if theinfo.count > 1
-            puts theinfo
+            # puts theinfo
             theinfo.paths.each do |dup_path|
               @errors << "- #{filename} existed #{theinfo.count.to_s} times. in paths #{theinfo.paths}"
             end
@@ -99,13 +100,23 @@ module TfWiki
               end
               fixer child_path.to_s
             else
+              if @linksimagesfixer.match(child)
+                puts "here.."
+                @linksimagesfixer.process(path_obj, child)
+              end
               if @imgdirrenamer.match(child)
                 @imgdirrenamer.process(path_obj, child)
-              elsif @readme.match(child)
+              end
+              if @readme.match(child)
                 @readme.process(path_obj, child)
-              elsif @img.match(child)
+              end
+              if @linksimagesfixer.match(child)
+                @linksimagesfixer.process(path_obj, child)
+              end
+              if @img.match(child)
                 @img.process(path_obj, child)
-              elsif @md.match(child)
+              end
+              if @md.match(child)
                 @md.process(path_obj, child)
               end
             end
