@@ -44,7 +44,7 @@ module TfWiki
       links.each do |link|
         next if link.starts_with?("http")
 
-        # next unless link.ends_with?(".md")
+        # TODO: probably should check if has extension in general. next unless link.ends_with?(".md")
         if link.ends_with?(".md")
           # on filesystem
           linkbasename = File.basename(link)
@@ -66,6 +66,7 @@ module TfWiki
       images.each do |img|
         unless img.starts_with?("http")
           # on filesystem
+          # TODO: probably should check if has extension instead
           next unless img.ends_with?(".png") || img.ends_with?(".jpg") || img.ends_with?(".jpeg")
           newimg = File.basename(img)
           newimg = newimg.downcase.gsub({"-": "_"})
