@@ -92,8 +92,9 @@ module TfWiki
       puts "created server.."
     end
 
-    def self.serve
+    def self.serve(port : Int32)
       puts "Starting kemal server"
+      Kemal.config.port = port
       Kemal.run
     end
   end

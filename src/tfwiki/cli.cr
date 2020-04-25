@@ -20,9 +20,11 @@ module TfWiki
       server = false
       docspath = ""
       fix = false
+      serverport = 3000
 
       OptionParser.parse! do |parser|
         parser.banner = "Usage: tfwiki [arguments]"
+        parser.on("-p PORT", "--port=PORT", "Port to run server on") { |port| serverport = port.to_i }
         parser.on("-d WIKIPATH", "--dir=WIKIPATH", "Wiki dir root") { |wikipath| docspath = wikipath }
         parser.on("-f", "--fix", "fix a dir") { fix = true }
         parser.on("-s", "--server", "starts server") { server = true }
@@ -37,7 +39,7 @@ module TfWiki
           # puts "errors #{w.errors}"
           w.errors_as_md(docspath)
           WikiServer.setup(docspath, w)
-          WikiServer.serve
+          WikiServer.serve serverport
         elsif fix
           w = Walker.new
           w.check_dups(docspath)
