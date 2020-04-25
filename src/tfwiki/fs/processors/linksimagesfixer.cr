@@ -51,11 +51,11 @@ module TfWiki
             newlink = dirlink
           end
           puts "[linksfixer]old link is #{link}  and new link should be ", newlink if link != newlink
-        end
 
-        if link != newlink
-          newcontent = content.gsub link, newlink
-          content = newcontent
+          if link != newlink
+            newcontent = content.gsub link, newlink
+            content = newcontent
+          end
         end
       end
 
