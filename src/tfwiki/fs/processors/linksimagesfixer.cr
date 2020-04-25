@@ -42,7 +42,10 @@ module TfWiki
       images = processor.images
       #   p links, images
       links.each do |link|
-        unless link.starts_with?("http")
+        next if link.starts_with?("http")
+
+        # next unless link.ends_with?(".md")
+        if link.ends_with?(".md")
           # on filesystem
           linkbasename = File.basename(link)
           dirlink = File.basename(File.dirname(link) + ".md")
@@ -50,7 +53,7 @@ module TfWiki
           if linkbasename.downcase == "readme.md"
             newlink = dirlink
           end
-          puts "[linksfixer]old link is #{link}  and new link should be ", newlink if link != newlink
+          puts "[linksfixer]old link is #{link}  and new link should be #{newlink}" if link != newlink
 
           newlink = newlink.downcase.gsub({"-": "_"})
           if link != newlink
@@ -63,9 +66,11 @@ module TfWiki
       images.each do |img|
         unless img.starts_with?("http")
           # on filesystem
-          puts "[imagefixer]old img is #{img}  and new img should be ", File.basename(img) if img != File.basename(img)
+          next unless img.ends_with?(".png") || img.ends_with?(".jpg") || img.ends_with?(".jpeg")
           newimg = File.basename(img)
           newimg = newimg.downcase.gsub({"-": "_"})
+
+          puts "[imagefixer]old img is #{img}  and new img should be #{newimg}" if img != File.basename(img)
 
           if img != newimg
             newcontent = content.gsub img, newimg
