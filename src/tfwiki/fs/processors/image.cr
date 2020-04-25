@@ -12,8 +12,10 @@ module TfWiki
       clean_child = child.downcase.gsub({" ": "_"})
       Dir.mkdir_p(path_obj.join("img").to_s)
       new_path = path_obj.join("img", clean_child)
-      puts "[img]renaming #{child_path.to_s} to #{new_path.to_s} " if child_path.to_s != new_path.to_s
-      File.rename(child_path.to_s, new_path.to_s)
+      unless child_path.to_s == new_path.to_s
+        puts "[img]renaming #{child_path.to_s} to #{new_path.to_s} " if child_path.to_s != new_path.to_s
+        File.rename(child_path.to_s, new_path.to_s)
+      end
     end
   end
 end

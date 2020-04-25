@@ -53,12 +53,12 @@ module TfWiki
           if linkbasename.downcase == "readme.md"
             newlink = dirlink
           end
-          puts "[linksfixer]old link is #{link}  and new link should be #{newlink}" if link != newlink
 
           newlink = newlink.downcase.gsub({"-": "_"})
           if link != newlink
             newcontent = content.gsub link, newlink
             content = newcontent
+            puts "[linksfixer]old link is #{link}  and new link should be #{newlink}" if link != newlink
           end
         end
       end
@@ -71,9 +71,9 @@ module TfWiki
           newimg = File.basename(img)
           newimg = newimg.downcase.gsub({"-": "_"})
 
-          puts "[imagefixer]old img is #{img}  and new img should be #{newimg}" if img != File.basename(img)
-
           if img != newimg
+            puts "[imagefixer]old img is #{img}  and new img should be #{newimg}" if img != File.basename(img)
+
             newcontent = content.gsub img, newimg
             content = newcontent
           end
