@@ -94,8 +94,12 @@ index.html file in your wiki directory
         name: 'js-ng',
         loadSidebar: true,
         auto2top: true,
-
+        subMaxLevel: 3,
         search: 'auto', // default
+        
+        remoteMarkdown: {
+          tag: 'remoteMarkdownUrl',
+        }, 
 
         // complete configuration parameters
         search: {
@@ -115,11 +119,13 @@ index.html file in your wiki directory
   <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+  <script src="//unpkg.com/docsify-remote-markdown/dist/docsify-remote-markdown.min.js"></script>
+  <script src="//unpkg.com/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js">
 
 </body>
 </html>
 ```
-here we activate search plugin, python, and bash highlighting 
+here we activate search plugin, python, bash highlighting, and sidebar collapse feature 
 
 ## includes
 you can use docsify includes like the following in your md files
