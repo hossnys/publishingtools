@@ -14,7 +14,7 @@ module TfWiki
       @readme = ReadMeProcessor.new
       @linksimagesfixer = LinksImagesProcessor.new
       @skips = [".git", "_archive", "out"]
-      @errors = [] of String
+      @errors = Hash(String, String).new
       @dirfilesinfo = Hash(String, TfWiki::FInfoTracker).new
       # {filename => {count: 5, paths=[] }}
     end
@@ -51,8 +51,9 @@ module TfWiki
 
     def errors_as_md(path)
       content = ""
-      @errors.each do |err|
-        content = content + "# #{err} \n"
+      @errors.each do |filename, err|
+        content = content + "# #{filename} \n"
+        content = content + err + "\n"
       end
       File.write(File.join(path, "errors.md"), content)
     end
@@ -60,7 +61,7 @@ module TfWiki
     def should_skip?(path)
       basename = File.basename(path)
       if @skips.includes?(basename)
-        puts "[+] Skippingskipping #{basename}"
+        puts "[+] skipping #{basename}"
         return true
       end
     end
@@ -112,10 +113,7 @@ module TfWiki
 
         @dirfilesinfo.each do |filename, theinfo|
           if theinfo.count > 1
-            # puts theinfo
-            theinfo.paths.each do |dup_path|
-              @errors << "- #{filename} existed #{theinfo.count.to_s} times. in paths #{theinfo.paths}"
-            end
+            @errors[filename] = "#{theinfo.count.to_s} times. in paths #{theinfo.paths}\n\n"
           end
         end
       end
