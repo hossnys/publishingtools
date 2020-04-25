@@ -52,6 +52,7 @@ module TfWiki
           end
           puts "[linksfixer]old link is #{link}  and new link should be ", newlink if link != newlink
 
+          newlink = newlink.downcase.gsub({"-": "_"})
           if link != newlink
             newcontent = content.gsub link, newlink
             content = newcontent
@@ -63,8 +64,11 @@ module TfWiki
         unless img.starts_with?("http")
           # on filesystem
           puts "[imagefixer]old img is #{img}  and new img should be ", File.basename(img) if img != File.basename(img)
-          if img != File.basename(img)
-            newcontent = content.gsub img, File.basename(img)
+          newimg = File.basename(img)
+          newimg = newimg.downcase.gsub({"-": "_"})
+
+          if img != newimg
+            newcontent = content.gsub img, newimg
             content = newcontent
           end
         end

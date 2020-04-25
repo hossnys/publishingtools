@@ -7,12 +7,15 @@ module TfWiki
     @@awikipath = ""
 
     def self.send_from_dirsinfo(env, filename)
-      p @@awalker.filesinfo
+      #   p @@awalker.filesinfo
       puts "will check for #{filename} in the infolist."
       puts @@awalker.filesinfo.keys
 
       if @@awalker.filesinfo.has_key?(filename)
         firstpath = @@awalker.filesinfo[filename].paths[0] # in decent repo it will be only 1 in this array.
+        send_file env, firstpath
+      elsif @@awalker.filesinfo.has_key?(filename.downcase)
+        firstpath = @@awalker.filesinfo[filename.downcase].paths[0] # in decent repo it will be only 1 in this array.
         send_file env, firstpath
       else
         puts "noo."

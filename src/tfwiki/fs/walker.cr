@@ -13,6 +13,10 @@ module TfWiki
       @md = MdProcessor.new
       @readme = ReadMeProcessor.new
       @linksimagesfixer = LinksImagesProcessor.new
+      @docsifysidebarfixer = DocsifySidebarFixerProcessor.new
+      @docsifyreadmefixer = DocsifyReadmeFixerProcessor.new
+      @namefixer = NameFixerProcessor.new
+
       @skips = [".git", "_archive", "out"]
       @errors = Hash(String, String).new
       @dirfilesinfo = Hash(String, TfWiki::FInfoTracker).new
@@ -52,6 +56,7 @@ module TfWiki
     def errors_as_md(path)
       content = ""
       @errors.each do |filename, err|
+        next if filename == "img" || filename == "_sidebar.md" || filename == "README.md"
         content = content + "# #{filename} \n"
         content = content + err + "\n"
       end
@@ -128,6 +133,9 @@ module TfWiki
         if child[0] != "."
           begin
             child_path = path_obj.join(child)
+            if @namefixer.match(child)
+              @namefixer.process(path_obj, child)
+            end
             if Dir.exists? child_path
               if child.downcase == "img"
                 next
@@ -151,6 +159,12 @@ module TfWiki
               end
               if @md.match(child)
                 @md.process(path_obj, child)
+              end
+              if @docsifysidebarfixer.match(child)
+                @docsifysidebarfixer.process(path_obj, child)
+              end
+              if @docsifyreadmefixer.match(child)
+                @docsifyreadmefixer.process(path_obj, child)
               end
             end
           rescue ex

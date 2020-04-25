@@ -38,6 +38,12 @@ module TfWiki
           w.errors_as_md(docspath)
           WikiServer.setup(docspath, w)
           WikiServer.serve
+        elsif fix
+          w = Walker.new
+          w.check_dups(docspath)
+          w.fixer(docspath)
+          # puts "errors #{w.errors}"
+          w.errors_as_md(docspath)
         end
       end
     end
