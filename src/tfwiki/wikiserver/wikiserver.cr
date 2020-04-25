@@ -81,9 +81,10 @@ module TfWiki
       self.send_from_dirsinfo(env, filepath)
     end
 
-    get "/" do |env|
-      env.redirect "/index.html"
-    end
+    # TODO: don't renable
+    # get "/" do |env|
+    #   env.redirect "/index.html"
+    # end
 
     def self.setup(wikipath : String, walker : TfWiki::Walker)
       @@awikipath = wikipath
