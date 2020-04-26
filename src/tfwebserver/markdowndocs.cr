@@ -87,8 +87,7 @@ module TFWeb
       @errors.each do |filename, err|
         # puts "#{filename} #{err}"
         has_no_ext = File.extname(filename) == ""
-        next if "#" in filename
-        next if filename == "img" || filename == "_sidebar.md" || filename == "README.md" || has_no_ext
+        next if filename == "img" || filename == "_sidebar.md" || filename == "README.md" || has_no_ext || filename.includes?("#")
         content = content + "# #{filename} \n"
         content = content + err + "\n"
       end

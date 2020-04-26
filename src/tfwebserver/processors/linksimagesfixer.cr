@@ -83,12 +83,15 @@ module TFWeb
           next unless img.ends_with?(".png") || img.ends_with?(".jpg") || img.ends_with?(".jpeg")
           newimg = File.basename(img)
           newimg = newimg.downcase.gsub({"-": "_"})
-
+          if Dir.exists(path_obj.join("img"))
+            newimg = "./img/#{newimg}"
+          end
           if img != newimg
             puts "[imagefixer]old img is #{img}  and new img should be #{newimg}" if img != File.basename(img)
-            # disable images rewrites.
-            # newcontent = content.gsub img, newimg
-            # content = newcontent
+
+            # disable images rewrites.  (if a.png used -> ./img/a.png)
+            newcontent = content.gsub img, newimg
+            content = newcontent
           end
         end
       end
