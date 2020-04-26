@@ -5,8 +5,8 @@ authors:
   - kristof <kristof@incubaid.com>
 
 targets:
-  tfwiki:
-    main: src/tfwiki.cr
+  tfweb:
+    main: src/tfweb.cr
 
 crystal: 0.34.0
 
@@ -17,5 +17,5 @@ dependencies:
     github: kemalcr/kemal
   toml:
     github: crystal-community/toml.cr
-    branch: master    
+    branch: master
 license: MIT

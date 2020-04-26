@@ -18,7 +18,7 @@ branch = ""
 #switch branch automatically if the name given above and its different on FS
 branchswitch = false
 #path in the repo where the info is, std "src"
-srcpath = "src"
+srcdir = "src"
 
 #website
 [[www]]
@@ -34,5 +34,5 @@ branch = ""
 #switch branch automatically if the name given above and its different on FS
 branchswitch = false
 #path in the repo where the info is, std "src"
-srcpath = "src"
+srcdir = "src"
 
