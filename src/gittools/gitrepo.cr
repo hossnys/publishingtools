@@ -1,8 +1,8 @@
 require "file_utils"
 
 module TFWeb
-  HTTP_REPO_URL = /(https:\/\/)?(?P<provider>.+)\/(?P<account>.+)\/(?P<repo>.+)/
-  SSH_REPO_URL  = /git@(?P<provider>.+)\:(?P<account>.+)\/(?P<repo>.+).git/
+  HTTP_REPO_URL = /(https:\/\/)?(?P<provider>.+)(?P<suffix>\..+)\/(?P<account>.+)\/(?P<repo>.+)/
+  SSH_REPO_URL  = /git@(?P<provider>.+)(?P<suffix>\..+)\:(?P<account>.+)\/(?P<repo>.+).git/
 
   # represents 1 specific repo on git, http & ssh can be used for updating the info
   # have nice enduser friendly operational message when it doesn't work

@@ -102,7 +102,7 @@ module TFWeb
       puts "will check for #{filename} in the infolist. of #{wikiname}"
       mddocs = @@markdowndocs_collections[wikiname]
       filesinfo = mddocs.filesinfo
-      puts filesinfo.keys
+      #   puts filesinfo.keys
 
       if filesinfo.has_key?(filename)
         firstpath = filesinfo[filename].paths[0] # in decent repo it will be only 1 in this array.
