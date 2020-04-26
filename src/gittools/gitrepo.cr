@@ -2,7 +2,7 @@ require "file_utils"
 
 module TFWeb
   HTTP_REPO_URL = /(https:\/\/)?(?P<provider>.+)\/(?P<account>.+)\/(?P<repo>.+)/
-  SSH_REPO_URL  = /git@(?P<provider>.+)\:(?P<account>.+)\/(?P<repo>.+)/
+  SSH_REPO_URL  = /git@(?P<provider>.+)\:(?P<account>.+)\/(?P<repo>.+).git/
 
   # represents 1 specific repo on git, http & ssh can be used for updating the info
   # have nice enduser friendly operational message when it doesn't work
@@ -23,6 +23,9 @@ module TFWeb
         raise Exception.new("path and url are empty #{name}")
       end
       if @url != ""
+        if !@url.includes?("@") && !@url.starts_with?("https://")
+          @url = "https://#{@url}"
+        end
         infer_provider_account_repo
       end
     end

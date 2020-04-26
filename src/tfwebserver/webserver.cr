@@ -15,7 +15,11 @@ module TFWeb
         # puts wiki
         # TODO: handle the url if path is empty
         markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
-        markdowndocs.checks_dups_and_fix
+        begin
+          markdowndocs.checks_dups_and_fix
+        rescue exception
+          puts "error happened #{exception}"
+        end
         @@markdowndocs_collections[k] = markdowndocs
       end
     end
