@@ -10,7 +10,10 @@ module TFWeb
 
     def prepare_on_fs
       # url gets more prio
-      if url != ""
+      if @url != ""
+        puts "url #{@url} and path #{path}"
+        repo = TFWeb::GITRepo.new(url: @url, path: @path)
+        @path = repo.ensure_repo
       end
     end
 
@@ -32,6 +35,11 @@ module TFWeb
     property srcdir = "src"
 
     def prepare_on_fs
+      #   url gets more prio
+      if @url != ""
+        repo = TFWeb::GITRepo.new(url: @url, path: @path)
+        @path = repo.ensure_repo
+      end
     end
   end
 end

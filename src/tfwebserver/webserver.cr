@@ -6,12 +6,13 @@ module TFWeb
   module WebServer
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
-    puts @@markdowndocs_collections
+    # puts @@markdowndocs_collections
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
 
     def self.prepare_markdowndocs_backend
       @@wikis.each do |k, wiki|
+        # puts wiki
         # TODO: handle the url if path is empty
         markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
         markdowndocs.checks_dups_and_fix
@@ -66,8 +67,26 @@ module TFWeb
 
     def self.serve(configfilepath : String)
       self.read_config(configfilepath)
+      puts "Starting server from config at #{configfilepath}"
+      channel_done = Channel(String).new
+
+      @@wikis.each do |k, w|
+        spawn do
+          w.prepare_on_fs
+          channel_done.send(w.name)
+        end
+      end
+      @@websites.each do |k, w|
+        spawn do
+          w.prepare_on_fs
+          channel_done.send(w.name)
+        end
+      end
+      (@@websites.size + @@wikis.size).times do
+        ready = channel_done.receive # wait for all of them.
+        puts "wiki #{ready} is ready"
+      end
       self.prepare_markdowndocs_backend
-      puts "Starting server"
 
       Kemal.run
     end
@@ -76,10 +95,10 @@ module TFWeb
     # TODO: phase 2, in future we need to change this to use proper objects: MDDoc, Image, ...
     def self.send_from_dirsinfo(env, wikiname, filename)
       #   p @@awalker.filesinfo
-      puts "will check for #{filename} in the infolist."
+      puts "will check for #{filename} in the infolist. of #{wikiname}"
       mddocs = @@markdowndocs_collections[wikiname]
       filesinfo = mddocs.filesinfo
-      #   puts filesinfo.keys
+      puts filesinfo.keys
 
       if filesinfo.has_key?(filename)
         firstpath = filesinfo[filename].paths[0] # in decent repo it will be only 1 in this array.
@@ -89,7 +108,7 @@ module TFWeb
         send_file env, firstpath
       else
         # TODO: should try to reload before giving 404?
-        puts "noo."
+        puts "couldn't find #{filename} in the markdowndocs_collection of #{wikiname}"
         env.response.status_code = 404
         env.response.print "file #{filename} doesn't exist in scanned info."
         env.response.close
@@ -120,7 +139,7 @@ module TFWeb
 
     get "/:name/index.html" do |env|
       name = env.params.url["name"]
-      puts @@markdowndocs_collections.keys
+      #   puts @@markdowndocs_collections.keys
       if @@markdowndocs_collections.has_key?(name)
         self.serve_wikifile(env, name, "index.html")
       elsif @@websites.has_key?(name)

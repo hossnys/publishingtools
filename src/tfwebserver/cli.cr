@@ -12,7 +12,6 @@ module TFWeb
         parser.on("-h", "--help", "Show this help") { puts parser }
       end
 
-      puts theconfigpath
       unless theconfigpath == ""
         begin
           WebServer.serve(theconfigpath)

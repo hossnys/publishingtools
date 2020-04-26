@@ -8,13 +8,13 @@ addr = "0.0.0.0"
 #unique name for the wiki
 name = "sdk"
 #http or git url
-url = ""
+url = "https://github.com/threefoldfoundation/info_tfgridsdk"
 #if empty will be auto created
-path = "/sandbox/code/github/threefoldfoundation/info_tfgridsdk"
+path = ""
 #commit automatically when there is new info, only works when ssh used
 autocommit = false
 #branch name, of "" then will be the default or what is found on the FS
-branch = ""
+branch = "development"
 #switch branch automatically if the name given above and its different on FS
 branchswitch = false
 #path in the repo where the info is, std "src"
@@ -24,15 +24,15 @@ srcdir = "src"
 [[www]]
 name = "freetft"
 #http or git url
-url = ""
+url = "https://github.com/threefoldfoundation/www_getfreetft"
 #if empty will be auto created
-path = "/sandbox/code/github/threefoldfoundation/www_getfreetft"
+path = ""
 #commit automatically when there is new info, only works when ssh used
 autocommit = false
 #branch name, of "" then will be the default or what is found on the FS
-branch = ""
+branch = "development"
 #switch branch automatically if the name given above and its different on FS
-branchswitch = false
+branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = ""
 

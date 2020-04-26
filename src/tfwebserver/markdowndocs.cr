@@ -91,7 +91,7 @@ module TFWeb
         content = content + "# #{filename} \n"
         content = content + err + "\n"
       end
-      puts "saving to #{File.join(path, "errors.md")}"
+      puts "saving errors to #{File.join(path, "errors.md")}"
       File.write(File.join(path, "errors.md"), content)
     end
 
@@ -152,9 +152,9 @@ module TFWeb
       end
       seen = Array(String).new
       Dir.glob("#{path}/**/*") do |thepath|
-        if seen.includes?(thepath)
-          puts "seen it before #{thepath}"
-        end
+        # if seen.includes?(thepath)
+        #   puts "seen it before #{thepath}"
+        # end
         next if seen.includes?(thepath)
         seen << thepath.to_s
 

@@ -5,7 +5,7 @@ module TFWeb
     end
 
     def process(path_obj, child)
-      puts "[abdoimg->images]renaming dir images at #{path_obj.to_s} to #{path_obj.to_s}/img"
+      puts "[img->images]renaming dir images at #{path_obj.to_s} to #{path_obj.to_s}/img"
       File.rename(path_obj.to_s, path_obj.join("img").to_s)
     end
   end
