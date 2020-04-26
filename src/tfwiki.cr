@@ -11,10 +11,8 @@ module TfWiki
   end
 end
 
-# require all here
-require "./tfwiki/fs/*"
-require "./tfwiki/mdbook/*"
-require "./tfwiki/wikiserver/*"
+require "./tfwiki/webserver/*"
 require "./tfwiki/cli"
+require "./gittools/*"
 
 TfWiki::CLI.main

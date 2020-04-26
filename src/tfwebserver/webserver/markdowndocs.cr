@@ -2,11 +2,13 @@ require "./processor"
 require "./processors/*"
 require "file_utils"
 
-module TfWiki
-  class Walker
+module TFWeb
+  class MarkdownDocs
     property dirfilesinfo
 
-    def initialize
+    #docspath is the path where we will fix and also remember
+    def initialize (@docspath : String)
+
       @all_names = Set(String).new
       @imgdirrenamer = ImagesDirProcessor.new
       @img = ImageProcessor.new
@@ -19,13 +21,20 @@ module TfWiki
 
       @skips = [".git", "_archive", "out"]
       @errors = Hash(String, String).new
-      @dirfilesinfo = Hash(String, TfWiki::FInfoTracker).new
+      @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new
       # {filename => {count: 5, paths=[] }}
+
+      check_dups
+      _fixer #does the walk
+      # puts "errors #{w.errors}"
+      _errors_as_md_write
+
     end
 
-    def reload_dirfilesinfo(path)
+    def reload_dirfilesinfo()
+      path = @docspath
       puts "reloading filesinfo"
-      @dirfilesinfo = Hash(String, TfWiki::FInfoTracker).new
+      @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new
 
       Dir.glob(path + "/**/*").each do |child_path|
         next unless File.directory?(child_path)
@@ -53,7 +62,9 @@ module TfWiki
       @errors
     end
 
-    def errors_as_md(path)
+    #write the errors as md
+    def _errors_as_md_write()
+      path = @docspath
       content = ""
       @errors.each do |filename, err|
         next if filename == "img" || filename == "_sidebar.md" || filename == "README.md"
@@ -124,6 +135,7 @@ module TfWiki
       end
     end
 
+    #walk over filesystem to buildup the fixer
     def fixer(path)
       if should_skip?(path)
         return

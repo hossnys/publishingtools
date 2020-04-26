@@ -1,6 +1,6 @@
 require "markd"
 
-module TfWiki
+module TFWeb
   class MyMDProcessor < Markd::HTMLRenderer
     property links = Array(String).new
     property images = Array(String).new

@@ -1,4 +1,4 @@
-module TfWiki
+module TFWeb
   class ReadMeProcessor # < Processor
     def match(file_name)
       return file_name.downcase == "readme.md"

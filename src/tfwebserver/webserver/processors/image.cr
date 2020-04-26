@@ -1,4 +1,4 @@
-module TfWiki
+module TFWeb
   IMAGE_REGEX = /(.*)(.jpg$)|(.*)(.jpeg$)|(.*)(.svg$)|(.*)(.png$)/
 
   class ImageProcessor # < Processor

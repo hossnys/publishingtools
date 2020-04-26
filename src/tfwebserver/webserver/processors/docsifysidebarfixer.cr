@@ -1,6 +1,6 @@
 require "file_utils"
 
-module TfWiki
+module TFWeb
   class DocsifySidebarFixerProcessor # < Processor
     def match(file_name)
       return file_name.downcase == "summary.md"

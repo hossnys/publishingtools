@@ -15,4 +15,7 @@ dependencies:
     github: icyleaf/markd
   kemal:
     github: kemalcr/kemal
+  toml:
+    github: crystal-community/toml.cr
+    branch: master    
 license: MIT

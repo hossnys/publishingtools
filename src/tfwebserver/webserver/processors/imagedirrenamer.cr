@@ -1,4 +1,4 @@
-module TfWiki
+module TFWeb
   class ImagesDirProcessor # < Processor
     def match(file_name)
       return file_name == "images"

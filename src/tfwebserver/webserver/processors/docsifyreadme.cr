@@ -1,6 +1,6 @@
 require "file_utils"
 
-module TfWiki
+module TFWeb
   class DocsifyReadmeFixerProcessor # < Processor
     def match(file_name)
       return file_name == "_sidebar.md"

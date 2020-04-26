@@ -1,8 +1,5 @@
-# mdbookfixerr
 
-works together with mdbook tool written in rust
-
-aim is that it will work as pre-processor and fix the mdbook items and also execute macro's
+# TFWebServer
 
 ## first functionality is
 
@@ -10,6 +7,9 @@ aim is that it will work as pre-processor and fix the mdbook items and also exec
  - rename paths of each doc/image to lowercase, _ (no spaces, or uppercases or other special chars)
  - make sure all images are in subfolder /img of where the image has been found first
  - each doc/image has a unique name (lower case) and can be referenced like that
+     - other files will not be renamed, and to fetch them from webserver the full path is needed
+     - for .md and .jpeg/... and other image files this means that http://$sitename/$filename.md is good enough to find the file back same for image (important all other files not like this)
+     - the navigation markdown files can also be on different locations (don't have to be unique)
  - when readme.md (make sure to lowercase found file) found in a dir
      - replace name to $dirname.lowercase() and check is unique !
 
@@ -17,7 +17,7 @@ aim is that it will work as pre-processor and fix the mdbook items and also exec
 
 the aim is more easy of use for users
 
-- that users only refereces images and other docs by name only.
+- that users only reference images and other docs by name only.
 - they see list of errors e.g. broken links to docs inside the repo or images
 - file names become consistent (lower case, no spaces) : easier to reference
 - keep it super fast
@@ -26,34 +26,18 @@ the aim is more easy of use for users
 ## how to use
 
 - standallone, means from directory run the tool
-- as mdbook preprocessor (md links are changed to full paths in mem only not on disk)
 - the markdown docs are changed & files renamed
+- the wiki & website is serverd
 
 ## Installation
 
 TODO: Write installation instructions here
+will be just downloading a binary or using brew on osx, to get the tfwiki tool
+all will be embedded in the tfwiki tool !
 
 ## Usage
 
-To use the cli, first build using `build.sh` script.
-
-```bash
-bash build.sh
-```
-
-A binary `tfwiki` will be created in repo root.
-
-To use for fixing/serving:
-
-```bash
-➜  publishingtools git:(development) ✗ ./bin/tfwiki --help
-Usage: tfwiki [arguments]
-    -d WIKIPATH, --dir=WIKIPATH      Wiki dir root
-    -f, --fix                        fix a dir
-    -s, --server                     starts server
-    -h, --help                       Show this help
-```
-
+- #TODO: fix
 
 This will perform the following:
 
@@ -71,61 +55,25 @@ This will perform the following:
 - and in `fixer` method use your processor `match` method on the file name and then  call your `process` method
 - the `TfWiki::Walker` in `walker.cr` has dirsfilesinfo hash that in the form of `{filename -> {count: number, paths=[]}}`. keeps track of every file occurrence in the repo, and also used to report errors in errors.md file.
 
+## config file 
+
+see [config_example.toml](config_example.toml)
+
+allows you to specify the different wiki's & websites
+
+## how do the different sites map?
+
+http://$serverbaseurl:$port/$sitename/$path
+for .md and html and images
+
+the webserver will automatically based on $sitename (which is name in the config file) find the right index, md, img, file name
+
+in production a e.g. caddy server is put in front which will do rewrite rules & proxy
+
+e.g. https://www.threefold.io/$urlpart to http://localhost:3000/www_tf/$urlpart
+
 ## Docsify
-
-index.html file in your wiki directory
-
-```html
-<!-- index.html -->
-
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta charset="UTF-8">
-  
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
-</head>
-<body>
-  <div id="app"></div>
-  <script>
-    window.$docsify = {
-        name: 'js-ng',
-        loadSidebar: true,
-        auto2top: true,
-        subMaxLevel: 3,
-        search: 'auto', // default
-        
-        remoteMarkdown: {
-          tag: 'remoteMarkdownUrl',
-        }, 
-
-        // complete configuration parameters
-        search: {
-            maxAge: 86400000, // Expiration time, the default one day
-            paths: 'auto',
-            placeholder: 'Type to search',
-            noData: 'No Results!',
-            // Headline depth, 1 - 6
-            depth: 6,
-            hideOtherSidebarContent: false, // whether or not to hide other sidebar content
-        },
-        
-      //...
-    }
-  </script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script> 
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-  <script src="//unpkg.com/docsify-remote-markdown/dist/docsify-remote-markdown.min.js"></script>
-  <script src="//unpkg.com/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js">
-
-</body>
-</html>
-```
-here we activate search plugin, python, bash highlighting, and sidebar collapse feature 
+the index.html is part of this tool and is automatically build depending your configuration file
 
 ## includes
 you can use docsify includes like the following in your md files
