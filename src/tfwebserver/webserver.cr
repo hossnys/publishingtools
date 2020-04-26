@@ -69,7 +69,7 @@ module TFWeb
       self.prepare_markdowndocs_backend
       puts "Starting server"
 
-      Kemal.run
+      #   Kemal.run
     end
 
     # checks the loaded metadata to find the required md file or image file
@@ -142,6 +142,7 @@ module TFWeb
         self.do404 env, "file #{filename} doesn't exist on wiki/website #{name}"
       end
     end
+
     get "/:name/index.html/_sidebar.md" do |env|
       name = env.params.url["name"]
       fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "_sidebar.md")
@@ -151,10 +152,27 @@ module TFWeb
       puts "invoking this one.."
       name = env.params.url["name"]
       filepath = env.params.url["filepath"]
-      if true
+      puts @@markdowndocs_collections.keys
+      if @@markdowndocs_collections.has_key?(name)
+        self.serve_wikifile(env, name, File.basename(filepath))
+      elsif @@websites.has_key?(name)
         self.serve_staticsite(env, name, filepath)
       else
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
+      end
+    end
+
+    get "/:name/index.html/*filepath" do |env|
+      name = env.params.url["name"]
+      filepath = env.params.url["filepath"]
+      filename = File.basename(filepath)
+      # puts @@markdowndocs_collections.keys
+      if @@markdowndocs_collections.has_key?(name)
+        self.serve_wikifile(env, name, filename)
+      elsif @@websites.has_key?(name)
+        self.serve_staticsite(env, name, filename)
+      else
+        self.do404 env, "file #{filename} doesn't exist on wiki/website #{name}"
       end
     end
   end

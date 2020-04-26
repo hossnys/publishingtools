@@ -120,38 +120,27 @@ module TFWeb
       if should_skip?(path)
         return
       end
-      path_obj = Path.new(path)
-      Dir.each_child path do |child|
-        child_path = path_obj.join(child)
-        if Dir.exists?(child_path) && child.downcase == "images"
-          imgdir = path_obj.join("img").to_s
-          if Dir.exists?(path_obj.join("img"))
-            cp_r2(child_path.to_s, imgdir)
-            FileUtils.rm_rf(child_path.to_s)
-          else
-            File.rename(child_path.to_s, imgdir) if File.exists?(child_path)
-          end
-        end
-        if Dir.exists? child_path
-          #   next if child.downcase == "img"
-          _check_dups child_path.to_s
-        end
+
+      Dir.glob("#{path}/**/*") do |thepath|
+        next if Dir.exists?(thepath)
+
+        child = File.basename(thepath)
         if !@dirfilesinfo.has_key?(child.to_s)
           finfo = FInfoTracker.new
           finfo.count = 1
-          finfo.paths = [child_path.to_s]
+          finfo.paths = [thepath.to_s]
           @dirfilesinfo[child] = finfo
         else
           finfo = @dirfilesinfo[child]
           finfo.count += 1
-          finfo.paths << child_path.to_s
+          finfo.paths << thepath.to_s
           @dirfilesinfo[child] = finfo
         end
+      end
 
-        @dirfilesinfo.each do |filename, theinfo|
-          if theinfo.count > 1
-            @errors[filename] = "#{theinfo.count.to_s} times. in paths #{theinfo.paths}\n\n"
-          end
+      @dirfilesinfo.each do |filename, theinfo|
+        if theinfo.count > 1
+          @errors[filename] = "#{theinfo.count.to_s} times. in paths #{theinfo.paths}\n\n"
         end
       end
     end
@@ -161,55 +150,50 @@ module TFWeb
       if should_skip?(path)
         return
       end
-      path_obj = Path.new(path)
-      Dir.each_child path do |child|
-        if child[0] != "."
-          begin
-            child_path = path_obj.join(child)
-            if @namefixer.match(child)
-              @namefixer.process(path_obj, child)
-            end
-            if Dir.exists? child_path
-              if child.downcase == "img"
-                next
-              end
-              _fix child_path.to_s
-            else
-              if @linksimagesfixer.match(child)
-                @linksimagesfixer.process(path_obj, child)
-                @linksimagesfixer.all_links.each do |l|
-                  unless @all_links.includes?(l)
-                    @all_links << l
-                  end
-                end
-                @linksimagesfixer.all_images.each do |im|
-                  unless @all_images.includes?(im)
-                    @all_images << im
-                  end
-                end
-              end
-              if @imgdirrenamer.match(child)
-                @imgdirrenamer.process(path_obj, child)
-              end
-              #   if @readme.match(child)
-              #     @readme.process(path_obj, child)
-              #   end
-              if @img.match(child)
-                @img.process(path_obj, child)
-              end
-              if @md.match(child)
-                @md.process(path_obj, child)
-              end
-              if @docsifysidebarfixer.match(child)
-                @docsifysidebarfixer.process(path_obj, child)
-              end
-              if @docsifyreadmefixer.match(child)
-                @docsifyreadmefixer.process(path_obj, child)
-              end
-            end
-          rescue ex
-            puts ex
+      seen = Array(String).new
+      Dir.glob("#{path}/**/*") do |thepath|
+        if seen.includes?(thepath)
+          puts "seen it before #{thepath}"
+        end
+        next if seen.includes?(thepath)
+        seen << thepath.to_s
+
+        parent = Path.new(File.dirname(thepath))
+        path_obj = parent
+        child = File.basename(thepath)
+        if @namefixer.match(child)
+          @namefixer.process(path_obj, child)
+        end
+
+        if @img.match(child)
+          @img.process(path_obj, child)
+        end
+        if @md.match(child)
+          @md.process(path_obj, child)
+        end
+        if @docsifysidebarfixer.match(child)
+          @docsifysidebarfixer.process(path_obj, child)
+        end
+        if @docsifyreadmefixer.match(child)
+          @docsifyreadmefixer.process(path_obj, child)
+        end
+        if @linksimagesfixer.match(child)
+          @linksimagesfixer.process(path_obj, child)
+        end
+        @linksimagesfixer.all_images.each do |im|
+          unless @all_images.includes?(im)
+            @all_images << im
           end
+        end
+
+        @linksimagesfixer.all_links.each do |l|
+          unless @all_links.includes?(l)
+            @all_links << l
+          end
+        end
+
+        if @imgdirrenamer.match(child)
+          @imgdirrenamer.process(path_obj, child)
         end
       end
     end
