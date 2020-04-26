@@ -76,7 +76,8 @@ module TFWeb
         end
       end
 
-      images.each do |img|
+      #   puts "abdo #{images}"
+      images.uniq.each do |img|
         unless img.starts_with?("http")
           # on filesystem
           # TODO: probably should check if has extension instead

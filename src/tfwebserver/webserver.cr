@@ -69,7 +69,7 @@ module TFWeb
       self.prepare_markdowndocs_backend
       puts "Starting server"
 
-      #   Kemal.run
+      Kemal.run
     end
 
     # checks the loaded metadata to find the required md file or image file
