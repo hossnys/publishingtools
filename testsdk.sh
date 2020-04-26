@@ -1,4 +1,3 @@
 set +ex
-shards build
-./bin/tfweb -c sdksite.toml
+shards build && ./bin/tfweb -c sdksite.toml
 
