@@ -41,8 +41,6 @@ module TFWeb
           wikiobj.branch = wiki["branch"].as(String)
           wikiobj.branchswitch = wiki["branchswitch"].as(Bool)
           wikiobj.autocommit = wiki["autocommit"].as(Bool)
-          wikiobj.prepare_on_fs
-          wikiobj.prepare_index
           @@wikis[wikiobj.name] = wikiobj
         end
         okconfig["www"].as(Array).each do |websiteel|
@@ -55,7 +53,6 @@ module TFWeb
           websiteobj.branch = website["branch"].as(String)
           websiteobj.branchswitch = website["branchswitch"].as(Bool)
           websiteobj.autocommit = website["autocommit"].as(Bool)
-          websiteobj.prepare_on_fs
           @@websites[websiteobj.name] = websiteobj
         end
 
@@ -77,6 +74,7 @@ module TFWeb
       @@wikis.each do |k, w|
         spawn do
           w.prepare_on_fs
+          w.prepare_index
           channel_done.send(w.name)
         end
       end
@@ -88,7 +86,7 @@ module TFWeb
       end
       (@@websites.size + @@wikis.size).times do
         ready = channel_done.receive # wait for all of them.
-        puts "wiki #{ready} is ready"
+        puts "wiki/website #{ready} is ready"
       end
       self.prepare_markdowndocs_backend
 
@@ -125,7 +123,9 @@ module TFWeb
     end
 
     def self.serve_staticsite(env, sitename, filename)
-      fullpath = File.join(@@websites[sitename].path, filename)
+      website = @@websites[sitename]
+      website_src_path = File.join(website.path, website.srcdir)
+      fullpath = File.join(website_src_path, filename)
       send_file env, fullpath
     end
 
