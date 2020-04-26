@@ -21,6 +21,9 @@ module TFWeb
       @skips = [".git", "_archive", "out"]
       @errors = Hash(String, String).new
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new
+
+      @all_links = Array(String).new
+      @all_images = Array(String).new
       # {filename => {count: 5, paths=[] }}
     end
 
@@ -65,11 +68,31 @@ module TFWeb
     def write_errors_as_md
       path = @docspath
       content = ""
+      @all_links.each do |l|
+        # puts "errors for link: #{l}"
+        baselink = File.basename(l)
+        next if l.starts_with?("http") || @dirfilesinfo.has_key?(baselink) || l.starts_with?("#")
+        # puts "error link  #{l} #{baselink} is used but doesn't exist in the repo."
+        @errors[baselink + " link"] = "#{baselink} is used but doesn't exist in the repo."
+      end
+      @all_images.each do |im|
+        baseimg = File.basename(im)
+        # puts "errors for img: #{im}"
+        next if @dirfilesinfo.has_key?(baseimg)
+        # puts "error image #{im} #{baseimg} is used but doesn't exist in the repo."
+        @errors[baseimg + " img"] = "#{baseimg} is used but doesn't exist in the repo."
+      end
+
+      #   puts @errors
       @errors.each do |filename, err|
-        next if filename == "img" || filename == "_sidebar.md" || filename == "README.md"
+        # puts "#{filename} #{err}"
+        has_no_ext = File.extname(filename) == ""
+        next if "#" in filename
+        next if filename == "img" || filename == "_sidebar.md" || filename == "README.md" || has_no_ext
         content = content + "# #{filename} \n"
         content = content + err + "\n"
       end
+      puts "saving to #{File.join(path, "errors.md")}"
       File.write(File.join(path, "errors.md"), content)
     end
 
@@ -155,6 +178,16 @@ module TFWeb
             else
               if @linksimagesfixer.match(child)
                 @linksimagesfixer.process(path_obj, child)
+                @linksimagesfixer.all_links.each do |l|
+                  unless @all_links.includes?(l)
+                    @all_links << l
+                  end
+                end
+                @linksimagesfixer.all_images.each do |im|
+                  unless @all_images.includes?(im)
+                    @all_images << im
+                  end
+                end
               end
               if @imgdirrenamer.match(child)
                 @imgdirrenamer.process(path_obj, child)
@@ -162,9 +195,6 @@ module TFWeb
               #   if @readme.match(child)
               #     @readme.process(path_obj, child)
               #   end
-              if @linksimagesfixer.match(child)
-                @linksimagesfixer.process(path_obj, child)
-              end
               if @img.match(child)
                 @img.process(path_obj, child)
               end

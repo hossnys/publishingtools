@@ -1,7 +1,7 @@
 require "markd"
 
 module TFWeb
-  class MyMDProcessor < Markd::HTMLRenderer
+  class MyLinksImagesRenderer < Markd::HTMLRenderer
     property links = Array(String).new
     property images = Array(String).new
 
@@ -21,6 +21,17 @@ module TFWeb
   end
 
   class LinksImagesProcessor # < Processor
+    property all_images = Array(String).new
+    property all_links = Array(String).new
+
+    def all_links
+      @all_links
+    end
+
+    def all_images
+      @all_images
+    end
+
     def match(file_name)
       return File.extname(file_name) == ".md"
     end
@@ -28,7 +39,7 @@ module TFWeb
     private def getlinks(content)
       options = Markd::Options.new(time: false)
       document = Markd::Parser.parse(content, options)
-      renderer = MyMDProcessor.new(options)
+      renderer = MyLinksImagesRenderer.new(options)
       renderer.render(document)
       renderer
     end
@@ -38,6 +49,8 @@ module TFWeb
       content = ""
       content = File.read(child_path)
       processor = getlinks(content)
+      @all_links = processor.links
+      @all_images = processor.images
       links = processor.links
       images = processor.images
       #   p links, images
@@ -73,9 +86,9 @@ module TFWeb
 
           if img != newimg
             puts "[imagefixer]old img is #{img}  and new img should be #{newimg}" if img != File.basename(img)
-
-            newcontent = content.gsub img, newimg
-            content = newcontent
+            # disable images rewrites.
+            # newcontent = content.gsub img, newimg
+            # content = newcontent
           end
         end
       end
