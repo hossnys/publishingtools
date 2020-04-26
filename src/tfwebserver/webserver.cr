@@ -176,7 +176,11 @@ module TFWeb
         self.do404 env, "file #{filename} doesn't exist on wiki/website #{name}"
       end
     end
-
+    get "/:name/index.html/_sidebar.md" do |env|
+      name = env.params.url["name"]
+      fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "_sidebar.md")
+      send_file env, fullpath
+    end
     get "/:name/*filepath" do |env|
       puts "invoking this one.."
       name = env.params.url["name"]
