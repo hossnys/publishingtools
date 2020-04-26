@@ -81,18 +81,15 @@ module TFWeb
           # on filesystem
           # TODO: probably should check if has extension instead
           next unless img.ends_with?(".png") || img.ends_with?(".jpg") || img.ends_with?(".jpeg")
-          puts "fixing #{img}"
           baseimg = File.basename(img)
           newimg = File.basename(img)
 
           newimg = newimg.downcase.gsub({"-": "_"})
-          puts "checking for dir #{path_obj.join("img").join(baseimg)}"
 
-          puts "here now"
           if File.exists?(path_obj.join("img").join(baseimg))
             newimg = "./img/#{newimg}"
           end
-          puts "[imagefixer]old img is #{baseimg}  and new img should be #{newimg}" if img != newimg
+          #   puts "[imagefixer]old img is #{baseimg}  and new img should be #{newimg}" if img != newimg
 
           newcontent = content.gsub(img, newimg)
           content = newcontent

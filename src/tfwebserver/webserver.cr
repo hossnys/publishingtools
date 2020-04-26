@@ -120,7 +120,6 @@ module TFWeb
 
     get "/:name/index.html" do |env|
       name = env.params.url["name"]
-      puts "here.."
       puts @@markdowndocs_collections.keys
       if @@markdowndocs_collections.has_key?(name)
         self.serve_wikifile(env, name, "index.html")
