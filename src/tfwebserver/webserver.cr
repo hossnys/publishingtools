@@ -130,18 +130,18 @@ module TFWeb
       end
     end
 
-    get "/:name/index.html/:filename" do |env|
-      name = env.params.url["name"]
-      filename = env.params.url["filename"]
-      puts @@markdowndocs_collections.keys
-      if @@markdowndocs_collections.has_key?(name)
-        self.serve_wikifile(env, name, filename)
-      elsif @@websites.has_key?(name)
-        self.serve_staticsite(env, name, filename)
-      else
-        self.do404 env, "file #{filename} doesn't exist on wiki/website #{name}"
-      end
-    end
+    # get "/:name/index.html/:filename" do |env|
+    #   name = env.params.url["name"]
+    #   filename = env.params.url["filename"]
+    #   puts @@markdowndocs_collections.keys
+    #   if @@markdowndocs_collections.has_key?(name)
+    #     self.serve_wikifile(env, name, filename)
+    #   elsif @@websites.has_key?(name)
+    #     self.serve_staticsite(env, name, filename)
+    #   else
+    #     self.do404 env, "file #{filename} doesn't exist on wiki/website #{name}"
+    #   end
+    # end
 
     get "/:name/index.html/_sidebar.md" do |env|
       name = env.params.url["name"]
