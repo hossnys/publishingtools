@@ -59,7 +59,7 @@ module TFWeb
 
         # # TODO: code to validate the uniqueness of wiki, websites names..
 
-        Kemal.config.port = 3000 # serverconfig["port"].to_i
+        Kemal.config.port = serverconfig["port"].as(Int64).to_i
         Kemal.config.host_binding = serverconfig["addr"].as(String)
       end
     end
