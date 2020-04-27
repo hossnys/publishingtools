@@ -23,6 +23,14 @@ module TFWeb
       idx = TFWeb.get_index_for(@name)
       File.write(destindex, idx)
     end
+
+    def repo
+      if @url != ""
+        puts "url #{@url} and path #{path}"
+        repo = TFWeb::GITRepo.new(url: @url, path: @path)
+        repo
+      end
+    end
   end
 
   class Website
@@ -39,6 +47,14 @@ module TFWeb
       if @url != ""
         repo = TFWeb::GITRepo.new(url: @url, path: @path)
         @path = repo.ensure_repo
+      end
+    end
+
+    def repo
+      if @url != ""
+        puts "url #{@url} and path #{path}"
+        repo = TFWeb::GITRepo.new(url: @url, path: @path)
+        repo
       end
     end
   end

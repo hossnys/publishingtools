@@ -102,7 +102,15 @@ module TFWeb
     # clone if directory is not there
     # if there is data in there, ask to commit, ask message if @autocommit is on
     # if branchname specified, check branchname is the same, if not and @branchswitch is True switch branch, otherwise error
-    def update
+    def pull(force = false)
+      repo_path = ensure_repo # handles the cloning, existence and the correct branch already.
+      if force
+        `cd #{repo_path} && git checkout . && git clean -xfd && git pull`
+        $?.success?
+      else
+        `cd #{repo_path} && git pull`
+        $?.success?
+      end
     end
 
     # return the branchname from the repo on the filesystem, if it doesn't exist yet do an update
@@ -116,7 +124,7 @@ module TFWeb
 
     def has_sshagent
       `ps aux | grep -v grep | grep ssh-agent`
-      $?.success
+      $?.success?
     end
 
     # reset the repo, do a checkout . -F

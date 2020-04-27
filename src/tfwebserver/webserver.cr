@@ -141,6 +141,30 @@ module TFWeb
       env.redirect "#{name}/index.html"
     end
 
+    private def self.handle_update(env, name, force)
+      puts "trying to update #{name} force? #{force}"
+      if @@wikis.has_key?(name)
+        @@wikis[name].repo.try do |arepo|
+          arepo.pull(force)
+        end
+      elsif @@websites.has_key?(name)
+        @@websites[name].repo.try do |arepo|
+          arepo.pull(force)
+        end
+      else
+        do404 env, "couldn't pull #{name}"
+      end
+    end
+
+    get "/:name/try_update" do |env|
+      name = env.params.url["name"]
+      self.handle_update(env, name, false)
+    end
+    get "/:name/force_update" do |env|
+      name = env.params.url["name"]
+      self.handle_update(env, name, true)
+    end
+
     get "/:name/index.html" do |env|
       name = env.params.url["name"]
       #   puts @@markdowndocs_collections.keys
