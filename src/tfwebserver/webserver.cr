@@ -30,7 +30,7 @@ module TFWeb
       @@config.try do |okconfig|
         serverconfig = okconfig["server"].as(Hash)
 
-        okconfig["wiki"].as(Array).each do |wikiel|
+        okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
           wiki = wikiel.as(Hash)
           p wiki
           wikiobj = Wiki.new
@@ -43,7 +43,8 @@ module TFWeb
           wikiobj.autocommit = wiki["autocommit"].as(Bool)
           @@wikis[wikiobj.name] = wikiobj
         end
-        okconfig["www"].as(Array).each do |websiteel|
+
+        okconfig.has_key?("www") && okconfig["www"].as(Array).each do |websiteel|
           website = websiteel.as(Hash)
           websiteobj = Website.new
           websiteobj.name = website["name"].as(String)

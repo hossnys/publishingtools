@@ -102,7 +102,7 @@ module TFWeb
         next if Dir.exists?(thepath)
 
         child = File.basename(thepath)
-        next if child.starts_with?("_")
+        # next if child.starts_with?("_")
         if !@dirfilesinfo.has_key?(child.to_s)
           finfo = FInfoTracker.new
           finfo.count = 1
@@ -139,7 +139,7 @@ module TFWeb
         parent = Path.new(File.dirname(thepath))
         path_obj = parent
         child = File.basename(thepath)
-        next if child.starts_with?("_")
+        # next if child.starts_with?("_")
         if @namefixer.match(child)
           @namefixer.process(path_obj, child)
         end
