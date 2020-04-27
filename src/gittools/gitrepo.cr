@@ -22,11 +22,23 @@ module TFWeb
       if @path == "" && @url == ""
         raise Exception.new("path and url are empty #{name}")
       end
+      if @path != "" && !@url
+        @url = try_read_url_from_path
+      end
       if @url != ""
         if !@url.includes?("@") && !@url.starts_with?("https://")
           @url = "https://#{@url}"
         end
         infer_provider_account_repo
+      end
+    end
+
+    def try_read_url_from_path
+      res = `cd #{@path} && git config --get remote.origin.url`
+      if $?.success?
+        res.chomp
+      else
+        ""
       end
     end
 
@@ -105,7 +117,7 @@ module TFWeb
     def pull(force = false)
       repo_path = ensure_repo # handles the cloning, existence and the correct branch already.
       if force
-        `cd #{repo_path} && git checkout . && git clean -xfd && git pull`
+        `cd #{repo_path} && git clean -xfd && git checkout . && git checkout #{branch} && git pull`
         $?.success?
       else
         `cd #{repo_path} && git pull`

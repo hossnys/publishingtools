@@ -146,6 +146,7 @@ module TFWeb
       if @@wikis.has_key?(name)
         @@wikis[name].repo.try do |arepo|
           arepo.pull(force)
+          @@markdowndocs_collections[name].checks_dups_and_fix
         end
       elsif @@websites.has_key?(name)
         @@websites[name].repo.try do |arepo|

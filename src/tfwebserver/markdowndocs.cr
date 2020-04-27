@@ -33,29 +33,6 @@ module TFWeb
       write_errors_as_md
     end
 
-    def reload_dirfilesinfo
-      path = @docspath
-      puts "reloading filesinfo"
-      @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new
-
-      Dir.glob(path + "/**/*").each do |child_path|
-        next unless File.directory?(child_path)
-        # files only..
-        child = File.basename(child_path.to_s)
-        if !@dirfilesinfo.has_key?(child.to_s)
-          finfo = FInfoTracker.new
-          finfo.count = 1
-          finfo.paths = [child_path.to_s]
-          @dirfilesinfo[child] = finfo
-        else
-          finfo = @dirfilesinfo[child]
-          finfo.count += 1
-          finfo.paths << child_path.to_s
-          @dirfilesinfo[child] = finfo
-        end
-      end
-    end
-
     def filesinfo
       @dirfilesinfo
     end
@@ -125,6 +102,7 @@ module TFWeb
         next if Dir.exists?(thepath)
 
         child = File.basename(thepath)
+        next if child.starts_with?("_")
         if !@dirfilesinfo.has_key?(child.to_s)
           finfo = FInfoTracker.new
           finfo.count = 1
@@ -161,6 +139,7 @@ module TFWeb
         parent = Path.new(File.dirname(thepath))
         path_obj = parent
         child = File.basename(thepath)
+        next if child.starts_with?("_")
         if @namefixer.match(child)
           @namefixer.process(path_obj, child)
         end
