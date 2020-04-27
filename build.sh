@@ -1,7 +1,7 @@
 set +ex
-crystal docs --output=./docs/tfwiki
+crystal docs --output=./docs/tfweb
 shards build
-cp bin/tfwiki /usr/local/bin
+cp bin/tfweb /usr/local/bin
 mkdir -p ~/Downloads/
-cp bin/tfwiki ~/Downloads/tfwiki
+cp bin/tfweb ~/Downloads/tfwiki
 
