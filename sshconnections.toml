@@ -1,5 +1,5 @@
 
-[[sshconnection]]
+[[sshconnections]]
 #unique name for the wiki
 name = "host1"
 #http or git url
@@ -15,7 +15,7 @@ user = "root"
 tcprouter_secret = ""
 
 
-[[sshconnection]]
+[[sshconnections]]
 #unique name for the wiki
 name = "host2"
 #http or git url
@@ -30,7 +30,7 @@ remoteport = 443
 user = "root"
 tcprouter_secret = ""
 
-[[sshconnection]]
+[[sshconnections]]
 #unique name for the wiki
 name = "host3"
 #http or git url
@@ -44,5 +44,3 @@ remoteport = 443
 # user
 user = "root"
 tcprouter_secret = ""
-
-

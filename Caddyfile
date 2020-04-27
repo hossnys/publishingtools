@@ -1,0 +1,22 @@
+sdk3.threefold.io {
+        tls ahmed.m.elsayed93@gmail.com
+
+        rewrite {
+            if {path} is /index.html#(.+)
+            to {path}/ /sdk/index.html/{1}
+        }
+        
+        proxy / localhost:3000/sdk/index.html
+}
+
+wiki3.threefold.io {
+        tls ahmed.m.elsayed93@gmail.com
+
+        rewrite {
+            if {path} is /index.html#(.+)
+            to {path}/ /wiki/index.html/{1}
+        }
+
+        proxy / localhost:3000/wiki/index.html
+}
+

@@ -1,6 +1,8 @@
 require "toml"
+require "colorize"
 
 module SSHTool
+
   class SSHConnection
     property name : String
     property ipaddr : String
@@ -25,21 +27,27 @@ module SSHTool
       `pgrep --exact --full "#{startupcmd}"`.split()
     end
 
-    def pingtcp
+    def ping_local
+      `nc -z 127.0.0.1 #{@remoteport}`
+      $?.success?
+    end
+
+    def ping_tcp
       `nc -z #{@ipaddr} #{@localport}`
       $?.success?  
     end
 
-    def pingssh
+    def ping_ssh
       `nc -z #{@ipaddr} 22`
       $?.success?
     end
 
     def is_running
-      pingtcp && pingssh
+      ping_tcp && (ping_tcp || !ping_local)
     end
 
     def start
+      kill if pid
       `#{startupcmd}`
     end
 
@@ -54,7 +62,6 @@ module SSHTool
       start
     end
   end
-
 
   class SSHTool
     property configpath : Path
@@ -79,13 +86,21 @@ module SSHTool
       end
     end
 
+    def print_success(msg)
+      puts msg.colorize.green
+    end
+    
+    def print_error(msg)
+      puts msg.colorize.red
+    end
+
     private def readconfig
       TOML.parse_file(@configpath)
     rescue File::NotFoundError
-      puts "Configuration file not found"
+      print_error "Configuration file not found"
       exit 1
     rescue TOML::ParseException
-      puts "Invalid configuration"
+      print_error "Invalid configuration"
       exit 1
     end
 
@@ -115,9 +130,9 @@ module SSHTool
       loop do
         sleep 10.seconds
         if connection.is_running
-          puts "Connection #{connection.name} is ok"
+          print_success "Connection #{connection.name} is ok"
         else
-          puts "Connection #{connection.name} is restarted"
+          print_error "Connection #{connection.name} is restarted"
           connection.restart
           spawn monitor connection
         end
