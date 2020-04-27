@@ -7,7 +7,7 @@ ipaddr = "134.209.203.153"
 # port for ssh connection
 port = 22
 # local port on our machine, where the server runs
-localport = 3001
+localport = 443
 # remote port
 remoteport = 443
 # user
@@ -23,7 +23,7 @@ ipaddr = "134.122.109.244"
 # port for ssh connection
 port = 22
 # local port on our machine, where the server runs
-localport = 3001
+localport = 443
 # remote port
 remoteport = 443
 # user
@@ -38,7 +38,7 @@ ipaddr = "104.248.250.78"
 # port for ssh connection
 port = 22
 # local port on our machine, where the server runs
-localport = 3001
+localport = 443
 # remote port
 remoteport = 443
 # user
