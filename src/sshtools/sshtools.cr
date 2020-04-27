@@ -2,8 +2,13 @@ require "toml"
 
 module SSHTools
   class SSHConnection
-    def initialize(@name : String = "", @ipaddr : String  = "", @port = "", @localport : Int = 3000, @remoteport : Int = 3000 )
-      @tcprouter_secret = "" #not implemented yet
+    def initialize(@name : String = "", 
+        @ipaddr : String  = "", 
+        @port = "", 
+        @localport : Int = 3000, 
+        @remoteport : Int = 3000 , 
+        @tcprouter_secret : String = "",
+        @user : String = "root")
     end
 
     #check the server is accessible
@@ -37,10 +42,18 @@ module SSHTools
       while true
         sleep 5
         if ! ping
-          #TODO: kill existing process, need to make sure its gone
-          start
+          restart
         end
       end      
+    end
+
+    def restart
+      kill
+      start
+    end    
+
+    def kill
+      #TODO: kill existing process, need to make sure its gone
     end
 
     def start
@@ -93,6 +106,8 @@ module SSHTools
           obj.port = wiki["port"].as(Int)
           obj.localport = wiki["localport"].as(Int)
           obj.remoteport = wiki["remoteport"].as(Int)
+          obj.user = wiki["user"].as(String)
+          obj.tcprouter_secret = wiki["tcprouter_secret"].as(String)
           @sshconnections[obj.name] = obj
         end
 
