@@ -9,6 +9,7 @@ module TFWeb
     # puts @@markdowndocs_collections
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
+    @@include_processor = IncludeProcessor.new
 
     def self.prepare_markdowndocs_backend
       @@wikis.each do |k, wiki|
@@ -22,6 +23,8 @@ module TFWeb
         end
         @@markdowndocs_collections[k] = markdowndocs
       end
+
+      @@include_processor.mddocs_collections = @@markdowndocs_collections
     end
 
     def self.read_config(configfilepath)
@@ -104,17 +107,29 @@ module TFWeb
       #   puts filesinfo.keys
 
       if filesinfo.has_key?(filename)
-        firstpath = filesinfo[filename].paths[0] # in decent repo it will be only 1 in this array.
-        send_file env, firstpath
+        firstpath = filesinfo[filename].paths[0].as(String) # in decent repo it will be only 1 in this array.
       elsif filesinfo.has_key?(filename.downcase)
-        firstpath = filesinfo[filename.downcase].paths[0] # in decent repo it will be only 1 in this array.
-        send_file env, firstpath
+        firstpath = filesinfo[filename.downcase].paths[0].as(String)
       else
         # TODO: should try to reload before giving 404?
         puts "couldn't find #{filename} in the markdowndocs_collection of #{wikiname}"
         env.response.status_code = 404
         env.response.print "file #{filename} doesn't exist in scanned info."
         env.response.close
+      end
+
+      firstpath.try do |path|
+        if @@include_processor.match(path)
+          new_content = @@include_processor.apply_includes(wikiname, File.read(path))
+          if new_content.nil?
+            send_file env, path
+          else
+            env.response.content_type = "text/plain"
+            return new_content
+          end
+        else
+          send_file env, path
+        end
       end
     end
 

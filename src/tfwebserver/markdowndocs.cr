@@ -128,6 +128,7 @@ module TFWeb
       if should_skip?(path)
         return
       end
+
       seen = Array(String).new
       Dir.glob("#{path}/**/*") do |thepath|
         # if seen.includes?(thepath)

@@ -20,7 +20,7 @@ module TFWeb
     end
   end
 
-  class LinksImagesProcessor # < Processor
+  class LinksImagesProcessor < Processor
     property all_images = Array(String).new
     property all_links = Array(String).new
 

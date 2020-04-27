@@ -1,6 +1,9 @@
 module TFWeb
-  abstract class Processor
-    abstract def match
-    abstract def process
+  class Processor
+    def match(child)
+    end
+
+    def process(parent, child)
+    end
   end
 end
