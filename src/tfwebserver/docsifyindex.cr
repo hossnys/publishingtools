@@ -31,7 +31,7 @@ module TFWeb
             alias: {
               '/.*/_sidebar.md': '/_sidebar.md',
             },
-            subMaxLevel: 3,
+            subMaxLevel: 0,
             themeable: {
                 readyTransition : true, // default
                 responsiveTables: true  // default
