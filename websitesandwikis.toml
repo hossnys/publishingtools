@@ -6,7 +6,7 @@ addr = "0.0.0.0"
 
 [[wiki]]
 #unique name for the wiki
-name = "info_sdk"
+name = "sdk"
 #http or git url
 url = "github.com/threefoldfoundation/info_tfgridsdk"
 #if empty will be auto created
@@ -22,7 +22,7 @@ srcdir = "src"
 
 [[wiki]]
 #unique name for the wiki
-name = "info_threefold"
+name = "wiki"
 #http or git url
 url = "https://github.com/threefoldfoundation/info_threefold"
 #if empty will be auto created
@@ -39,7 +39,7 @@ srcdir = "src"
 
 #website
 [[www]]
-name = "www_freetft"
+name = "freetft"
 #http or git url
 url = "git@github.com:threefoldfoundation/www_getfreetft.git"
 #if empty will be auto created
@@ -56,7 +56,7 @@ srcdir = ""
 
 #website
 [[www]]
-name = "www_threefold"
+name = "threefold"
 #http or git url
 url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
 #if empty will be auto created
@@ -73,7 +73,7 @@ srcdir = "html"
 
 #website
 [[www]]
-name = "www_incubaid"
+name = "incubaid"
 #http or git url
 url = "git@github.com:Incubaid/www_incubaid.git"
 #if empty will be auto created
@@ -89,7 +89,7 @@ srcdir = ""
 
 #website
 [[www]]
-name = "www_freeflownation"
+name = "freeflownation"
 #http or git url
 url = "https://github.com/freeflownation/www_freeflownation"
 #if empty will be auto created
