@@ -4,6 +4,8 @@ require "json"
 require "./cons"
 
 module TFWeb
+  TEAM_REPO_URL = "https://github.com/threefoldfoundation/data_team"
+
   class Member
     include JSON::Serializable
     property full_name : String
@@ -28,7 +30,7 @@ module TFWeb
       @avatar = avatar
     end
 
-    def get_projects_or_contr(key)
+    def get_projects_or_contributions(key)
       if key == "project_ids"
         return @project_ids
       else
@@ -39,24 +41,21 @@ module TFWeb
 
   class Team
     @path = ""
-    @repo_url = "https://github.com/threefoldfoundation/data_team"
 
     def initialize
-      repo = GITRepo.new(url: @repo_url)
+      repo = GITRepo.new(url: TEAM_REPO_URL)
       repo_path = repo.ensure_repo(pull = true)
       @path = File.join(repo_path, "team")
     end
 
     private def filter_member_mapping(member, projects, contribution_types)
-      idx = 0
-      while idx < projects.size
-        project_idx = member.get_projects_or_contr("project_ids").index(projects[idx])
-        if project_idx
-          if member.get_projects_or_contr("contribution_ids")[project_idx] == contribution_types[idx]
+      Hash.zip(projects, contribution_types).each do |project, contribution|
+        project_idx = member.get_projects_or_contributions("project_ids").index(project)
+        if project_idx && !member.get_projects_or_contributions("contribution_ids").empty?
+          if member.get_projects_or_contributions("contribution_ids")[project_idx] == contribution
             return false
           end
         end
-        idx += 1
       end
       return true
     end
@@ -70,7 +69,7 @@ module TFWeb
         key = "contribution_ids"
       end
       arr.each do |item|
-        members.reject! { |member| !member.get_projects_or_contr(key).includes?(item) }
+        members.reject! { |member| !member.get_projects_or_contributions(key).includes?(item) }
       end
     end
 
@@ -115,7 +114,7 @@ module TFWeb
           nationality = member_data.fetch("nationality", "").as(String)
 
           member = Member.new(full_name, description, why_threefold, function, linkedin, project_ids, contribution_ids, nationality, avatar)
-          members.push(member)
+          members << member
         end
       end
       if projects.empty? || contribution_types.empty?
@@ -123,7 +122,7 @@ module TFWeb
       else
         members.reject! { |member| filter_member_mapping(member, projects, contribution_types) }
       end
-      return members.to_json
+      members.to_json
     end
   end
 end

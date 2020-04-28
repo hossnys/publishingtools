@@ -4,6 +4,8 @@ require "json"
 require "./cons"
 
 module TFWeb
+  PARTNER_REPO_URL = "https://github.com/threefoldfoundation/data_partners/"
+
   class Partner
     include JSON::Serializable
     property name : String
@@ -21,10 +23,9 @@ module TFWeb
 
   class Community
     @path = ""
-    @repo_url = "https://github.com/threefoldfoundation/data_partners/"
 
     def initialize
-      repo = GITRepo.new(url: @repo_url)
+      repo = GITRepo.new(url: PARTNER_REPO_URL)
       repo_path = repo.ensure_repo(pull = true)
       @path = File.join(repo_path, "partners")
     end
@@ -58,10 +59,10 @@ module TFWeb
           end
 
           partner = Partner.new(name, description, stars, url)
-          partners.push(partner)
+          partners << partner
         end
       end
-      return partners.to_json
+      partners.to_json
     end
   end
 end
