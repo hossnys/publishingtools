@@ -28,8 +28,9 @@ module TFWeb
     end
 
     def checks_dups_and_fix
-      _check_dups(@docspath)
       _fix @docspath # does the walk
+      _check_dups(@docspath)
+
       write_errors_as_md
     end
 
@@ -144,12 +145,16 @@ module TFWeb
         next if child.starts_with?("_")
         procs = [@namefixer, @readme, @img, @md, @docsifyreadmefixer, @docsifysidebarfixer, @linksimagesfixer, @imgdirrenamer] of Processor
         procs.each do |p|
-          if p.match(child)
-            thepath = p.process(path_obj, child)
-            thepath.try do |apath|
-              path_obj = Path.new(File.dirname(apath))
-              child = File.basename(apath)
+          begin
+            if p.match(child)
+              thepath = p.process(path_obj, child)
+              thepath.try do |apath|
+                path_obj = Path.new(File.dirname(apath))
+                child = File.basename(apath)
+              end
             end
+          rescue exception
+            puts "error #{exception}"
           end
         end
 
