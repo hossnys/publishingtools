@@ -1,5 +1,5 @@
-require "./utils/*"
-require "json"
+require "./utils/affiliates/*"
+require "./api"
 
 module TFWeb
   module WebServer
@@ -11,6 +11,7 @@ module TFWeb
     @@include_processor = IncludeProcessor.new
     @@team = Team.new
     @@community = Community.new
+    @@farmers = Farmers.new
 
     class MiddleWare < Kemal::Handler
       def initialize(
@@ -372,7 +373,6 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-
     include API::Simulator
   end
 end
