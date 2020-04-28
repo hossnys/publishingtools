@@ -30,7 +30,7 @@ path = ""
 #commit automatically when there is new info, only works when ssh used
 autocommit = false
 #branch name, of "" then will be the default or what is found on the FS
-branch = "development_v2"
+branch = "development"
 #switch branch automatically if the name given above and its different on FS
 branchswitch = false
 #path in the repo where the info is, std "src"
