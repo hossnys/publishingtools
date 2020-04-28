@@ -23,22 +23,22 @@ module SSHTool
       "ssh -o StrictHostKeyChecking=no -R #{@localport}:127.0.0.1:#{@remoteport} -N #{@user}@#{@ipaddr}"
     end
 
-    def pid
-      `pgrep --exact --full "#{startupcmd}"`.split()
-    end
-
-    def ping_tcp
+    private def check_tcp_conn
       `nc -z #{@ipaddr} #{@localport}`
       $?.success?  
     end
 
-    def ping_ssh
+    private def check_ssh_conn
       `nc -z #{@ipaddr} 22`
       $?.success?
     end
 
-    def is_running
-      ping_ssh && ping_tcp
+    private def pid
+      `pgrep --exact --full "#{startupcmd}"`.split()
+    end
+
+    def is_ok
+      check_tcp_conn && check_ssh_conn
     end
 
     def start
@@ -123,13 +123,13 @@ module SSHTool
 
     def monitor
       loop do
-        sleep 10.seconds
+        sleep 3.seconds
         @connections.each do |name, connection|
-          if connection.is_running
+          if connection.is_ok
             print_success "Connection #{connection.name} is ok"
           else
-            print_error "Connection #{connection.name} is restarted"
             spawn connection.restart
+            print_error "Connection #{connection.name} is restarted"
           end
         end
       end
@@ -137,6 +137,3 @@ module SSHTool
 
   end
 end
-
-tool = SSHTool:: SSHTool.new("~/.sshtools.toml")
-tool.start
