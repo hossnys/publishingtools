@@ -99,6 +99,7 @@ module TFWeb
       if images.size > 0 || links.size > 0
         File.write(child_path, content)
       end
+      child_path
     end
   end
 end

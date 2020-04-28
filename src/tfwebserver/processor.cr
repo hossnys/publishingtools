@@ -3,7 +3,8 @@ module TFWeb
     def match(child)
     end
 
-    def process(parent, child)
+    def process(parent, child) : String
+      ""
     end
   end
 end

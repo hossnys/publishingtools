@@ -1,3 +1,3 @@
 set +ex
-shards build && ./bin/tfweb -c websitesandwikis.toml
+shards build --error-trace && ./bin/tfweb -c websitesandwikis.toml
 

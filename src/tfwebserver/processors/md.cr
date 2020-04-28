@@ -1,5 +1,5 @@
 module TFWeb
-  class MdProcessor # < Processor
+  class MdProcessor < Processor
     def match(file_name)
       return File.extname(file_name) == ".md"
     end
@@ -14,6 +14,7 @@ module TFWeb
         puts "[md]renaming #{child_path.to_s} to #{new_path.to_s} " if clean_child != child_path.to_s
         File.rename(child_path.to_s, new_path.to_s) if clean_child != child_path.to_s
       end
+      new_path
     end
   end
 end

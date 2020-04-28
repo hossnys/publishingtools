@@ -1,5 +1,5 @@
 module TFWeb
-  class NameFixerProcessor # < Processor
+  class NameFixerProcessor < Processor
     def match(file_name)
       return true
     end
@@ -14,6 +14,7 @@ module TFWeb
         puts "[namesfixer]renaming #{child_path.to_s} to #{new_path.to_s} "
         File.rename(child_path.to_s, new_path.to_s)
       end
+      new_path
     end
   end
 end

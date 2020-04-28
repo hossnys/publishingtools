@@ -1,7 +1,7 @@
 module TFWeb
   IMAGE_REGEX = /(.*)(.jpg$)|(.*)(.jpeg$)|(.*)(.svg$)|(.*)(.png$)/
 
-  class ImageProcessor # < Processor
+  class ImageProcessor < Processor
     def match(file_name)
       return file_name.match(IMAGE_REGEX)
     end
@@ -16,6 +16,8 @@ module TFWeb
       #     puts "[img]renaming #{child_path.to_s} to #{new_path.to_s} " if child_path.to_s != new_path.to_s
       #     File.rename(child_path.to_s, new_path.to_s)
       #   end
+      newname = path_obj.join(child)
+      newname
     end
   end
 end

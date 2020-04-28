@@ -66,6 +66,8 @@ module TFWeb
     end
 
     def process(parent_path_obj, filename)
+      newname = parent_path_obj.join(filename)
+      newname
     end
   end
 end

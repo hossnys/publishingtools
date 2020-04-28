@@ -131,49 +131,37 @@ module TFWeb
 
       seen = Array(String).new
       Dir.glob("#{path}/**/*") do |thepath|
+        next if thepath == "#{docspath}/README.md"
+        next if thepath == "#{docspath}/readme.md"
         # if seen.includes?(thepath)
         #   puts "seen it before #{thepath}"
         # end
         next if seen.includes?(thepath)
         seen << thepath.to_s
 
-        parent = Path.new(File.dirname(thepath))
-        path_obj = parent
+        path_obj = Path.new(File.dirname(thepath))
         child = File.basename(thepath)
-        # next if child.starts_with?("_")
-        if @namefixer.match(child)
-          @namefixer.process(path_obj, child)
+        next if child.starts_with?("_")
+        procs = [@namefixer, @readme, @img, @md, @docsifyreadmefixer, @docsifysidebarfixer, @linksimagesfixer, @imgdirrenamer] of Processor
+        procs.each do |p|
+          if p.match(child)
+            thepath = p.process(path_obj, child)
+            thepath.try do |apath|
+              path_obj = Path.new(File.dirname(apath))
+              child = File.basename(apath)
+            end
+          end
         end
 
-        if @img.match(child)
-          @img.process(path_obj, child)
-        end
-        if @md.match(child)
-          @md.process(path_obj, child)
-        end
-        if @docsifysidebarfixer.match(child)
-          @docsifysidebarfixer.process(path_obj, child)
-        end
-        if @docsifyreadmefixer.match(child)
-          @docsifyreadmefixer.process(path_obj, child)
-        end
-        if @linksimagesfixer.match(child)
-          @linksimagesfixer.process(path_obj, child)
-        end
         @linksimagesfixer.all_images.each do |im|
           unless @all_images.includes?(im)
             @all_images << im
           end
         end
-
         @linksimagesfixer.all_links.each do |l|
           unless @all_links.includes?(l)
             @all_links << l
           end
-        end
-
-        if @imgdirrenamer.match(child)
-          @imgdirrenamer.process(path_obj, child)
         end
       end
     end
