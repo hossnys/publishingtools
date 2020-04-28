@@ -6,7 +6,10 @@ sdk3.threefold.io {
             to {path}/ /sdk/index.html/{1}
         }
         
+        proxy /try_update localhost:3000/sdk/try_update
+        proxy /force_update localhost:3000/sdk/force_update
         proxy / localhost:3000/sdk/index.html
+
 }
 
 wiki3.threefold.io {

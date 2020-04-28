@@ -173,11 +173,11 @@ module TFWeb
       end
     end
 
-    get "/:name/try_update" do |env|
+    get "/:name/index.html/try_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, false)
     end
-    get "/:name/force_update" do |env|
+    get "/:name/index.html/force_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, true)
     end
