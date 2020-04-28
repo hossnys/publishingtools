@@ -146,15 +146,19 @@ module TFWeb
         procs = [@namefixer, @readme, @img, @md, @docsifyreadmefixer, @docsifysidebarfixer, @linksimagesfixer, @imgdirrenamer] of Processor
         procs.each do |p|
           begin
+            # puts "thepath: #{thepath}"
+            # puts "currentprocessor: #{p}"
             if p.match(child)
               thepath = p.process(path_obj, child)
+              #   puts "thepath: after processing: #{thepath}"
               thepath.try do |apath|
                 path_obj = Path.new(File.dirname(apath))
                 child = File.basename(apath)
               end
             end
           rescue exception
-            puts "error #{exception}"
+            puts "error in #{p} for #{child} in #{path_obj} #{exception}"
+            # raise exception
           end
         end
 
