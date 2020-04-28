@@ -56,7 +56,7 @@ module TFWeb
       @all_images.each do |im|
         baseimg = File.basename(im)
         # puts "errors for img: #{im}"
-        next if @dirfilesinfo.has_key?(baseimg)
+        next if @dirfilesinfo.has_key?(baseimg) || im.starts_with?("http")
         # puts "error image #{im} #{baseimg} is used but doesn't exist in the repo."
         @errors[baseimg + " img"] = "#{baseimg} is used but doesn't exist in the repo."
       end
