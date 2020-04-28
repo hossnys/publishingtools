@@ -151,12 +151,6 @@ module TFWeb
       env.response.close
     end
 
-    # returns the main html file, is always the same html file but need to fill in the name of the wiki
-    get "/:name" do |env|
-      name = env.params.url["name"]
-      env.redirect "#{name}/index.html"
-    end
-
     private def self.handle_update(env, name, force)
       puts "trying to update #{name} force? #{force}"
       if @@wikis.has_key?(name)
@@ -173,18 +167,17 @@ module TFWeb
       end
     end
 
-    get "/:name/index.html/try_update" do |env|
+    get "/:name/try_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, false)
     end
-    get "/:name/index.html/force_update" do |env|
+    get "/:name/force_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, true)
     end
 
-    get "/:name/index.html" do |env|
+    get "/:name" do |env|
       name = env.params.url["name"]
-      #   puts @@markdowndocs_collections.keys
       if @@markdowndocs_collections.has_key?(name)
         self.serve_wikifile(env, name, "index.html")
       elsif @@websites.has_key?(name)
@@ -194,24 +187,12 @@ module TFWeb
       end
     end
 
-    # get "/:name/index.html/:filename" do |env|
-    #   name = env.params.url["name"]
-    #   filename = env.params.url["filename"]
-    #   puts @@markdowndocs_collections.keys
-    #   if @@markdowndocs_collections.has_key?(name)
-    #     self.serve_wikifile(env, name, filename)
-    #   elsif @@websites.has_key?(name)
-    #     self.serve_staticsite(env, name, filename)
-    #   else
-    #     self.do404 env, "file #{filename} doesn't exist on wiki/website #{name}"
-    #   end
-    # end
-
-    get "/:name/index.html/_sidebar.md" do |env|
+    get "/:name/_sidebar.md" do |env|
       name = env.params.url["name"]
       fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "_sidebar.md")
       send_file env, fullpath
     end
+
     get "/:name/*filepath" do |env|
       puts "invoking this one.."
       name = env.params.url["name"]
@@ -226,30 +207,5 @@ module TFWeb
       end
     end
 
-    get "/:name/index.html/*filepath" do |env|
-      name = env.params.url["name"]
-      filepath = env.params.url["filepath"]
-      filename = File.basename(filepath)
-      # puts @@markdowndocs_collections.keys
-      if @@markdowndocs_collections.has_key?(name)
-        self.serve_wikifile(env, name, filename)
-      elsif @@websites.has_key?(name)
-        self.serve_staticsite(env, name, filename)
-      else
-        self.do404 env, "file #{filename} doesn't exist on wiki/website #{name}"
-      end
-    end
   end
-
-  #     get "/:name/update" do |env|
-  #       name = env.params.url["name"]
-  #       msg = " - update the following web/wiki site: #{name}"
-  #       puts msg
-  #       # TODO: use the gittools to update the content
-  #     end
-
-  #     # get "/help" do |env|
-  #     #   env.redirect "/reloadinfo" # redirect to /login page
-  #     # end
-
 end

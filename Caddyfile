@@ -1,25 +1,9 @@
 sdk3.threefold.io {
         tls ahmed.m.elsayed93@gmail.com
-
-        rewrite {
-            if {path} is /index.html#(.+)
-            to {path}/ /sdk/index.html/{1}
-        }
-        
-        proxy /try_update localhost:3000/sdk/try_update
-        proxy /force_update localhost:3000/sdk/force_update
-        proxy / localhost:3000/sdk/index.html
-
+        proxy / localhost:3000/sdk
 }
 
 wiki3.threefold.io {
         tls ahmed.m.elsayed93@gmail.com
-
-        rewrite {
-            if {path} is /index.html#(.+)
-            to {path}/ /wiki/index.html/{1}
-        }
-
-        proxy / localhost:3000/wiki/index.html
+        proxy / localhost:3000/wiki
 }
-
