@@ -98,7 +98,7 @@ module TFWeb
       if should_skip?(path)
         return
       end
-
+      @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new # reset.
       Dir.glob("#{path}/**/*") do |thepath|
         next if Dir.exists?(thepath)
 
