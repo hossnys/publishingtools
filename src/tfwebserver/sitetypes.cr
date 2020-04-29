@@ -9,15 +9,13 @@ module TFWeb
     property srcdir = "src"
 
     def prepare_on_fs
-      # url gets more prio
       repo = self.repo
     end
 
     def prepare_index
+      html = render "src/tfwebserver/views/docsify.ecr"
       destindex = File.join(@path, @srcdir, "index.html")
-      # unless File.exists(destindex)
-      idx = TFWeb.get_index_for(@name)
-      File.write(destindex, idx)
+      File.write(destindex, html)
     end
 
     def repo
@@ -40,7 +38,6 @@ module TFWeb
     property srcdir = "src"
 
     def prepare_on_fs
-      # url gets more prio
       repo = self.repo
     end
 
