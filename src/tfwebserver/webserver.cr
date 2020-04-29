@@ -186,6 +186,12 @@ module TFWeb
       self.handle_update(env, name, true)
     end
 
+    get "/" do |env|
+      wikis = @@wikis.keys
+      websites = @@websites.keys
+      render "src/tfwebserver/views/wiki.ecr"
+    end
+
     get "/:name" do |env|
       name = env.params.url["name"]
       if @@markdowndocs_collections.has_key?(name)
