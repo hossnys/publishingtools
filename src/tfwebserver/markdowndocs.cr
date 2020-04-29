@@ -70,7 +70,15 @@ module TFWeb
         content = content + err + "\n"
       end
       puts "saving errors to #{File.join(path, "errors.md")}"
-      File.write(File.join(path, "errors.md"), content)
+      errpath = File.join(path, "errors.md")
+      File.write(errpath, content)
+      # add errors.md to files
+      ferrors = FInfoTracker.new
+
+      ferrors.count = 1
+      ferrors.paths << errpath
+      @dirfilesinfo["errors.md"] = ferrors
+      puts @dirfilesinfo.keys
     end
 
     private def should_skip?(path)

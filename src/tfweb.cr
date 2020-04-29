@@ -3,7 +3,7 @@ module TFWeb
 
   class FInfoTracker
     property count = 0
-    property paths = [""]
+    property paths = [] of String
 
     def to_s
       "FInfoTracker #{count} "

@@ -167,6 +167,16 @@ module TFWeb
       end
     end
 
+    get "/:name/reload_errors" do |env|
+      name = env.params.url["name"]
+      if @@wikis.has_key?(name)
+        @@markdowndocs_collections[name].checks_dups_and_fix
+        puts "reloaded.."
+      else
+        do404 env, "couldn't reload for  #{name}"
+      end
+    end
+
     get "/:name/try_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, false)
@@ -206,6 +216,5 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-
   end
 end
