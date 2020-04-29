@@ -2,6 +2,7 @@
 require "kemal"
 require "toml"
 require "colorize"
+require "uri"
 
 module TFWeb
   module WebServer
@@ -10,6 +11,36 @@ module TFWeb
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
     @@include_processor = IncludeProcessor.new
+
+    class MiddleWare < Kemal::Handler
+
+      def initialize(
+        @wikis : Hash(String, Wiki),
+        @websites : Hash(String, Website)
+      )
+      end
+
+      def call(env)
+        path = env.request.path
+        path_parts = path.strip("/").split("/")
+        sitename = path_parts.shift
+
+        unless @wikis.has_key?(sitename) || @websites.has_key?(sitename)
+          if env.request.headers.has_key?("Referer")
+            referer = URI.parse env.request.headers["Referer"]
+            referer_path = referer.path
+            referer_path_parts = referer_path.strip("/").split("/")
+            referer_sitename = referer_path_parts.shift
+
+            if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
+              return env.redirect "/#{referer_sitename}#{path}"
+            end
+          end
+        end
+
+        call_next env
+      end
+    end
 
     def self.prepare_markdowndocs_backend
       @@wikis.each do |k, wiki|
@@ -91,7 +122,8 @@ module TFWeb
         ready = channel_done.receive # wait for all of them.
         puts "wiki/website #{ready} is ready".colorize(:blue)
       end
-      self.prepare_markdowndocs_backend
+      self.prepare_markdowndocs_backend  
+      Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites)
       Kemal.run
     end
 
@@ -135,8 +167,17 @@ module TFWeb
     def self.serve_staticsite(env, sitename, filename)
       website = @@websites[sitename]
       website_src_path = File.join(website.path, website.srcdir)
-      fullpath = File.join(website_src_path, filename)
-      send_file env, fullpath
+      path = File.join(website_src_path, filename)
+      
+      if File.directory?(path)
+        path = File.join(path, "index.html")
+      end
+
+      if File.exists?(path)
+        send_file env, path
+      else
+        do404 env, "file #{path} is not found"
+      end
     end
 
     def self.do404(env, msg)
@@ -240,5 +281,6 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
+
   end
 end
