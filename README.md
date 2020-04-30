@@ -129,6 +129,7 @@ After building you will find the binary in `bin` directory and to run `./bin/tfw
 ### sshtool config
 
 `sshtool` is toml driven, where each section is an element of array `[[sshconnections]]`
+note: we are planning to have full compatibility with [tcprouter](https://gihtub.com/threefoldtech/tcprouter) too.
 
 #### Single connection config
 
