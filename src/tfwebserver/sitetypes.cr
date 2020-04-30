@@ -13,6 +13,8 @@ module TFWeb
     end
 
     def prepare_index
+      repo = self.repo
+      url_as_https = repo.not_nil!.url_as_https || ""
       html = render "src/tfwebserver/views/docsify.ecr"
       destindex = File.join(@path, @srcdir, "index.html")
       File.write(destindex, html)

@@ -14,7 +14,8 @@ module TFWeb
     property branch = "master"
     property branchswitch = false
     property account = ""
-    property provider = "github.com"
+    property provider = "github"
+    property provider_suffix = ".com"
 
     def initialize(@name = "", @path = "", @url = "", @branch = "master", @branchswitch = false)
       # TODO: check if ssh-agent loaded, if yes use git notation, otherwise html
@@ -40,6 +41,10 @@ module TFWeb
       else
         ""
       end
+    end
+
+    def url_as_https
+      "https://#{@provider}#{@provider_suffix}/#{@account}/#{@name}"
     end
 
     def make_ssh_url
@@ -75,6 +80,7 @@ module TFWeb
         m = HTTP_REPO_URL.match(@url)
         m.try do |validm|
           @provider = validm.not_nil!["provider"].to_s
+          @provider_suffix = validm.not_nil!["suffix"].to_s
           @account = validm.not_nil!["account"].to_s
           @name = validm.not_nil!["repo"].to_s
           account_dir = ensure_account_dir
