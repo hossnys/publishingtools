@@ -161,24 +161,19 @@ module TFWeb
       end
     end
 
-    get "/:name/reload_errors" do |env|
-      name = env.params.url["name"]
-      if @@wikis.has_key?(name)
-        @@markdowndocs_collections[name].checks_dups_and_fix
-        puts "reloaded.."
-      else
-        do404 env, "couldn't reload for  #{name}"
-      end
+    private def self.handle_readme(env, name, path)
+      wiki = @@wikis[name]
+      filename = File.basename(path.dirname)
+      filepath = File.join(wiki.path, wiki.srcdir, path.dirname, "#{filename}.md")
+      send_file env, filepath
     end
 
-    get "/:name/try_update" do |env|
-      name = env.params.url["name"]
-      self.handle_update(env, name, false)
+    private def self.handle_sidebar(env, name, path)
+      wiki = @@wikis[name]
+      filepath = File.join(wiki.path, wiki.srcdir, path.to_s)
+      send_file env, filepath
     end
-    get "/:name/force_update" do |env|
-      name = env.params.url["name"]
-      self.handle_update(env, name, true)
-    end
+
 
     get "/" do |env|
       wikis = @@wikis.keys
@@ -197,9 +192,34 @@ module TFWeb
       end
     end
 
+    get "/:name/reload_errors" do |env|
+      name = env.params.url["name"]
+      if @@wikis.has_key?(name)
+        @@markdowndocs_collections[name].checks_dups_and_fix
+      else
+        do404 env, "couldn't reload for  #{name}"
+      end
+    end
+
+    get "/:name/try_update" do |env|
+      name = env.params.url["name"]
+      self.handle_update(env, name, false)
+    end
+
+    get "/:name/force_update" do |env|
+      name = env.params.url["name"]
+      self.handle_update(env, name, true)
+    end
+
     get "/:name/_sidebar.md" do |env|
       name = env.params.url["name"]
       fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "_sidebar.md")
+      send_file env, fullpath
+    end
+
+    get "/:name/README.md" do |env|
+      name = env.params.url["name"]
+      fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "README.md")
       send_file env, fullpath
     end
 
@@ -208,14 +228,13 @@ module TFWeb
       filepath = env.params.url["filepath"]
       if @@markdowndocs_collections.has_key?(name)
 
-        basename = File.basename(filepath)
-        if basename == "_sidebar.md"
-          wiki = @@wikis[name]
-          filepath = File.join(wiki.path, wiki.srcdir, filepath)
-          send_file env, filepath
+        path = Path.new(filepath)
+        if path.basename == "_sidebar.md"
+          self.handle_sidebar(env, name, path)
+        elsif path.basename.downcase == "readme.md"
+          self.handle_readme(env, name, path)
         else
-          filepath = basename
-          self.serve_wikifile(env, name, filepath)
+          self.serve_wikifile(env, name, path.basename)
         end
 
       elsif @@websites.has_key?(name)
@@ -224,5 +243,6 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
+
   end
 end
