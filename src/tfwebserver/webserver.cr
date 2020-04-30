@@ -6,14 +6,12 @@ module TFWeb
   module WebServer
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
-    # puts @@markdowndocs_collections
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
     @@include_processor = IncludeProcessor.new
 
     def self.prepare_markdowndocs_backend
       @@wikis.each do |k, wiki|
-        # puts wiki
         # TODO: handle the url if path is empty
         markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
         begin
@@ -100,12 +98,8 @@ module TFWeb
     # checks the loaded metadata to find the required md file or image file
     # TODO: phase 2, in future we need to change this to use proper objects: MDDoc, Image, ...
     def self.send_from_dirsinfo(env, wikiname, filename)
-      #   p @@awalker.filesinfo
-      puts "will check for #{filename} in the infolist. of #{wikiname}"
       mddocs = @@markdowndocs_collections[wikiname]
       filesinfo = mddocs.filesinfo
-      #   puts filesinfo.keys
-
       if filesinfo.has_key?(filename)
         firstpath = filesinfo[filename].paths[0].as(String) # in decent repo it will be only 1 in this array.
       elsif filesinfo.has_key?(filename.downcase)
@@ -167,24 +161,19 @@ module TFWeb
       end
     end
 
-    get "/:name/reload_errors" do |env|
-      name = env.params.url["name"]
-      if @@wikis.has_key?(name)
-        @@markdowndocs_collections[name].checks_dups_and_fix
-        puts "reloaded.."
-      else
-        do404 env, "couldn't reload for  #{name}"
-      end
+    private def self.handle_readme(env, name, path)
+      wiki = @@wikis[name]
+      filename = File.basename(path.dirname)
+      filepath = File.join(wiki.path, wiki.srcdir, path.dirname, "#{filename}.md")
+      send_file env, filepath
     end
 
-    get "/:name/try_update" do |env|
-      name = env.params.url["name"]
-      self.handle_update(env, name, false)
+    private def self.handle_sidebar(env, name, path)
+      wiki = @@wikis[name]
+      filepath = File.join(wiki.path, wiki.srcdir, path.to_s)
+      send_file env, filepath
     end
-    get "/:name/force_update" do |env|
-      name = env.params.url["name"]
-      self.handle_update(env, name, true)
-    end
+
 
     get "/" do |env|
       wikis = @@wikis.keys
@@ -203,24 +192,57 @@ module TFWeb
       end
     end
 
+    get "/:name/reload_errors" do |env|
+      name = env.params.url["name"]
+      if @@wikis.has_key?(name)
+        @@markdowndocs_collections[name].checks_dups_and_fix
+      else
+        do404 env, "couldn't reload for  #{name}"
+      end
+    end
+
+    get "/:name/try_update" do |env|
+      name = env.params.url["name"]
+      self.handle_update(env, name, false)
+    end
+
+    get "/:name/force_update" do |env|
+      name = env.params.url["name"]
+      self.handle_update(env, name, true)
+    end
+
     get "/:name/_sidebar.md" do |env|
       name = env.params.url["name"]
       fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "_sidebar.md")
       send_file env, fullpath
     end
 
+    get "/:name/README.md" do |env|
+      name = env.params.url["name"]
+      fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "README.md")
+      send_file env, fullpath
+    end
+
     get "/:name/*filepath" do |env|
-      puts "invoking this one.."
       name = env.params.url["name"]
       filepath = env.params.url["filepath"]
-      puts @@markdowndocs_collections.keys
       if @@markdowndocs_collections.has_key?(name)
-        self.serve_wikifile(env, name, File.basename(filepath))
+
+        path = Path.new(filepath)
+        if path.basename == "_sidebar.md"
+          self.handle_sidebar(env, name, path)
+        elsif path.basename.downcase == "readme.md"
+          self.handle_readme(env, name, path)
+        else
+          self.serve_wikifile(env, name, path.basename)
+        end
+
       elsif @@websites.has_key?(name)
         self.serve_staticsite(env, name, filepath)
       else
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
+
   end
 end
