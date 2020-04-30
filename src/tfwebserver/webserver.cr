@@ -1,6 +1,7 @@
 # Matches /hello/kemal
 require "kemal"
 require "toml"
+require "colorize"
 
 module TFWeb
   module WebServer
@@ -17,7 +18,7 @@ module TFWeb
         begin
           markdowndocs.checks_dups_and_fix
         rescue exception
-          puts "error happened #{exception}"
+          puts "error happened #{exception}".colorize(:red)
         end
         @@markdowndocs_collections[k] = markdowndocs
       end
@@ -33,7 +34,7 @@ module TFWeb
 
         okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
           wiki = wikiel.as(Hash)
-          p wiki
+          #   p wiki
           wikiobj = Wiki.new
           wikiobj.name = wiki["name"].as(String)
           wikiobj.path = wiki["path"].as(String)
@@ -58,8 +59,8 @@ module TFWeb
           @@websites[websiteobj.name] = websiteobj
         end
 
-        p @@wikis
-        p @@websites
+        # p @@wikis
+        # p @@websites
 
         # # TODO: code to validate the uniqueness of wiki, websites names..
 
@@ -70,7 +71,7 @@ module TFWeb
 
     def self.serve(configfilepath : String)
       self.read_config(configfilepath)
-      puts "Starting server from config at #{configfilepath}"
+      puts "Starting server from config at #{configfilepath}".colorize(:blue)
       channel_done = Channel(String).new
 
       @@wikis.each do |k, w|
@@ -88,10 +89,9 @@ module TFWeb
       end
       (@@websites.size + @@wikis.size).times do
         ready = channel_done.receive # wait for all of them.
-        puts "wiki/website #{ready} is ready"
+        puts "wiki/website #{ready} is ready".colorize(:blue)
       end
       self.prepare_markdowndocs_backend
-
       Kemal.run
     end
 
@@ -106,7 +106,7 @@ module TFWeb
         firstpath = filesinfo[filename.downcase].paths[0].as(String)
       else
         # TODO: should try to reload before giving 404?
-        puts "couldn't find #{filename} in the markdowndocs_collection of #{wikiname}"
+        puts "couldn't find #{filename} in the markdowndocs_collection of #{wikiname}".colorize(:red)
         env.response.status_code = 404
         env.response.print "file #{filename} doesn't exist in scanned info."
         env.response.close
@@ -146,7 +146,7 @@ module TFWeb
     end
 
     private def self.handle_update(env, name, force)
-      puts "trying to update #{name} force? #{force}"
+      puts "trying to update #{name} force? #{force}".colorize(:blue)
       if @@wikis.has_key?(name)
         @@wikis[name].repo.try do |arepo|
           arepo.pull(force)
@@ -173,7 +173,6 @@ module TFWeb
       filepath = File.join(wiki.path, wiki.srcdir, path.to_s)
       send_file env, filepath
     end
-
 
     get "/" do |env|
       wikis = @@wikis.keys
@@ -227,7 +226,6 @@ module TFWeb
       name = env.params.url["name"]
       filepath = env.params.url["filepath"]
       if @@markdowndocs_collections.has_key?(name)
-
         path = Path.new(filepath)
         if path.basename == "_sidebar.md"
           self.handle_sidebar(env, name, path)
@@ -236,13 +234,11 @@ module TFWeb
         else
           self.serve_wikifile(env, name, path.basename)
         end
-
       elsif @@websites.has_key?(name)
         self.serve_staticsite(env, name, filepath)
       else
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-
   end
 end

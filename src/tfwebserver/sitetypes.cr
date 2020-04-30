@@ -20,7 +20,6 @@ module TFWeb
 
     def repo
       if @url != ""
-        puts "url #{@url} and path #{path}"
         repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch)
         @path = repo.ensure_repo
         repo
@@ -43,7 +42,6 @@ module TFWeb
 
     def repo
       if @url != ""
-        puts "url #{@url} and path #{path}"
         repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch)
         @path = repo.ensure_repo
         repo

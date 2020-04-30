@@ -1,4 +1,5 @@
 require "markd"
+require "colorize"
 
 module TFWeb
   class MyLinksImagesRenderer < Markd::HTMLRenderer
@@ -71,7 +72,7 @@ module TFWeb
           if link != newlink
             newcontent = content.gsub link, newlink
             content = newcontent
-            puts "[linksfixer]old link is #{link}  and new link should be #{newlink}" if link != newlink
+            puts "[linksfixer]old link is #{link}  and new link should be #{newlink}".colorize(:blue) if link != newlink
           end
         end
       end
@@ -90,7 +91,7 @@ module TFWeb
           if File.exists?(path_obj.join("img").join(baseimg))
             newimg = "./img/#{newimg}"
           end
-          puts "#{path_obj} #{child} [imagefixer]old img is #{baseimg}  and new img should be #{newimg}" if img != newimg
+          puts "#{path_obj} #{child} [imagefixer]old img is #{baseimg}  and new img should be #{newimg}".colorize(:blue) if img != newimg
 
           newcontent = content.gsub(img, newimg)
           content = newcontent
