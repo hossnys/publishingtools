@@ -1,23 +1,6 @@
-
 [[sshconnections]]
 #unique name for the wiki
-name = "host1"
-#http or git url
-ipaddr = "134.209.203.153"
-# port for ssh connection
-port = 22
-# local port on our machine, where the server runs
-localport = 443
-# remote port
-remoteport = 443
-# user
-user = "root"
-tcprouter_secret = ""
-
-
-[[sshconnections]]
-#unique name for the wiki
-name = "host2"
+name = "host2_https"
 #http or git url
 ipaddr = "134.122.109.244"
 # port for ssh connection
@@ -32,7 +15,7 @@ tcprouter_secret = ""
 
 [[sshconnections]]
 #unique name for the wiki
-name = "host3"
+name = "host3_https"
 #http or git url
 ipaddr = "104.248.250.78"
 # port for ssh connection
@@ -41,6 +24,36 @@ port = 22
 localport = 443
 # remote port
 remoteport = 443
+# user
+user = "root"
+tcprouter_secret = ""
+
+[[sshconnections]]
+#unique name for the wiki
+name = "host2_http"
+#http or git url
+ipaddr = "134.122.109.244"
+# port for ssh connection
+port = 22
+# local port on our machine, where the server runs
+localport = 80
+# remote port
+remoteport = 80
+# user
+user = "root"
+tcprouter_secret = ""
+
+[[sshconnections]]
+#unique name for the wiki
+name = "host3_http"
+#http or git url
+ipaddr = "104.248.250.78"
+# port for ssh connection
+port = 22
+# local port on our machine, where the server runs
+localport = 80
+# remote port
+remoteport = 80
 # user
 user = "root"
 tcprouter_secret = ""

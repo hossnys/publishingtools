@@ -1,9 +1,37 @@
-sdk3.threefold.io {
-        tls ahmed.m.elsayed93@gmail.com
+http://sdk.threefold.io, https://sdk.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
         proxy / localhost:3000/sdk
 }
 
-wiki3.threefold.io {
-        tls ahmed.m.elsayed93@gmail.com
+http://sdk3.threefold.io, https://sdk3.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
+        proxy / localhost:3000/sdk
+}
+
+
+http://wiki.threefold.io, https://wiki.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
+        proxy / localhost:3000/wiki
+}
+
+
+http://wiki3.threefold.io, https://wiki3.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
         proxy / localhost:3000/wiki
 }
