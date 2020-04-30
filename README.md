@@ -121,6 +121,140 @@ After building you will find the binary in `bin` directory and to run `./bin/tfw
 
 
 
-## sshtools
+## sshtool
 
-TBD
+`sshtool` allows you to expose a service running on a machine over other networks using ssh tunneling to be exposed over other machines.
+
+
+### sshtool config
+
+`sshtool` is toml driven, where each section is an element of array `[[sshconnections]]`
+
+#### Single connection config
+
+```toml
+name = "host2_https"
+ipaddr = "134.122.109.244"
+# port for ssh connection
+port = 22
+# local port on our machine, where the server runs
+localport = 443
+# remote port
+remoteport = 443
+# user
+user = "root"
+tcprouter_secret = ""
+```
+- name: connection name
+- ipaddr: machine address
+- port: ssh port
+- localport: local port on the machine where the server runs.
+- remote port: remote port
+
+typical use cases is `443 -> 443` for the case of https and `80 -> 80` for http
+
+
+
+#### Example of production config
+
+```toml
+[[sshconnections]]
+name = "host2_https"
+ipaddr = "134.122.109.244"
+# port for ssh connection
+port = 22
+# local port on our machine, where the server runs
+localport = 443
+# remote port
+remoteport = 443
+# user
+user = "root"
+tcprouter_secret = ""
+
+[[sshconnections]]
+name = "host3_https"
+ipaddr = "104.248.250.78"
+# port for ssh connection
+port = 22
+# local port on our machine, where the server runs
+localport = 443
+# remote port
+remoteport = 443
+# user
+user = "root"
+tcprouter_secret = ""
+
+[[sshconnections]]
+name = "host2_http"
+ipaddr = "134.122.109.244"
+# port for ssh connection
+port = 22
+# local port on our machine, where the server runs
+localport = 80
+# remote port
+remoteport = 80
+# user
+user = "root"
+tcprouter_secret = ""
+
+[[sshconnections]]
+name = "host3_http"
+ipaddr = "104.248.250.78"
+# port for ssh connection
+port = 22
+# local port on our machine, where the server runs
+localport = 80
+# remote port
+remoteport = 80
+# user
+user = "root"
+tcprouter_secret = ""
+
+```
+
+## Caddy Deployment
+
+
+Create a config `Caddyfile` and fill in your websites.
+```
+http://sdk.threefold.io, https://sdk.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
+        proxy / localhost:3000/sdk
+}
+
+http://sdk3.threefold.io, https://sdk3.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
+        proxy / localhost:3000/sdk
+}
+
+
+http://wiki.threefold.io, https://wiki.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
+        proxy / localhost:3000/wiki
+}
+
+
+http://wiki3.threefold.io, https://wiki3.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        } 
+        tls info@threefold.io
+        proxy / localhost:3000/wiki
+}
+```
+to run execute `caddy` in the same directory of the `Caddyfile`
+
+NOTE: Make sure that you have 80, 443 connections configured on the sshtool config file to be able to do http, https.
