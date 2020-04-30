@@ -6,14 +6,12 @@ module TFWeb
   module WebServer
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
-    # puts @@markdowndocs_collections
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
     @@include_processor = IncludeProcessor.new
 
     def self.prepare_markdowndocs_backend
       @@wikis.each do |k, wiki|
-        # puts wiki
         # TODO: handle the url if path is empty
         markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
         begin
@@ -100,12 +98,8 @@ module TFWeb
     # checks the loaded metadata to find the required md file or image file
     # TODO: phase 2, in future we need to change this to use proper objects: MDDoc, Image, ...
     def self.send_from_dirsinfo(env, wikiname, filename)
-      #   p @@awalker.filesinfo
-      puts "will check for #{filename} in the infolist. of #{wikiname}"
       mddocs = @@markdowndocs_collections[wikiname]
       filesinfo = mddocs.filesinfo
-      #   puts filesinfo.keys
-
       if filesinfo.has_key?(filename)
         firstpath = filesinfo[filename].paths[0].as(String) # in decent repo it will be only 1 in this array.
       elsif filesinfo.has_key?(filename.downcase)
@@ -210,12 +204,20 @@ module TFWeb
     end
 
     get "/:name/*filepath" do |env|
-      puts "invoking this one.."
       name = env.params.url["name"]
       filepath = env.params.url["filepath"]
-      puts @@markdowndocs_collections.keys
       if @@markdowndocs_collections.has_key?(name)
-        self.serve_wikifile(env, name, File.basename(filepath))
+
+        basename = File.basename(filepath)
+        if basename == "_sidebar.md"
+          wiki = @@wikis[name]
+          filepath = File.join(wiki.path, wiki.srcdir, filepath)
+          send_file env, filepath
+        else
+          filepath = basename
+          self.serve_wikifile(env, name, filepath)
+        end
+
       elsif @@websites.has_key?(name)
         self.serve_staticsite(env, name, filepath)
       else
