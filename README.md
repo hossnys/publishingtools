@@ -27,6 +27,7 @@ tfweb allows serving multiple wikis, with unique names. by specifying the `url` 
 - `srcdir` is where the wiki dir starts in the repository
 - `branch` you can specify the branch to use
 - `branchswitch` forces switching to `branch` if the one on the filesystem is different.
+- `environment` enviroment name, if defined repos will be cloned under `~/{environment}/code/`.
 
 ```toml
 [[wiki]]
@@ -44,6 +45,8 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = ""
 ```
 
 #### Website config section
@@ -64,6 +67,8 @@ branch = "development"
 branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = ""
 ```
 the same as wiki, but in `[[www]]` array instead, used to serve static websites 
 
@@ -92,6 +97,8 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = ""
 
 [[wiki]]
 #unique name for the wiki
@@ -108,6 +115,8 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = ""
 
 ```
 

@@ -16,8 +16,9 @@ module TFWeb
     property account = ""
     property provider = "github"
     property provider_suffix = ".com"
+    property environment = ""
 
-    def initialize(@name = "", @path = "", @url = "", @branch = "master", @branchswitch = false)
+    def initialize(@name = "", @path = "", @url = "", @branch = "master", @branchswitch = false, @environment = "")
       # TODO: check if ssh-agent loaded, if yes use git notation, otherwise html
       #   @url = "" # TODO: fill in the right url (git or http), if http no authentication
       if @path == "" && @url == ""
@@ -51,8 +52,16 @@ module TFWeb
       "git@#{@provider}:#{@account}/#{@name}"
     end
 
+    def base_dir
+      if @environment
+        "~/#{@environment}/code"
+      else
+        "~/code"
+      end
+    end
+
     def guess_repo_dir
-      @path = Path["~/code/#{@provider}/#{@account}/#{name}"].expand(home: true).to_s
+      @path = Path["#{base_dir}/#{@provider}/#{@account}/#{name}"].expand(home: true).to_s
     end
 
     def ensure_repo_dir
@@ -62,7 +71,7 @@ module TFWeb
     end
 
     def ensure_account_dir
-      d = Path["~/code/#{@provider}/#{@account}"].expand(home: true)
+      d = Path["#{base_dir}/#{@provider}/#{@account}"].expand(home: true)
       Dir.mkdir_p(d)
       d
     end
