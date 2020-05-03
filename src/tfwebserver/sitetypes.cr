@@ -7,6 +7,7 @@ module TFWeb
     property branchswitch = false
     property autocommit = false
     property srcdir = "src"
+    property environment = ""
 
     def prepare_on_fs
       repo = self.repo
@@ -22,7 +23,7 @@ module TFWeb
 
     def repo
       if @url != ""
-        repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch)
+        repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, environment: @environment)
         @path = repo.ensure_repo
         repo
       end
@@ -37,6 +38,7 @@ module TFWeb
     property branchswitch = false
     property autocommit = false
     property srcdir = "src"
+    property environment = ""
 
     def prepare_on_fs
       repo = self.repo
@@ -44,7 +46,7 @@ module TFWeb
 
     def repo
       if @url != ""
-        repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch)
+        repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, environment: @environment)
         @path = repo.ensure_repo
         repo
       end

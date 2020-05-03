@@ -19,6 +19,8 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = ""
 
 [[wiki]]
 #unique name for the wiki
@@ -35,7 +37,8 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
-
+#environment name (for example:  production, staging, testing)
+environment = ""
 
 #website
 [[www]]
@@ -52,6 +55,8 @@ branch = "development"
 branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = ""
 
 
 #website
@@ -69,6 +74,8 @@ branch = "development"
 branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = "html"
+#environment name (for example:  production, staging, testing)
+environment = ""
 
 
 #website
@@ -86,6 +93,8 @@ branch = "development"
 branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = ""
 
 #website
 [[www]]
@@ -102,3 +111,5 @@ branch = "development"
 branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = "html"
+#environment name (for example:  production, staging, testing)
+environment = ""

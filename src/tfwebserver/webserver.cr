@@ -74,6 +74,7 @@ module TFWeb
           wikiobj.branch = wiki["branch"].as(String)
           wikiobj.branchswitch = wiki["branchswitch"].as(Bool)
           wikiobj.autocommit = wiki["autocommit"].as(Bool)
+          wikiobj.environment = wiki["environment"].as(String)
           @@wikis[wikiobj.name] = wikiobj
         end
 
@@ -87,6 +88,7 @@ module TFWeb
           websiteobj.branch = website["branch"].as(String)
           websiteobj.branchswitch = website["branchswitch"].as(Bool)
           websiteobj.autocommit = website["autocommit"].as(Bool)
+          websiteobj.environment = website["environment"].as(String)
           @@websites[websiteobj.name] = websiteobj
         end
 
