@@ -3,6 +3,7 @@ require "kemal"
 require "toml"
 require "colorize"
 require "uri"
+require "yaml"
 
 module TFWeb
   module WebServer
@@ -13,7 +14,6 @@ module TFWeb
     @@include_processor = IncludeProcessor.new
 
     class MiddleWare < Kemal::Handler
-
       def initialize(
         @wikis : Hash(String, Wiki),
         @websites : Hash(String, Website)
@@ -124,7 +124,7 @@ module TFWeb
         ready = channel_done.receive # wait for all of them.
         puts "wiki/website #{ready} is ready".colorize(:blue)
       end
-      self.prepare_markdowndocs_backend  
+      self.prepare_markdowndocs_backend
       Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites)
       Kemal.run
     end
@@ -170,7 +170,7 @@ module TFWeb
       website = @@websites[sitename]
       website_src_path = File.join(website.path, website.srcdir)
       path = File.join(website_src_path, filename)
-      
+
       if File.directory?(path)
         path = File.join(path, "index.html")
       end
@@ -180,6 +180,12 @@ module TFWeb
       else
         do404 env, "file #{path} is not found"
       end
+    end
+
+    def self.do200(env, msg)
+      env.response.status_code = 200
+      env.response.print msg
+      env.response.close
     end
 
     def self.do404(env, msg)
@@ -215,6 +221,52 @@ module TFWeb
       wiki = @@wikis[name]
       filepath = File.join(wiki.path, wiki.srcdir, path.to_s)
       send_file env, filepath
+    end
+
+    private def self.handle_datafile(env, name, path)
+      wiki = @@wikis[name]
+      filepath = File.join(wiki.path, wiki.srcdir, path.to_s)
+
+      basename = File.basename(path)
+      ext = File.extname(basename)
+      filename_without_ext = File.basename(basename, ext)
+      docs = @@markdowndocs_collections[name]
+      tomlpath = filename_without_ext + ".toml"
+      yamlpath = filename_without_ext + ".yaml"
+      ymlpath = filename_without_ext + ".yml"
+      jsonpath = filename_without_ext + ".json"
+
+      filepathindocs = ""
+      env.response.content_type = "application/json"
+      content = ""
+
+      if docs.filesinfo.has_key?(tomlpath)
+        filepathindocs = docs.filesinfo[tomlpath].paths[0]
+        begin
+          content = TOML.parse_file(filepathindocs)
+        rescue exception
+          puts "#{exception}".colorize(:red)
+        end
+      elsif docs.filesinfo.has_key?(ymlpath) || docs.filesinfo.has_key?(yamlpath)
+        if docs.filesinfo.has_key?(ymlpath)
+          filepathindocs = docs.filesinfo[ymlpath].paths[0]
+        else
+          filepathindocs = docs.filesinfo[yamlpath].paths[0]
+        end
+        begin
+          content = YAML.parse(filepathindocs)
+        rescue exception
+          puts "#{exception}".colorize(:red)
+        end
+      elsif docs.filesinfo.has_key?(jsonpath)
+        filepathindocs = docs.filesinfo[jsonpath].paths[0]
+        begin
+          content = File.read(jsonpath)
+        rescue exception
+          puts "#{exception}".colorize(:red)
+        end
+      end
+      do200 env, content
     end
 
     get "/" do |env|
@@ -270,7 +322,9 @@ module TFWeb
       filepath = env.params.url["filepath"]
       if @@markdowndocs_collections.has_key?(name)
         path = Path.new(filepath)
-        if path.basename == "_sidebar.md"
+        if [".toml", ".json", ".yaml", ".yml"].includes?(path.extension)
+          self.handle_datafile(env, name, path)
+        elsif path.basename == "_sidebar.md"
           self.handle_sidebar(env, name, path)
         elsif path.basename.downcase == "readme.md"
           self.handle_readme(env, name, path)
@@ -283,6 +337,5 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-
   end
 end

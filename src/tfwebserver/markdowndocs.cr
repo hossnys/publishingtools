@@ -6,10 +6,10 @@ require "colorize"
 module TFWeb
   class MarkdownDocs
     property dirfilesinfo
-    property docspath
+    property docspath = ""
 
     # docspath is the path where we will fix and also remember
-    def initialize(@docspath : String)
+    def initialize(@docspath)
       @imgdirrenamer = ImagesDirProcessor.new
       @img = ImageProcessor.new
       @md = MdProcessor.new
