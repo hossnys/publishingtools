@@ -33,9 +33,7 @@ module TFWeb
         finfo.try do |info|
           info.paths.each do |path|
             if path.strip.downcase.ends_with?(doc_name)
-              content = File.read(path)
-              # apply includes on doc itself too
-              return apply_includes(wiki_name, content)
+              return File.read(path)
             end
           end
         end
@@ -47,25 +45,20 @@ module TFWeb
     def apply_includes(current_wiki, content)
       matches = content.scan(INCLUDE_RE)
 
-      unless matches.empty?
+      if !matches.empty?
         matches.each do |match|
           full_include = match[0]
           wiki_name = match[1]? || current_wiki
-          doc_name = match[2].strip
-
-          unless doc_name.downcase.ends_with?(".md")
-            doc_name += ".md"
-          end
-
+          doc_name = match[2]
           begin
             content = content.gsub(full_include, get_doc_content(wiki_name, doc_name))
           rescue ex
             return ex.message
           end
         end
-      end
 
-      return content
+        return content
+      end
     end
 
     def match(filename)
