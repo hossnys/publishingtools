@@ -238,12 +238,20 @@ module TFWeb
 
       filepathindocs = ""
       env.response.content_type = "application/json"
+
+      env.response.headers["Access-Control-Allow-Origin"] = "*"
+      env.response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
+      env.response.headers["Access-Control-Allow-Headers"] = "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
+
       content = ""
 
       if docs.filesinfo.has_key?(tomlpath)
         filepathindocs = docs.filesinfo[tomlpath].paths[0]
         begin
           content = TOML.parse_file(filepathindocs)
+          env.response.headers.add("Content-Size", content.size.to_s)
+
+          return do200 env, content.to_json
         rescue exception
           puts "#{exception}".colorize(:red)
         end
@@ -255,6 +263,9 @@ module TFWeb
         end
         begin
           content = YAML.parse(filepathindocs)
+          env.response.headers.add("Content-Size", content.size.to_s)
+
+          return do200 env, content.to_json
         rescue exception
           puts "#{exception}".colorize(:red)
         end
@@ -262,17 +273,13 @@ module TFWeb
         filepathindocs = docs.filesinfo[jsonpath].paths[0]
         begin
           content = File.read(filepathindocs)
+          env.response.headers.add("Content-Size", content.size.to_s)
+
+          return do200 env, content
         rescue exception
           puts "#{exception}".colorize(:red)
         end
       end
-
-      env.response.headers["Access-Control-Allow-Origin"] = "*"
-      env.response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
-      env.response.headers["Access-Control-Allow-Headers"] = "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
-      env.response.headers.add("Content-Size", content.size.to_s)
-
-      do200 env, content.to_json
     end
 
     get "/" do |env|
