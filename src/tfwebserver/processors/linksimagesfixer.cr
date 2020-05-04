@@ -56,7 +56,7 @@ module TFWeb
       images = processor.images
       #   p links, images
       links.each do |link|
-        next if link.starts_with?("http")
+        next if link.starts_with?("http") || link.starts_with?("#")
 
         # TODO: probably should check if has extension in general. next unless link.ends_with?(".md")
         if link.ends_with?(".md")
