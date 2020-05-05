@@ -1,5 +1,5 @@
 module TFWeb
-  class Wiki
+  class Site
     property name = ""
     property path = ""
     property url = ""
@@ -11,14 +11,6 @@ module TFWeb
 
     def prepare_on_fs
       repo = self.repo
-    end
-
-    def prepare_index
-      repo = self.repo
-      url_as_https = repo.not_nil!.url_as_https || ""
-      html = render "src/tfwebserver/views/docsify.ecr"
-      destindex = File.join(@path, @srcdir, "index.html")
-      File.write(destindex, html)
     end
 
     def repo
@@ -30,26 +22,33 @@ module TFWeb
     end
   end
 
-  class Website
-    property name = ""
-    property path = ""
-    property url = ""
-    property branch = ""
-    property branchswitch = false
-    property autocommit = false
-    property srcdir = "src"
-    property environment = ""
+  class Wiki < Site
+    private def prepare_index
+      repo = self.repo
+      url_as_https = repo.not_nil!.url_as_https || ""
+      html = render "src/tfwebserver/views/docsify.ecr"
+      destindex = File.join(@path, @srcdir, "index.html")
+      File.write(destindex, html)
+    end
 
     def prepare_on_fs
-      repo = self.repo
-    end
+      super
 
-    def repo
-      if @url != ""
-        repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, environment: @environment)
-        @path = repo.ensure_repo
-        repo
-      end
+      prepare_index
     end
+  end
+
+  class Website < Site
+  end
+
+  class Blog < Site
+  end
+
+  class Data < Site
+  end
+
+  class SiteCollection(T)
+    # TODO: create collections here, with every collection have its way of loading/preparing stuff
+    # custom processors and the way of serving files/documents
   end
 end
