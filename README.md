@@ -232,6 +232,40 @@ tcprouter_secret = ""
 
 Create a config `Caddyfile` and fill in your websites.
 ```
+http://advisors.threefold.me, https://advisors.threefold.me {
+    redir {
+           if {scheme} is http
+           / https://{host}{uri}
+    } 
+    basicauth / user password 
+
+    tls info@threefold.io
+    proxy / localhost:3000/advisors
+}
+
+http://board.threefold.me, https://board.threefold.me {
+    redir {
+        if {scheme} is http
+        / https://{host}{uri}
+    } 
+    basicauth / user password 
+
+    tls info@threefold.io
+    proxy / localhost:3000/board
+}
+
+http://ambassadors.threefold.me, https://ambassadors.threefold.me {
+    redir {
+           if {scheme} is http
+           / https://{host}{uri}
+    }
+    basicauth / user password 
+    tls info@threefold.io
+    proxy / localhost:3000/ambassadors
+}
+
+
+
 http://sdk.threefold.io, https://sdk.threefold.io {
        redir {
            if {scheme} is http
@@ -247,7 +281,7 @@ http://sdk3.threefold.io, https://sdk3.threefold.io {
            / https://{host}{uri}
         } 
         tls info@threefold.io
-        proxy / localhost:3000/sdk
+        proxy / localhost:3000/sdk3
 }
 
 
@@ -267,9 +301,26 @@ http://wiki3.threefold.io, https://wiki3.threefold.io {
            / https://{host}{uri}
         } 
         tls info@threefold.io
-        proxy / localhost:3000/wiki
+        proxy / localhost:3000/wiki3
 }
+
 ```
 to run execute `caddy` in the same directory of the `Caddyfile`
 
 NOTE: Make sure that you have 80, 443 connections configured on the sshtool config file to be able to do http, https.
+
+
+## Caddy development setup
+
+in your hosts file
+```
+127.0.0.1 sdk.threefold.io
+127.0.0.1 sdk3.threefold.io                       
+127.0.0.1 wiki.threefold.io
+127.0.0.1 wiki3.threefold.io
+127.0.0.1 boardthreefold.me
+127.0.0.1 advisors.threefold.me
+127.0.0.1 ambassadors.threefold.me
+```
+
+and you can use [Caddyfiledev](./Caddyfiledev) by `caddy -conf Caddyfiledev`

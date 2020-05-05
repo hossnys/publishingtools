@@ -6,3 +6,4 @@
 - in the 3rd machine run the sshtool on that sshconections.toml
 - configure websites and wikis you want to serve as defined in `websitesandwikis.toml` file
 - run the server `shards build --error-trace && ./bin/tfweb -c websitesandwikis.toml`
+- for Caddyfile make sure to change the basicauth used to the suitable ones agreed on in the ops team.
