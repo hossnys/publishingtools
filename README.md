@@ -1,6 +1,10 @@
 # Publishing tools
 Publishing tools consist of multiple things a wiki and static websites server, ssh tunneling tools used for deployments mainly.
 
+## install
+
+- binaries on e.g. https://github.com/threebotserver/publishingtools/releases/tag/v1.0.0-alpha.4
+
 ## tfweb
 
 `tfweb` is a wiki server/static websites server mainly built to drive the websites infrastructure for [threefold.io](https://threefold.io)
