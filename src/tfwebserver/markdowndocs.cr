@@ -104,6 +104,8 @@ module TFWeb
     end
 
     private def _check_dups(path)
+      @errors = Hash(String, String).new # reset errors.
+
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new # reset.
       Dir.glob("#{path}/**/*") do |thepath|
         next if Dir.exists?(thepath) || should_skip?(thepath)
