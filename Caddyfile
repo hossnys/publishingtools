@@ -1,31 +1,43 @@
-http://advisors.threefold.me, https://advisors.threefold.me {
+http://advisors.threefold.me {
     redir {
            if {scheme} is http
            / https://{host}{uri}
-    } 
-    basicauth / user password 
+    }
+}
+
+
+https://advisors.threefold.me {
+    basicauth / user password
 
     tls info@threefold.io
     proxy / localhost:3000/advisors
 }
 
-http://board.threefold.me, https://board.threefold.me {
+
+http://board.threefold.me {
     redir {
         if {scheme} is http
         / https://{host}{uri}
-    } 
-    basicauth / user password 
+    }
+}
+https://board.threefold.me {
+    basicauth / user password
 
     tls info@threefold.io
     proxy / localhost:3000/board
 }
 
-http://ambassadors.threefold.me, https://ambassadors.threefold.me {
+
+http://ambassadors.threefold.me {
     redir {
            if {scheme} is http
            / https://{host}{uri}
     }
-    basicauth / user password 
+}
+
+
+https://ambassadors.threefold.me {
+    basicauth / user password
     tls info@threefold.io
     proxy / localhost:3000/ambassadors
 }
@@ -36,16 +48,17 @@ http://sdk.threefold.io, https://sdk.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
         proxy / localhost:3000/sdk
 }
+
 
 http://sdk3.threefold.io, https://sdk3.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
         proxy / localhost:3000/sdk3
 }
@@ -55,7 +68,7 @@ http://wiki.threefold.io, https://wiki.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
         proxy / localhost:3000/wiki
 }
@@ -65,7 +78,7 @@ http://wiki3.threefold.io, https://wiki3.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
         proxy / localhost:3000/wiki3
 }
