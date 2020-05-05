@@ -6,6 +6,62 @@ addr = "0.0.0.0"
 
 [[wiki]]
 #unique name for the wiki
+name = "ambassadors"
+#http or git url
+url = "git@github.com:threefoldfoundation/info_ambassadors.git"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = ""
+
+[[wiki]]
+#unique name for the wiki
+name = "advisors"
+#http or git url
+url = "git@github.com:threefoldfoundation/info_advisors.git"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = ""
+
+[[wiki]]
+#unique name for the wiki
+name = "board"
+#http or git url
+url = "git@github.com:threefoldfoundation/info_board.git"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = ""
+
+
+
+[[wiki]]
+#unique name for the wiki
 name = "sdk"
 #http or git url
 url = "github.com/threefoldfoundation/info_tfgridsdk"
@@ -24,6 +80,25 @@ environment = ""
 
 [[wiki]]
 #unique name for the wiki
+name = "sdk3"
+#http or git url
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = "staging"
+
+
+[[wiki]]
+#unique name for the wiki
 name = "wiki"
 #http or git url
 url = "https://github.com/threefoldfoundation/info_threefold"
@@ -39,6 +114,25 @@ branchswitch = false
 srcdir = "src"
 #environment name (for example:  production, staging, testing)
 environment = ""
+
+[[wiki]]
+#unique name for the wiki
+name = "wiki3"
+#http or git url
+url = "https://github.com/threefoldfoundation/info_threefold"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, testing)
+environment = "staging"
+
 
 #website
 [[www]]
