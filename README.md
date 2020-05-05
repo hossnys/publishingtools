@@ -3,6 +3,8 @@ Publishing tools consist of multiple things a wiki and static websites server, s
 
 ## install
 
+
+
 - binaries on e.g. https://github.com/threebotserver/publishingtools/releases/tag/v1.0.0-alpha.4
 
 ## tfweb
@@ -126,7 +128,13 @@ environment = ""
 
 ### Building
 
+
+#### ubuntu machine setup
+
+make sure you have the following `apt-get install -y build-essential curl libevent-dev libssl-dev libxml2-dev libyaml-dev libgmp-dev git`
+
 building is as simple as `shards build` or `shards build --error-trace` to allow more error traces information
+
 
 ### Running
 
