@@ -1,6 +1,3 @@
-require "./utils/affiliates/*"
-require "./api"
-
 module TFWeb
   module WebServer
     @@config : TOML::Table?
@@ -9,9 +6,6 @@ module TFWeb
     @@websites = Hash(String, Website).new
     @@datasites = Hash(String, Data).new
     @@include_processor = IncludeProcessor.new
-    @@team = Team.new
-    @@community = Community.new
-    @@farmers = Farmers.new
 
     class MiddleWare < Kemal::Handler
       def initialize(
@@ -374,5 +368,6 @@ module TFWeb
       end
     end
     include API::Simulator
+    include API::Members
   end
 end
