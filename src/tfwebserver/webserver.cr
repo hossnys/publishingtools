@@ -367,7 +367,7 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-
     include API::Simulator
+    include API::Members
   end
 end
