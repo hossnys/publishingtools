@@ -58,7 +58,8 @@ module TFWeb
           end
 
           begin
-            content = content.gsub(full_include, get_doc_content(wiki_name, doc_name))
+            newcontent = get_doc_content(wiki_name, doc_name).not_nil! + "\n"
+            content = content.gsub(full_include, newcontent)
           rescue ex
             return ex.message
           end
