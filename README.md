@@ -167,7 +167,8 @@ tcprouter_secret = ""
 
 typical use cases is `443 -> 443` for the case of https and `80 -> 80` for http
 
-
+### running
+`sshtool -c sshconnections.toml`
 
 #### Example of production config
 
