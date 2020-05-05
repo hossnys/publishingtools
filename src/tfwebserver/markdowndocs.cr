@@ -19,7 +19,7 @@ module TFWeb
       @docsifyreadmefixer = DocsifyReadmeFixerProcessor.new
       @namefixer = NameFixerProcessor.new
 
-      @skips = [".git", "_archive", "out"]
+      @skips = [".git", "_archive", "out", "_beta"]
       @errors = Hash(String, String).new
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new
 
@@ -82,11 +82,12 @@ module TFWeb
     end
 
     private def should_skip?(path)
-      basename = File.basename(path)
-      if @skips.includes?(basename)
-        puts "[+] skipping #{basename}".colorize(:blue)
-        return true
+      @skips.each do |skipped|
+        if path.includes?(skipped)
+          return true
+        end
       end
+      return false
     end
 
     private def cp_r2(src_path : String, dest_path : String)
@@ -103,12 +104,9 @@ module TFWeb
     end
 
     private def _check_dups(path)
-      if should_skip?(path)
-        return
-      end
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new # reset.
       Dir.glob("#{path}/**/*") do |thepath|
-        next if Dir.exists?(thepath)
+        next if Dir.exists?(thepath) || should_skip?(thepath)
 
         child = File.basename(thepath)
         # next if child.starts_with?("_")
@@ -134,17 +132,9 @@ module TFWeb
 
     # walk over filesystem to buildup the fixer
     private def _fix(path)
-      if should_skip?(path)
-        return
-      end
-
       seen = Array(String).new
       Dir.glob("#{path}/**/*") do |thepath|
-        next if thepath == "#{docspath}/README.md"
-        next if thepath == "#{docspath}/readme.md"
-        # if seen.includes?(thepath)
-        #   puts "seen it before #{thepath}"
-        # end
+        next if should_skip?(thepath) || thepath.downcase == "#{docspath}/readme.md"
         next if seen.includes?(thepath)
         seen << thepath.to_s
 
