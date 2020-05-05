@@ -1,16 +1,10 @@
-# Matches /hello/kemal
-require "kemal"
-require "toml"
-require "colorize"
-require "uri"
-require "yaml"
-
 module TFWeb
   module WebServer
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
+    @@datasites = Hash(String, Data).new
     @@include_processor = IncludeProcessor.new
 
     class MiddleWare < Kemal::Handler
@@ -92,6 +86,20 @@ module TFWeb
           @@websites[websiteobj.name] = websiteobj
         end
 
+        okconfig.has_key?("data") && okconfig["data"].as(Array).each do |datael|
+          datasite = datael.as(Hash)
+          datasiteobj = Data.new
+          datasiteobj.name = datasite["name"].as(String)
+          datasiteobj.path = datasite["path"].as(String)
+          datasiteobj.url = datasite["url"].as(String)
+          datasiteobj.srcdir = datasite["srcdir"].as(String)
+          datasiteobj.branch = datasite["branch"].as(String)
+          datasiteobj.branchswitch = datasite["branchswitch"].as(Bool)
+          datasiteobj.autocommit = datasite["autocommit"].as(Bool)
+          datasiteobj.environment = datasite.fetch("environment", "").as(String)
+          @@datasites[datasiteobj.name] = datasiteobj
+        end
+
         # p @@wikis
         # p @@websites
 
@@ -107,23 +115,20 @@ module TFWeb
       puts "Starting server from config at #{configfilepath}".colorize(:blue)
       channel_done = Channel(String).new
 
-      @@wikis.each do |k, w|
+      all = @@wikis.values + @@websites.values + @@datasites.values
+
+      all.each do |site|
         spawn do
-          w.prepare_on_fs
-          w.prepare_index
-          channel_done.send(w.name)
+          site.prepare_on_fs
+          channel_done.send(site.name)
         end
       end
-      @@websites.each do |k, w|
-        spawn do
-          w.prepare_on_fs
-          channel_done.send(w.name)
-        end
-      end
-      (@@websites.size + @@wikis.size).times do
+
+      all.size.times do
         ready = channel_done.receive # wait for all of them.
-        puts "wiki/website #{ready} is ready".colorize(:blue)
+        puts "wiki/website/datasite #{ready} is ready".colorize(:blue)
       end
+
       self.prepare_markdowndocs_backend
       Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites)
       Kemal.run

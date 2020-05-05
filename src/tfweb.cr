@@ -1,3 +1,9 @@
+require "kemal"
+require "toml"
+require "colorize"
+require "uri"
+require "yaml"
+
 module TFWeb
   VERSION = "0.1.0"
 
@@ -11,8 +17,8 @@ module TFWeb
   end
 end
 
-require "./tfwebserver/*"
 require "./tfwebserver/cli"
+require "./tfwebserver/*"
 require "./gittools/*"
 
 TFWeb::CLI.main
