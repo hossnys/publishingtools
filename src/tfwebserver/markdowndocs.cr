@@ -50,7 +50,7 @@ module TFWeb
       @all_links.each do |l|
         # puts "errors for link: #{l}"
         baselink = File.basename(l)
-        next if l.starts_with?("http") || @dirfilesinfo.has_key?(baselink) || l.starts_with?("#") || l.includes?("_archive") || l.includes?("_beta")
+        next if l.starts_with?("http") || l.starts_with?("www") || l.starts_with?("mailto") || @dirfilesinfo.has_key?(baselink) || l.starts_with?("#") || l.includes?("_archive") || l.includes?("_beta")
         # puts "error link  #{l} #{baselink} is used but doesn't exist in the repo."
         @errors[baselink + " link"] = "#{baselink} is used but doesn't exist in the repo."
       end
