@@ -36,16 +36,28 @@ module TFWeb
       end
     end
 
-    def self.prepare_markdowndocs_backend
-      @@wikis.each do |k, wiki|
-        # TODO: handle the url if path is empty
-        markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
-        begin
-          markdowndocs.checks_dups_and_fix
-        rescue exception
-          puts "error happened #{exception}".colorize(:red)
-        end
-        @@markdowndocs_collections[k] = markdowndocs
+    def self.datasites
+      @@datasites
+    end
+
+    def self.wikis
+      @@wikis
+    end
+
+    def self.prepare_wiki(wiki : Wiki)
+      # TODO: handle the url if path is empty
+      markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
+      begin
+        markdowndocs.checks_dups_and_fix
+      rescue exception
+        puts "error happened #{exception}".colorize(:red)
+      end
+      @@markdowndocs_collections[wiki.name] = markdowndocs
+    end
+
+    def self.prepare_wikis
+      @@wikis.values.each do |wiki|
+        prepare_wiki(wiki)
       end
 
       @@include_processor.mddocs_collections = @@markdowndocs_collections
@@ -129,7 +141,7 @@ module TFWeb
         puts "wiki/website/datasite #{ready} is ready".colorize(:blue)
       end
 
-      self.prepare_markdowndocs_backend
+      self.prepare_wikis
       Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites)
       Kemal.run
     end
@@ -355,5 +367,7 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
+
+    include API::Simulator
   end
 end

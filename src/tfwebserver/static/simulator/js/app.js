@@ -11,15 +11,58 @@ const GROWTH = [
 ]
 
 const TOKEN_PRICE = [
-    0.15, 0.3, 0.6, 1, 2, 3, 4, 6, 10, 20, 40, 100, 500, "auto"
+    "0.15", "0.3", "0.6", "1.0", "2.0", "3.0", "4.0", "6.0", "10.0", "20.0", "40.0", "100.0", "500.0", "auto"
 ]
 
 const UNIT_PRICE_RANGE = {
-    1: "CU: 10, SU: 6, NU: 0.4",
-    2: "CU: 12 SU: 8 NU: 0.5",
-    3: "CU: 15 SU: 10 NU: 0.5",
-    4: "CU: 20 SU: 15 NU: 0.8",
+    1: "CU: 10 | SU: 6 | NU: 0.4",
+    2: "CU: 12 | SU: 8 | NU: 0.5",
+    3: "CU: 15 | SU: 10 | NU: 0.5",
+    4: "CU: 20 | SU: 15 | NU: 0.8",
 }
+
+const ajax = webix.ajax().headers({ "content-type": "application/json" });
+
+function getData() {
+    const form = webix.$$("simulator_form");
+    let values = form.getValues();
+
+    values["growth"] = GROWTH[values["growth"]]
+    values["token_price"] = TOKEN_PRICE[values["token_price"]]
+
+    webix.extend(form, webix.ProgressBar);
+    form.showProgress();
+
+
+    ajax.post("/api/simulator", values).then((data) => {
+        form.hideProgress();
+
+        const name = data.json().name;
+        window.location.href = `/${name}`;
+        debugger
+    }).catch((error) => {
+        form.hideProgress();
+
+        if (error.status == 404) {
+            webix.message({
+                type: "error",
+                text: JSON.parse(error.responseText).message
+            });
+        }
+
+    });
+}
+
+function reset() {
+    const form = webix.$$("simulator_form");
+    form.setValues({
+        hardware_type: "amd",
+        growth: 0,
+        token_price: 0,
+        unit_price_range: 1
+    });
+}
+
 
 webix.ui({
     rows: [
@@ -45,7 +88,8 @@ webix.ui({
                             id: "amd",
                             value: "AMD"
                         }
-                    ]
+                    ],
+                    labelWidth: 150,
                 },
                 {
                     id: "growth",
@@ -59,6 +103,7 @@ webix.ui({
                     title: function () {
                         return GROWTH[this.value];
                     },
+                    labelWidth: 150,
                 },
                 {
                     id: "token_price",
@@ -72,6 +117,7 @@ webix.ui({
                     title: function () {
                         return TOKEN_PRICE[this.value];
                     },
+                    labelWidth: 150,
                 },
                 {
                     id: "unit_price_range",
@@ -85,33 +131,25 @@ webix.ui({
                     title: function () {
                         return UNIT_PRICE_RANGE[this.value];
                     },
+                    labelWidth: 150,
                 },
                 {
                     margin: 5,
                     cols: [
                         {
                             view: "button",
-                            value: "Submit",
-                            css: "webix_primary"
+                            value: "Get data",
+                            css: "webix_primary",
+                            click: getData
                         },
                         {
                             view: "button",
-                            value: "Clear"
+                            value: "Reset",
+                            click: reset
                         }
                     ]
                 }
             ]
         },
-        // {
-        //     view: "datatable",
-        //     autoConfig: true,
-        //     data: {
-        //         title: "My Fair Lady",
-        //         year: 1964,
-        //         votes: 533848,
-        //         rating: 8.9,
-        //         rank: 5
-        //     }
-        // }
     ]
 });
