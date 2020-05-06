@@ -28,6 +28,7 @@ Sets the binding `address` to `0.0.0.0` and the `port` to `3000`
 
 tfweb allows serving multiple wikis, with unique names. by specifying the `url` "the most common case" or the `path` on the filesystem, and the wiki source directory `srcdir`
 
+- `title` title of the wiki (default: `name` value)
 - `url` can be ssh url or https url
 - `path` is the path of the top level root of the repository on the filesystem
 - `srcdir` is where the wiki dir starts in the repository
@@ -39,6 +40,7 @@ tfweb allows serving multiple wikis, with unique names. by specifying the `url` 
 [[wiki]]
 #unique name for the wiki
 name = "sdk"
+title = "SDK Wiki"
 #http or git url
 url = "github.com/threefoldfoundation/info_tfgridsdk"
 #if empty will be auto created

@@ -1,6 +1,7 @@
 module TFWeb
   class Site
     property name = ""
+    property title = ""
     property path = ""
     property url = ""
     property branch = ""
@@ -25,6 +26,7 @@ module TFWeb
   class Wiki < Site
     private def prepare_index
       repo = self.repo
+      title =  @title.size > 0 ? @title : @name
       url_as_https = repo.not_nil!.url_as_https || ""
       html = render "src/tfwebserver/views/docsify.ecr"
       destindex = File.join(@path, @srcdir, "index.html")
