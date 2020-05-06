@@ -3,8 +3,6 @@ require "toml"
 require "colorize"
 require "uri"
 
-# require "yaml"
-
 module TFWeb
   VERSION = "0.1.0"
 

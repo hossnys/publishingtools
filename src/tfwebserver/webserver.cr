@@ -272,20 +272,6 @@ module TFWeb
         rescue exception
           puts "#{exception}".colorize(:red)
         end
-        #   elsif docs.filesinfo.has_key?(ymlpath) || docs.filesinfo.has_key?(yamlpath)
-        #     if docs.filesinfo.has_key?(ymlpath)
-        #       filepathindocs = docs.filesinfo[ymlpath].paths[0]
-        #     else
-        #       filepathindocs = docs.filesinfo[yamlpath].paths[0]
-        #     end
-        #     begin
-        #       content = YAML.parse(filepathindocs)
-        #       env.response.headers.add("Content-Size", content.size.to_s)
-
-        #       return do200 env, content.to_json
-        #     rescue exception
-        #       puts "#{exception}".colorize(:red)
-        #     end
       elsif docs.filesinfo.has_key?(jsonpath)
         filepathindocs = docs.filesinfo[jsonpath].paths[0]
         begin
@@ -352,7 +338,7 @@ module TFWeb
       filepath = env.params.url["filepath"]
       if @@markdowndocs_collections.has_key?(name)
         path = Path.new(filepath)
-        if [".toml", ".json", ".yaml", ".yml"].includes?(path.extension)
+        if [".toml", ".json"].includes?(path.extension)
           self.handle_datafile(env, name, path)
         elsif path.basename == "_sidebar.md"
           self.handle_sidebar(env, name, path)
