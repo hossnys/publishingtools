@@ -1,4 +1,8 @@
-const GROWTH = [
+const HARDWARE_TYPES = [
+    "amd"
+]
+
+const GROWTHS = [
     50000,
     100000,
     200000,
@@ -10,11 +14,15 @@ const GROWTH = [
     20000000
 ]
 
-const TOKEN_PRICE = [
+const TOKEN_PRICES = [
     "0.15", "0.3", "0.6", "1.0", "2.0", "3.0", "4.0", "6.0", "10.0", "20.0", "40.0", "100.0", "500.0", "auto"
 ]
 
-const UNIT_PRICE_RANGE = {
+const UNIT_PRICE_RANGES = [
+    1, 2, 3, 4
+]
+
+const UNIT_PRICE_RANGE_LABELS = {
     1: "CU: 10 | SU: 6 | NU: 0.4",
     2: "CU: 12 | SU: 8 | NU: 0.5",
     3: "CU: 15 | SU: 10 | NU: 0.5",
@@ -23,12 +31,32 @@ const UNIT_PRICE_RANGE = {
 
 const ajax = webix.ajax().headers({ "content-type": "application/json" });
 
+const response = webix.ajax().sync().get("/api/simulator/options");
+let availableOptions = JSON.parse(response.responseText)
+availableOptions.hardware_types = availableOptions.hardware_types.length ? availableOptions.hardware_types : HARDWARE_TYPES
+availableOptions.growths = availableOptions.growths.length ? availableOptions.growths : GROWTHS
+availableOptions.token_prices = availableOptions.token_prices.length ? availableOptions.token_prices : TOKEN_PRICES
+availableOptions.unit_price_ranges = availableOptions.unit_price_ranges.length ? availableOptions.unit_price_ranges : UNIT_PRICE_RANGES
+
+
+availableOptions.hardware_types.sort()
+availableOptions.growths.sort()
+availableOptions.token_prices.sort()
+availableOptions.unit_price_ranges.sort()
+
+const unitPriceOptions = availableOptions.unit_price_ranges.map((key) => {
+    return {
+        id: key,
+        value: key + ' - ' + UNIT_PRICE_RANGE_LABELS[key]
+    }
+});
+
 function getData() {
     const form = webix.$$("simulator_form");
     let values = form.getValues();
 
-    values["growth"] = GROWTH[values["growth"]]
-    values["token_price"] = TOKEN_PRICE[values["token_price"]]
+    values["growth"] = availableOptions.growths[values["growth"]]
+    values["token_price"] = availableOptions.token_prices[values["token_price"]]
 
     webix.extend(form, webix.ProgressBar);
     form.showProgress();
@@ -39,7 +67,6 @@ function getData() {
 
         const name = data.json().name;
         window.location.href = `/${name}`;
-        debugger
     }).catch((error) => {
         form.hideProgress();
 
@@ -64,6 +91,7 @@ function reset() {
 }
 
 
+
 webix.ui({
     rows: [
         {
@@ -83,12 +111,7 @@ webix.ui({
                     label: "Hardware",
                     value: "amd",
                     yCount: 1,
-                    options: [
-                        {
-                            id: "amd",
-                            value: "AMD"
-                        }
-                    ],
+                    options: availableOptions.hardware_types,
                     labelWidth: 150,
                 },
                 {
@@ -99,9 +122,9 @@ webix.ui({
                     value: 0,
                     step: 1,
                     min: 0,
-                    max: GROWTH.length - 1,
+                    max: availableOptions.growths.length - 1,
                     title: function () {
-                        return GROWTH[this.value];
+                        return availableOptions.growths[this.value];
                     },
                     labelWidth: 150,
                 },
@@ -113,24 +136,21 @@ webix.ui({
                     value: 0,
                     step: 1,
                     min: 0,
-                    max: TOKEN_PRICE.length - 1,
+                    max: availableOptions.token_prices.length - 1,
                     title: function () {
-                        return TOKEN_PRICE[this.value];
+                        return availableOptions.token_prices[this.value];
                     },
                     labelWidth: 150,
                 },
                 {
                     id: "unit_price_range",
-                    view: "slider",
                     name: "unit_price_range",
+                    view: "richselect",
                     label: "Unit price range",
-                    value: 1,
-                    step: 1,
-                    min: 1,
-                    max: Object.keys(UNIT_PRICE_RANGE).length,
-                    title: function () {
-                        return UNIT_PRICE_RANGE[this.value];
-                    },
+                    value: unitPriceOptions[0].id,
+                    yCount: Object.keys(unitPriceOptions.length),
+                    options: unitPriceOptions,
+                    labelWidth: 150,
                     labelWidth: 150,
                 },
                 {

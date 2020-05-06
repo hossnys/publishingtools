@@ -207,3 +207,22 @@ branchswitch = true
 srcdir = "html"
 #environment name (for example:  production, staging, testing)
 environment = ""
+
+#data of simulator exports
+[[data]]
+name = "simexports"
+title = "Simulator data repo"
+#http or git url
+url = "https://github.com/threefoldfoundation/simulator_export"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = "html"
+#environment name (for example:  production, staging, testing)
+environment = ""
