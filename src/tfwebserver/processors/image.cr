@@ -7,16 +7,17 @@ module TFWeb
     end
 
     def process(path_obj, child)
-      return if File.dirname(path_obj) == "img"
-      child_path = path_obj.join(child)
-      clean_child = child.downcase.gsub({" ": "_"})
-      Dir.mkdir_p(path_obj.join("img").to_s)
-      new_path = path_obj.join("img", clean_child)
-      unless child_path.to_s == new_path.to_s
-        puts "[img]renaming #{child_path.to_s} to #{new_path.to_s} " if child_path.to_s != new_path.to_s
-        File.rename(child_path.to_s, new_path.to_s)
-      end
-      new_path.to_s
+      #   return if File.dirname(path_obj) == "img"
+      #   child_path = path_obj.join(child)
+      #   clean_child = child.downcase.gsub({" ": "_"})
+      #   Dir.mkdir_p(path_obj.join("img").to_s)
+      #   new_path = path_obj.join("img", clean_child)
+      #   unless child_path.to_s == new_path.to_s
+      #     puts "[img]renaming #{child_path.to_s} to #{new_path.to_s} " if child_path.to_s != new_path.to_s
+      #     File.rename(child_path.to_s, new_path.to_s)
+      #   end
+      newname = path_obj.join(child)
+      newname
     end
   end
 end
