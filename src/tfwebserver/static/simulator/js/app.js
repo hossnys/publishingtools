@@ -83,10 +83,10 @@ function getData() {
 function reset() {
     const form = webix.$$("simulator_form");
     form.setValues({
-        hardware_type: "amd",
-        growth: 0,
-        token_price: 0,
-        unit_price_range: 1
+        hardware_type: availableOptions.hardware_types[0],
+        growth: 0, // first option
+        token_price: 0, // first option
+        unit_price_range: unitPriceOptions[0].id
     });
 }
 
@@ -109,7 +109,7 @@ webix.ui({
                     name: "hardware_type",
                     view: "richselect",
                     label: "Hardware",
-                    value: "amd",
+                    value: availableOptions.hardware_types[0],
                     yCount: 1,
                     options: availableOptions.hardware_types,
                     labelWidth: 150,

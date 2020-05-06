@@ -5,6 +5,7 @@ module TFWeb
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
     @@datasites = Hash(String, Data).new
+    @@blogs = Hash(String, Blog).new
     @@include_processor = IncludeProcessor.new
 
     class MiddleWare < Kemal::Handler
@@ -44,6 +45,10 @@ module TFWeb
       @@wikis
     end
 
+    def self.blogs
+      @@blogs
+    end
+
     def self.prepare_wiki(wiki : Wiki)
       # TODO: handle the url if path is empty
       markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
@@ -65,61 +70,31 @@ module TFWeb
 
     def self.read_config(configfilepath)
       @@config = TOML.parse_file(configfilepath)
-      #   p @@config
+      # p @@config
       @@config.try do |okconfig|
         serverconfig = okconfig["server"].as(Hash)
 
         okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
-          wiki = wikiel.as(Hash)
-          #   p wiki
-          wikiobj = Wiki.new
-          wikiobj.name = wiki["name"].as(String)
-          wikiobj.path = wiki["path"].as(String)
-          wikiobj.url = wiki["url"].as(String)
-          wikiobj.srcdir = wiki["srcdir"].as(String)
-          wikiobj.branch = wiki["branch"].as(String)
-          wikiobj.branchswitch = wiki["branchswitch"].as(Bool)
-          wikiobj.autocommit = wiki["autocommit"].as(Bool)
-          wikiobj.environment = wiki.fetch("environment", "").as(String)
-          wikiobj.title = wiki.fetch("title", "").as(String)
-          @@wikis[wikiobj.name] = wikiobj
+          wiki = Wiki.from_json(wikiel.as(Hash).to_json)
+          @@wikis[wiki.name] = wiki
         end
 
         okconfig.has_key?("www") && okconfig["www"].as(Array).each do |websiteel|
-          website = websiteel.as(Hash)
-          websiteobj = Website.new
-          websiteobj.name = website["name"].as(String)
-          websiteobj.path = website["path"].as(String)
-          websiteobj.url = website["url"].as(String)
-          websiteobj.srcdir = website["srcdir"].as(String)
-          websiteobj.branch = website["branch"].as(String)
-          websiteobj.branchswitch = website["branchswitch"].as(Bool)
-          websiteobj.autocommit = website["autocommit"].as(Bool)
-          websiteobj.environment = website.fetch("environment", "").as(String)
-          websiteobj.title = website.fetch("title", "").as(String)
-          @@websites[websiteobj.name] = websiteobj
+          website = Website.from_json(websiteel.as(Hash).to_json)
+          @@websites[website.name] = website
         end
 
         okconfig.has_key?("data") && okconfig["data"].as(Array).each do |datael|
-          datasite = datael.as(Hash)
-          datasiteobj = Data.new
-          datasiteobj.name = datasite["name"].as(String)
-          datasiteobj.title = datasite["title"].as(String)
-          datasiteobj.path = datasite["path"].as(String)
-          datasiteobj.url = datasite["url"].as(String)
-          datasiteobj.srcdir = datasite["srcdir"].as(String)
-          datasiteobj.branch = datasite["branch"].as(String)
-          datasiteobj.branchswitch = datasite["branchswitch"].as(Bool)
-          datasiteobj.autocommit = datasite["autocommit"].as(Bool)
-          datasiteobj.environment = datasite.fetch("environment", "").as(String)
-          datasiteobj.title = datasite.fetch("title", "").as(String)
-          @@datasites[datasiteobj.name] = datasiteobj
+          datasite = Data.from_json(datael.as(Hash).to_json)
+          @@datasites[datasite.name] = datasite
         end
 
-        # p @@wikis
-        # p @@websites
+        okconfig.has_key?("blog") && okconfig["blog"].as(Array).each do |blogel|
+          blog = Blog.from_json(blogel.as(Hash).to_json)
+          @@blogs[blog.name] = blog
+        end
 
-        # # TODO: code to validate the uniqueness of wiki, websites names..
+        # TODO: code to validate the uniqueness of wiki, websites names..
 
         Kemal.config.port = serverconfig["port"].as(Int64).to_i
         Kemal.config.host_binding = serverconfig["addr"].as(String)
@@ -131,7 +106,7 @@ module TFWeb
       puts "Starting server from config at #{configfilepath}".colorize(:blue)
       channel_done = Channel(String).new
 
-      all = @@wikis.values + @@websites.values + @@datasites.values
+      all = @@wikis.values + @@websites.values + @@datasites.values + @@blogs.values
 
       all.each do |site|
         spawn do

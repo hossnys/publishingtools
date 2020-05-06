@@ -1,5 +1,7 @@
 module TFWeb
   class Site
+    include JSON::Serializable
+
     property name = ""
     property title = ""
     property path = ""
@@ -9,6 +11,10 @@ module TFWeb
     property autocommit = false
     property srcdir = "src"
     property environment = ""
+
+    def self.new_empty
+      self.from_json("{}")
+    end
 
     def prepare_on_fs
       repo = self.repo
@@ -26,7 +32,7 @@ module TFWeb
   class Wiki < Site
     private def prepare_index
       repo = self.repo
-      title =  @title.size > 0 ? @title : @name
+      title = @title.size > 0 ? @title : @name
       url_as_https = repo.not_nil!.url_as_https || ""
       html = render "src/tfwebserver/views/docsify.ecr"
       destindex = File.join(@path, @srcdir, "index.html")
@@ -44,6 +50,14 @@ module TFWeb
   end
 
   class Blog < Site
+    property blog : Blogging::Blog?
+
+    def prepare_on_fs
+      super
+
+      loader = Blogging::Loader.new(@path)
+      @blog = loader.blog
+    end
   end
 
   class Data < Site
