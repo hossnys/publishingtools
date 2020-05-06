@@ -7,17 +7,25 @@ module TFWeb
     end
 
     def process(path_obj, child)
-      #   return if File.dirname(path_obj) == "img"
-      #   child_path = path_obj.join(child)
-      #   clean_child = child.downcase.gsub({" ": "_"})
-      #   Dir.mkdir_p(path_obj.join("img").to_s)
-      #   new_path = path_obj.join("img", clean_child)
-      #   unless child_path.to_s == new_path.to_s
-      #     puts "[img]renaming #{child_path.to_s} to #{new_path.to_s} " if child_path.to_s != new_path.to_s
-      #     File.rename(child_path.to_s, new_path.to_s)
-      #   end
-      newname = path_obj.join(child)
-      newname
+      original_image_name = child
+      new_image_name = child.downcase.gsub({" ": "_"})
+
+      original_image_path = path_obj.join(original_image_name).to_s
+      new_image_path = path_obj.join(new_image_name).to_s
+
+      if original_image_path != new_image_path
+        File.rename(original_image_path, new_image_path)
+        return new_image_path
+      end
+      # if we are in img dir .. do nothing
+      return new_image_path if new_image_path.includes?("/img") # if structured on any levels within img dir we return.
+
+      image_dest_dir = path_obj.join("img").to_s
+      unless Dir.exists?(image_dest_dir)
+        Dir.mkdir_p(image_dest_dir)
+      end
+      image_in_img_dir_path = File.join(image_dest_dir, new_image_name)
+      File.rename(new_image_path, image_in_img_dir_path)
     end
   end
 end
