@@ -236,8 +236,6 @@ module TFWeb
       potential_readmes = [topfilename, "readme.md", "README.md"]
       potential_readmes.each do |pot_readme|
         filepath = File.join(path, pot_readme)
-        puts "sending from #{filepath}"
-
         if File.exists?(filepath)
           return send_file env, filepath
         end
@@ -338,7 +336,6 @@ module TFWeb
     end
 
     get "/:name/README.md" do |env|
-      puts "here..."
       name = env.params.url["name"]
       srcpath = Path.new(File.join(@@wikis[name].path, @@wikis[name].srcdir))
       self.handle_readme(env, name, srcpath)
