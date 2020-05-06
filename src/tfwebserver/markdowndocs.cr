@@ -56,8 +56,7 @@ module TFWeb
     def write_errors_as_md
       path = @docspath
       content = ""
-      puts @linksimagesfixer.all_mdlinks.size
-      puts @linksimagesfixer.all_mdimages.size
+
       @linksimagesfixer.all_mdlinks.each do |mdlink|
         l = mdlink.url
         # puts "errors for link: #{l}"
