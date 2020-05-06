@@ -12,7 +12,7 @@ module TFWeb
 
       clean_child = child.downcase.gsub({" ": "_", "-": "_"})
       new_path = path_obj.join(clean_child)
-      if clean_child != child_path.to_s
+      if new_path.to_s != child_path.to_s
         puts "[namesfixer]renaming #{child_path.to_s} to #{new_path.to_s} ".colorize(:blue)
         File.rename(child_path.to_s, new_path.to_s)
       end
