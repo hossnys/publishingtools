@@ -15,7 +15,7 @@ module TFWeb
       property base_url : String? = ""
       property url : String? = ""
       property posts_dir : String = "posts"
-      property pages_dir : String = "posts"
+      property pages_dir : String = "pages"
       property github_username : String? = ""
       property github_repo_url : String? = ""
 

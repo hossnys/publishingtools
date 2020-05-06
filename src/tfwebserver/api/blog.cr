@@ -1,9 +1,9 @@
 module TFWeb
   module API
     module Blogging
-      SIM_API_BASE_URL = "/api/blog"
+      BLOG_BASE_URL = "/api/blog"
 
-      get SIM_API_BASE_URL do |env|
+      get BLOG_BASE_URL do |env|
         env.response.content_type = "application/json"
 
         blogs = TFWeb::WebServer.blogs.map { |k, blog| blog.blog }
