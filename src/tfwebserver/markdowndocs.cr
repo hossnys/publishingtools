@@ -23,8 +23,9 @@ module TFWeb
       @errors = Hash(String, String).new
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new
 
-      @all_links = Array(String).new
-      @all_images = Array(String).new
+      @all_mdlinks = [] of MDLink
+      @all_mdimages = [] of MDImage
+
       # {filename => {count: 5, paths=[] }}
     end
 
@@ -43,23 +44,36 @@ module TFWeb
       @errors
     end
 
+    def all_mdlinks
+      @linksimagesfixer.all_mdlinks
+    end
+
+    def all_mdimages
+      @linksimagesfixer.all_mdimages
+    end
+
     # write the errors as md
     def write_errors_as_md
       path = @docspath
       content = ""
-      @all_links.each do |l|
+      puts @linksimagesfixer.all_mdlinks.size
+      puts @linksimagesfixer.all_mdimages.size
+      @linksimagesfixer.all_mdlinks.each do |mdlink|
+        l = mdlink.url
         # puts "errors for link: #{l}"
         baselink = File.basename(l)
         next if l.starts_with?("http") || l.starts_with?("www") || l.starts_with?("mailto") || @dirfilesinfo.has_key?(baselink) || l.starts_with?("#") || l.includes?("_archive") || l.includes?("_beta")
         # puts "error link  #{l} #{baselink} is used but doesn't exist in the repo."
-        @errors[baselink + " link"] = "#{baselink} is used but doesn't exist in the repo."
+        @errors[baselink + " link"] = "#{baselink} is used in filename #{mdlink.file_basename} at #{mdlink.filepath}, but doesn't exist in the repo."
       end
-      @all_images.each do |im|
+
+      @linksimagesfixer.all_mdimages.each do |mdimg|
+        im = mdimg.url
         baseimg = File.basename(im)
         # puts "errors for img: #{im}"
         next if @dirfilesinfo.has_key?(baseimg) || im.starts_with?("http") || im.includes?("_archive") || im.includes?("_beta")
         # puts "error image #{im} #{baseimg} is used but doesn't exist in the repo."
-        @errors[baseimg + " img"] = "#{baseimg} is used but doesn't exist in the repo."
+        @errors[baseimg + " img"] = "#{baseimg} is used in filename: #{mdimg.file_basename} at #{mdimg.filepath}, but doesn't exist in the repo."
       end
 
       #   puts @errors
@@ -71,6 +85,7 @@ module TFWeb
         content = content + err + "\n"
       end
       puts "saving errors to #{File.join(path, "errors.md")}".colorize(:blue)
+
       errpath = File.join(path, "errors.md")
       File.write(errpath, content)
       # add errors.md to files
@@ -159,17 +174,6 @@ module TFWeb
           rescue exception
             puts "error in #{p} for #{child} in #{path_obj} #{exception}".colorize(:red)
             # raise exception
-          end
-        end
-
-        @linksimagesfixer.all_images.each do |im|
-          unless @all_images.includes?(im)
-            @all_images << im
-          end
-        end
-        @linksimagesfixer.all_links.each do |l|
-          unless @all_links.includes?(l)
-            @all_links << l
           end
         end
       end

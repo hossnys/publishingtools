@@ -2,45 +2,63 @@ require "markd"
 require "colorize"
 
 module TFWeb
+  class MDElement
+    property url = ""
+    property filepath = ""
+
+    def initialize(@url : String, @filepath : String)
+    end
+
+    def to_s
+      "#{@url} in #{@filepath} "
+    end
+
+    def file_basename
+      File.basename(@filepath)
+    end
+  end
+
+  class MDLink < MDElement
+  end
+
+  class MDImage < MDElement
+  end
+
   class MyLinksImagesRenderer < Markd::HTMLRenderer
-    property links = Array(String).new
-    property images = Array(String).new
+    property links = [] of MDLink
+    property images = [] of MDImage
+    property filepath = ""
 
     def initialize(@options = Options.new)
       super.initialize
-      @links = [] of String
-      @images = [] of String
     end
 
     def link(node, entering)
-      @links << node.data["destination"].as(String)
+      linkurl = node.data["destination"].as(String)
+      @links << MDLink.new(url: linkurl, filepath: @filepath)
     end
 
     def image(node, entering)
-      @images << node.data["destination"].as(String)
+      imgurl = node.data["destination"].as(String)
+      @images << MDImage.new(url: imgurl, filepath: filepath)
     end
   end
 
   class LinksImagesProcessor < Processor
-    property all_images = Array(String).new
-    property all_links = Array(String).new
-
-    def all_links
-      @all_links
-    end
-
-    def all_images
-      @all_images
-    end
+    property all_mdimages = [] of MDImage
+    property all_mdlinks = [] of MDLink
+    property filepath = ""
 
     def match(file_name)
       return File.extname(file_name) == ".md"
     end
 
-    private def getlinks(content)
+    private def process_links_and_images(filepath)
       options = Markd::Options.new(time: false)
+      content = File.read(filepath)
       document = Markd::Parser.parse(content, options)
       renderer = MyLinksImagesRenderer.new(options)
+      renderer.filepath = filepath.to_s
       renderer.render(document)
       renderer
     end
@@ -49,13 +67,14 @@ module TFWeb
       child_path = path_obj.join(child)
       content = ""
       content = File.read(child_path)
-      processor = getlinks(content)
-      @all_links = processor.links
-      @all_images = processor.images
-      links = processor.links
-      images = processor.images
-      #   p links, images
-      links.each do |link|
+      therenderer = process_links_and_images(child_path)
+
+      mdlinks = therenderer.links
+      mdimages = therenderer.images
+
+      #   p mdlinks.size, mdimages
+      mdlinks.each do |mdlink|
+        link = mdlink.url
         next if link.starts_with?("http") || link.starts_with?("#")
 
         # TODO: probably should check if has extension in general. next unless link.ends_with?(".md")
@@ -78,7 +97,8 @@ module TFWeb
       end
 
       #   puts "abdo #{images}"
-      images.uniq.each do |img|
+      mdimages.uniq.each do |mdimg|
+        img = mdimg.url
         unless img.starts_with?("http")
           # on filesystem
           # TODO: probably should check if has extension instead
@@ -97,7 +117,10 @@ module TFWeb
           content = newcontent
         end
       end
-      if images.size > 0 || links.size > 0
+
+      @all_mdimages.concat mdimages
+      @all_mdlinks.concat mdlinks
+      if all_mdimages.size > 0 || all_mdlinks.size > 0
         File.write(child_path, content)
       end
       child_path
