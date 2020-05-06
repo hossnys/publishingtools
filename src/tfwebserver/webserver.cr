@@ -249,7 +249,7 @@ module TFWeb
       filename_without_ext = File.basename(basename, ext)
       docs = @@markdowndocs_collections[name]
       tomlpath = filename_without_ext + ".toml"
-      yamlpath = filename_without_ext + ".yaml"
+      #   yamlpath = filename_without_ext + ".yaml"
       ymlpath = filename_without_ext + ".yml"
       jsonpath = filename_without_ext + ".json"
 
@@ -272,20 +272,20 @@ module TFWeb
         rescue exception
           puts "#{exception}".colorize(:red)
         end
-      elsif docs.filesinfo.has_key?(ymlpath) || docs.filesinfo.has_key?(yamlpath)
-        if docs.filesinfo.has_key?(ymlpath)
-          filepathindocs = docs.filesinfo[ymlpath].paths[0]
-        else
-          filepathindocs = docs.filesinfo[yamlpath].paths[0]
-        end
-        begin
-          content = YAML.parse(filepathindocs)
-          env.response.headers.add("Content-Size", content.size.to_s)
+        #   elsif docs.filesinfo.has_key?(ymlpath) || docs.filesinfo.has_key?(yamlpath)
+        #     if docs.filesinfo.has_key?(ymlpath)
+        #       filepathindocs = docs.filesinfo[ymlpath].paths[0]
+        #     else
+        #       filepathindocs = docs.filesinfo[yamlpath].paths[0]
+        #     end
+        #     begin
+        #       content = YAML.parse(filepathindocs)
+        #       env.response.headers.add("Content-Size", content.size.to_s)
 
-          return do200 env, content.to_json
-        rescue exception
-          puts "#{exception}".colorize(:red)
-        end
+        #       return do200 env, content.to_json
+        #     rescue exception
+        #       puts "#{exception}".colorize(:red)
+        #     end
       elsif docs.filesinfo.has_key?(jsonpath)
         filepathindocs = docs.filesinfo[jsonpath].paths[0]
         begin

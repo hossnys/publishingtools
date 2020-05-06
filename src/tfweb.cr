@@ -2,7 +2,8 @@ require "kemal"
 require "toml"
 require "colorize"
 require "uri"
-require "yaml"
+
+# require "yaml"
 
 module TFWeb
   VERSION = "0.1.0"
