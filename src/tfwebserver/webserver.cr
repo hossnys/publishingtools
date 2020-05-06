@@ -229,9 +229,19 @@ module TFWeb
 
     private def self.handle_readme(env, name, path)
       wiki = @@wikis[name]
-      filename = File.basename(path.dirname)
-      filepath = File.join(wiki.path, wiki.srcdir, path.dirname, "#{filename}.md")
-      send_file env, filepath
+      if !path
+        path = File.join(wiki.path, wiki.srcdir)
+      end
+      topfilename = File.basename(path) + ".md"
+      potential_readmes = [topfilename, "readme.md", "README.md"]
+      potential_readmes.each do |pot_readme|
+        filepath = File.join(path, pot_readme)
+        puts "sending from #{filepath}"
+
+        if File.exists?(filepath)
+          return send_file env, filepath
+        end
+      end
     end
 
     private def self.handle_sidebar(env, name, path)
@@ -328,9 +338,10 @@ module TFWeb
     end
 
     get "/:name/README.md" do |env|
+      puts "here..."
       name = env.params.url["name"]
-      fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "README.md")
-      send_file env, fullpath
+      srcpath = Path.new(File.join(@@wikis[name].path, @@wikis[name].srcdir))
+      self.handle_readme(env, name, srcpath)
     end
 
     get "/:name/*filepath" do |env|
