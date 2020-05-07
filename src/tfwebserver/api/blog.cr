@@ -52,15 +52,17 @@ module TFWeb
 
       def get_tags(blog_name)
         posts = get_posts(blog_name)
-        tags = [] of String
+        tags = Set(String).new
 
         posts.each do |post|
           post_tags = post.tags || [] of String
 
           if post_tags.is_a?(String)
-            tags += post_tags.split(",").map &.strip
-          else
-            tags += post_tags
+            post_tags = post_tags.split(",")
+          end
+
+          post_tags.each do |tag|
+            tags << tag.strip
           end
         end
 
@@ -108,7 +110,7 @@ module TFWeb
             results << new_search_result("posts", post.slug, blog.name)
           end
 
-          posts.each do |post|
+          pages.each do |post|
             results << new_search_result("pages", post.slug, blog.name)
           end
         end
