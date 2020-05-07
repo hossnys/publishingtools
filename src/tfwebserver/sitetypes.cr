@@ -55,7 +55,7 @@ module TFWeb
     def prepare_on_fs
       super
 
-      loader = Blogging::Loader.new(@path)
+      loader = Blogging::Loader.new(self)
       @blog = loader.blog
     end
   end
