@@ -2,16 +2,15 @@ module TFWeb
   IMAGE_REGEX = /(.*)(.jpg$)|(.*)(.jpeg$)|(.*)(.svg$)|(.*)(.png$)/
 
   class ImageProcessor < Processor
-    def match(file_name)
-      return file_name.match(IMAGE_REGEX)
+    def match(path)
+      return path.basename.match(IMAGE_REGEX)
     end
 
-    def process(path_obj, child)
-      original_image_name = child
-      new_image_name = child.downcase.gsub({" ": "_"})
+    def process(path)
+      new_image_name = path.basename.downcase.gsub({" ": "_"})
 
-      original_image_path = path_obj.join(original_image_name).to_s
-      new_image_path = path_obj.join(new_image_name).to_s
+      original_image_path = path.to_s
+      new_image_path = Path.new(path.dirname, new_image_name).to_s
 
       if original_image_path != new_image_path
         File.rename(original_image_path, new_image_path)
@@ -20,7 +19,7 @@ module TFWeb
       # if we are in img dir .. do nothing
       return new_image_path if new_image_path.includes?("/img") # if structured on any levels within img dir we return.
 
-      image_dest_dir = path_obj.join("img").to_s
+      image_dest_dir = Path.new(path.dirname, "img").to_s
       unless Dir.exists?(image_dest_dir)
         Dir.mkdir_p(image_dest_dir)
       end

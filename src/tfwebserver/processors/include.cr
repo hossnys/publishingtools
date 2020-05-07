@@ -69,13 +69,12 @@ module TFWeb
       return content
     end
 
-    def match(filename)
-      File.extname(filename).strip.downcase == ".md"
+    def match(path)
+      File.extname(path).strip.downcase == ".md"
     end
 
-    def process(parent_path_obj, filename)
-      newname = parent_path_obj.join(filename)
-      newname
+    def process(path)
+      path
     end
   end
 end

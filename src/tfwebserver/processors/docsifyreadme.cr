@@ -3,15 +3,15 @@ require "colorize"
 
 module TFWeb
   class DocsifyReadmeFixerProcessor < Processor
-    def match(file_name)
-      return file_name == "_sidebar.md"
+    def match(path)
+      return path.basename == "_sidebar.md"
     end
 
-    def process(path_obj, child)
+    def process(path)
       #   puts "checking for #{path_obj.join("README.md")}"
-      newname = path_obj.join("README.md").to_s
-      unless File.exists?(path_obj.join("README.md"))
-        FileUtils.cp(path_obj.join(child).to_s, newname)
+      newname = Path.new(path.dirname, "README.md").to_s
+      unless File.exists?(newname)
+        FileUtils.cp(path.to_s, newname)
         puts "[docsifyreadme]created readme.md from _sidebar.md".colorize(:blue)
       end
       newname

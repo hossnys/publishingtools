@@ -3,16 +3,16 @@ require "colorize"
 
 module TFWeb
   class DocsifySidebarFixerProcessor < Processor
-    def match(file_name)
-      return file_name.downcase == "summary.md"
+    def match(path)
+      return path.basename.downcase == "summary.md"
     end
 
-    def process(path_obj, child)
-      newname = path_obj.join("_sidebar.md").to_s
-      unless File.exists?(path_obj.join("_sidebar.md"))
+    def process(path)
+      newname = Path.new(path.dirname, "_sidebar.md").to_s
+      unless File.exists?(newname)
         puts "[docsifysidebar]created _sidebar.md from summary.md".colorize(:blue)
 
-        FileUtils.cp(path_obj.join(child).to_s, path_obj.join("_sidebar.md").to_s)
+        FileUtils.cp(path.to_s, newname)
       end
       newname
     end

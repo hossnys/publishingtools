@@ -1,9 +1,9 @@
 module TFWeb
   class Processor
-    def match(child)
+    def match(path)
     end
 
-    def process(parent, child) : String
+    def process(path) : String
       ""
     end
   end
