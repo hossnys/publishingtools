@@ -82,3 +82,12 @@ http://wiki3.threefold.io, https://wiki3.threefold.io {
         tls info@threefold.io
         proxy / localhost:3000/wiki3
 }
+
+http://simulators.threefold.io, https://simulators.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/
+}
