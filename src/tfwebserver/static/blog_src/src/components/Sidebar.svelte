@@ -1,3 +1,4 @@
+
 <script>
   import Links from "./Links.svelte";
   import SearchBar from "./SearchBar.svelte";
@@ -12,13 +13,16 @@
   export let posts = [];
   export let title = "";
   export let showExcerpt = true;
+
+
+  
 </script>
 
 <!-- <div class="container">
 
   <Links header="Links" links={metadata.sidebar_links} />
   <Links header="Social" links={metadata.sidebar_social_links} />
-
+  
 
 </div> -->
 
@@ -31,7 +35,7 @@
 </div>
 <!-- Widget [Latest Posts Widget] -->
 <div class="widget latest-posts">
-  <LatestPostCard {posts} />
+  <LatestPostCard {posts}/>
 </div>
 <!-- Widget [Categories Widget]-->
 <div class="widget categories">
