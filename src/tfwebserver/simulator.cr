@@ -34,19 +34,19 @@ module TFWeb
       unless WebServer.wikis.has_key?(name)
         sub_path = File.join(SIM_EXPORTS_DIR, params.join("/"))
 
-        wikiobj = Wiki.new
-        wikiobj.name = name
-        wikiobj.url = TFWeb::Simulator::SIM_DATASITE_URL
-        wikiobj.srcdir = sub_path
+        wiki = Wiki.new
+        wiki.name = name
+        wiki.url = TFWeb::Simulator::SIM_DATASITE_URL
+        wiki.srcdir = sub_path
 
         begin
-          wikiobj.prepare_on_fs
+          wiki.prepare_on_fs
         rescue
           raise "data path cannot be found '#{sub_path}'"
         end
 
-        WebServer.wikis[wikiobj.name] = wikiobj
-        WebServer.prepare_wiki(wikiobj)
+        WebServer.wikis[wiki.name] = wiki
+        WebServer.prepare_wiki(wiki)
       end
 
       name
