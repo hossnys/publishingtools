@@ -21,7 +21,7 @@ branchswitch = false
 srcdir = "src"
 #environment name (for example:  production, staging, testing), is used to define location where code will be checked out is ~/$environment/code/... 
 #if empty then is ~/sandbox/code
-environment = ""
+environment = "production"
 
 [[wiki]]
 name = "advisors"
@@ -31,7 +31,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = ""
+environment = "production"
 
 [[wiki]]
 name = "board"
@@ -41,7 +41,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = ""
+environment = "production"
 
 
 
@@ -54,7 +54,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = ""
+environment = "production"
 
 [[wiki]]
 name = "sdk2"
@@ -65,7 +65,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = "staging"
+environment = "testing"
 
 
 [[wiki]]
@@ -77,7 +77,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = ""
+environment = "production"
 
 [[wiki]]
 name = "wiki2"
@@ -89,7 +89,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = "staging"
+environment = "testing"
 
 
 #website
@@ -101,7 +101,7 @@ environment = "staging"
 # branch = "development"
 # branchswitch = true
 # srcdir = ""
-# environment = ""
+# environment = "production"
 
 
 # #website
@@ -113,7 +113,7 @@ environment = "staging"
 # branch = "development"
 # branchswitch = true
 # srcdir = "html"
-# environment = ""
+# environment = "production"
 
 # [[www]]
 # name = "incubaid"
@@ -123,7 +123,7 @@ environment = "staging"
 # branch = "development"
 # branchswitch = true
 # srcdir = ""
-# environment = ""
+# environment = "production"
 
 # #website
 # [[www]]
@@ -134,7 +134,7 @@ environment = "staging"
 # branch = "development"
 # branchswitch = true
 # srcdir = "html"
-# environment = ""
+# environment = "production"
 
 #data of simulator exports
 [[data]]
@@ -146,4 +146,4 @@ autocommit = false
 branch = "development"
 branchswitch = true
 srcdir = "html"
-environment = ""
+environment = "production"

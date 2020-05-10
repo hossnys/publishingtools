@@ -85,7 +85,7 @@ module TFWeb
           wikiobj.branch = wiki["branch"].as(String)
           wikiobj.branchswitch = wiki["branchswitch"].as(Bool)
           wikiobj.autocommit = wiki["autocommit"].as(Bool)
-          wikiobj.environment = wiki.fetch("environment", "").as(String)
+          wikiobj.environment = wiki.fetch("environment", "production").as(String)
           wikiobj.title = wiki.fetch("title", "").as(String)
           @@wikis[wikiobj.name] = wikiobj
         end
@@ -100,7 +100,7 @@ module TFWeb
           websiteobj.branch = website["branch"].as(String)
           websiteobj.branchswitch = website["branchswitch"].as(Bool)
           websiteobj.autocommit = website["autocommit"].as(Bool)
-          websiteobj.environment = website.fetch("environment", "").as(String)
+          websiteobj.environment = website.fetch("environment", "production").as(String)
           websiteobj.title = website.fetch("title", "").as(String)
           @@websites[websiteobj.name] = websiteobj
         end
@@ -116,7 +116,7 @@ module TFWeb
           datasiteobj.branch = datasite["branch"].as(String)
           datasiteobj.branchswitch = datasite["branchswitch"].as(Bool)
           datasiteobj.autocommit = datasite["autocommit"].as(Bool)
-          datasiteobj.environment = datasite.fetch("environment", "").as(String)
+          datasiteobj.environment = datasite.fetch("environment", "production").as(String)
           datasiteobj.title = datasite.fetch("title", "").as(String)
           @@datasites[datasiteobj.name] = datasiteobj
         end
