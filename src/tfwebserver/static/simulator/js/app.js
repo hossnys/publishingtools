@@ -142,7 +142,7 @@ webix.ui({
                     view: "slider",
                     name: "growth",
                     label: "Growth",
-                    value: 0,
+                    value: 4,
                     step: 1,
                     min: 0,
                     max: availableOptions.growths.length - 1,
@@ -156,7 +156,7 @@ webix.ui({
                     view: "slider",
                     name: "token_price",
                     label: "Token price",
-                    value: 0,
+                    value: availableOptions.token_prices.length - 1,
                     step: 1,
                     min: 0,
                     max: availableOptions.token_prices.length - 1,
@@ -181,7 +181,7 @@ webix.ui({
                     cols: [
                         {
                             view: "button",
-                            value: "Get data",
+                            value: "Get simulation",
                             css: "webix_primary",
                             click: getData
                         },
