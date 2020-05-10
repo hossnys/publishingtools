@@ -53,11 +53,9 @@ module TFWeb
     end
 
     def base_dir
-      if @environment
-        puts "~/#{@environment}/code"
+      if @environment!=""
         "~/#{@environment}/code"
       else
-        puts "~/sandbox/code"
         "~/sandbox/code"
       end
     end
