@@ -54,9 +54,9 @@ module TFWeb
 
     def base_dir
       if @environment != ""
-        "~/#{@environment}/code"
+        "~/tfweb/#{@environment}/"
       else
-        "~/sandbox/code"
+        raise "environment needs to be specified"
       end
     end
 
