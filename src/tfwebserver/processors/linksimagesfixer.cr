@@ -74,7 +74,7 @@ module TFWeb
       #   p mdlinks.size, mdimages
       mdlinks.each do |mdlink|
         link = mdlink.url
-        next if link.starts_with?("http") || link.starts_with?("#")
+        next if link.starts_with?("http") || link.starts_with?("#") || link.starts_with?("/")
 
         # TODO: probably should check if has extension in general. next unless link.ends_with?(".md")
         if link.ends_with?(".md")
