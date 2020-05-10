@@ -53,7 +53,7 @@ module TFWeb
     end
 
     def base_dir
-      if @environment!=""
+      if @environment != ""
         "~/#{@environment}/code"
       else
         "~/sandbox/code"
@@ -113,7 +113,7 @@ module TFWeb
       account_dir = ensure_account_dir
       rewritten_url = @url
       unless Dir.exists?(@path)
-        `cd #{account_dir} && git clone #{rewritten_url} && git fetch`
+        `cd #{account_dir} && git clone #{rewritten_url} && cd #{@name} && git fetch`
       end
       if pull
         `cd #{guess_repo_dir} && git pull`

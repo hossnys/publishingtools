@@ -347,10 +347,7 @@ module TFWeb
       name = env.params.url["name"]
       self.handle_update(env, name, true)
     end
-    get "/:name/api/*filepath" do |env|
-      filepath = env.params.url["filepath"]
-      env.redirect "/api/#{filepath}"
-    end
+
     get "/:name/*filepath" do |env|
       name = env.params.url["name"]
       filepath = env.params.url["filepath"]

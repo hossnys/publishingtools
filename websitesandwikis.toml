@@ -47,6 +47,7 @@ environment = ""
 
 [[wiki]]
 name = "sdk"
+title = "Grid Manual"
 url = "github.com/threefoldfoundation/info_tfgridsdk"
 path = ""
 autocommit = false
@@ -56,7 +57,8 @@ srcdir = "src"
 environment = ""
 
 [[wiki]]
-name = "sdk3"
+name = "sdk2"
+title = "Grid Manual Staging"
 url = "github.com/threefoldfoundation/info_tfgridsdk"
 path = ""
 autocommit = false
@@ -69,6 +71,7 @@ environment = "staging"
 [[wiki]]
 name = "wiki"
 url = "https://github.com/threefoldfoundation/info_threefold"
+title = "ThreeFold Wiki"
 path = ""
 autocommit = false
 branch = "development"
@@ -77,7 +80,9 @@ srcdir = "src"
 environment = ""
 
 [[wiki]]
-name = "wiki3"
+name = "wiki2"
+title = "ThreeFold Wiki Staging"
+#http or git url
 url = "https://github.com/threefoldfoundation/info_threefold"
 path = ""
 autocommit = false
@@ -88,48 +93,48 @@ environment = "staging"
 
 
 #website
-[[www]]
-name = "freetft"
-url = "git@github.com:threefoldfoundation/www_getfreetft.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = true
-srcdir = ""
-environment = ""
+# [[www]]
+# name = "freetft"
+# url = "git@github.com:threefoldfoundation/www_getfreetft.git"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = ""
+# environment = ""
 
 
-#website
-[[www]]
-name = "threefold"
-url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = true
-srcdir = "html"
-environment = ""
+# #website
+# [[www]]
+# name = "threefold"
+# url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = "html"
+# environment = ""
 
-[[www]]
-name = "incubaid"
-url = "git@github.com:Incubaid/www_incubaid.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = true
-srcdir = ""
-environment = ""
+# [[www]]
+# name = "incubaid"
+# url = "git@github.com:Incubaid/www_incubaid.git"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = ""
+# environment = ""
 
-#website
-[[www]]
-name = "freeflownation"
-url = "https://github.com/freeflownation/www_freeflownation"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = true
-srcdir = "html"
-environment = ""
+# #website
+# [[www]]
+# name = "freeflownation"
+# url = "https://github.com/freeflownation/www_freeflownation"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = "html"
+# environment = ""
 
 #data of simulator exports
 [[data]]

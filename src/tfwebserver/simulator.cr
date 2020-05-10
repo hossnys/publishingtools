@@ -89,14 +89,14 @@ module TFWeb
       available_options
     end
 
-    get "#{SIM_BASE_URL}/" do
-      render "src/tfwebserver/views/simulator/index.ecr"
-    end
+    # get "#{SIM_BASE_URL}/" do
+    #   render "src/tfwebserver/views/simulator/index.ecr"
+    # end
 
-    get "#{SIM_BASE_URL}/static/*filepath" do |env|
-      path = env.params.url["filepath"]
+    # get "#{SIM_BASE_URL}/static/*filepath" do |env|
+    #   path = env.params.url["filepath"]
 
-      send_file env, File.join("src/tfwebserver/static/simulator/", path)
-    end
+    #   send_file env, File.join("src/tfwebserver/static/simulator/", path)
+    # end
   end
 end
