@@ -212,19 +212,17 @@ module TFWeb
         puts msg.colorize :red
         do404 env, msg
       else
-        # do include macro
-        filepath.try do |path|
-          if @@include_processor.match(path)
-            new_content = @@include_processor.apply_includes(wikiname, File.read(path))
-            if new_content.nil?
-              send_file env, path
-            else
-              env.response.content_type = "text/plain"
-              return new_content
-            end
+        # do include macro is possible
+        if @@include_processor.match(filepath)
+          new_content = @@include_processor.apply_includes(wikiname, File.read(filepath))
+          if new_content.nil?
+            send_file env, filepath
           else
-            send_file env, path
+            env.response.content_type = "text/plain"
+            return new_content
           end
+        else
+          send_file env, filepath
         end
       end
     end
