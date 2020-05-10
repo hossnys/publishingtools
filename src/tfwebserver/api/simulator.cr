@@ -3,7 +3,7 @@ module TFWeb
     module Simulator
       include TFWeb::Simulator
 
-      SIM_API_BASE_URL = "/api" + SIM_BASE_URL
+      SIM_API_BASE_URL = "/:name/api" + SIM_BASE_URL
 
       get "#{SIM_API_BASE_URL}/options" do |env|
         env.response.content_type = "application/json"
