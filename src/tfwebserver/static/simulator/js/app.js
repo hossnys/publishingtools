@@ -39,9 +39,16 @@ availableOptions.token_prices = availableOptions.token_prices.length ? available
 availableOptions.unit_price_ranges = availableOptions.unit_price_ranges.length ? availableOptions.unit_price_ranges : UNIT_PRICE_RANGES
 
 
+function numberSorter(a, b) {
+    a = parseFloat(a);
+    b = parseFloat(b);
+
+    return a - b;
+}
+
 availableOptions.hardware_types.sort()
-availableOptions.growths.sort()
-availableOptions.token_prices.sort()
+availableOptions.growths.sort(numberSorter)
+availableOptions.token_prices.sort(numberSorter)
 availableOptions.unit_price_ranges.sort()
 
 const unitPriceOptions = availableOptions.unit_price_ranges.map((key) => {
@@ -50,6 +57,8 @@ const unitPriceOptions = availableOptions.unit_price_ranges.map((key) => {
         value: key + ' - ' + UNIT_PRICE_RANGE_LABELS[key]
     }
 });
+
+
 
 function getData() {
     const form = webix.$$("simulator_form");
