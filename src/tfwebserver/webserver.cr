@@ -1,5 +1,7 @@
 module TFWeb
   module WebServer
+    include API::Simulator
+    include API::Members
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
     @@wikis = Hash(String, Wiki).new
@@ -27,7 +29,8 @@ module TFWeb
             referer_sitename = referer_path_parts.shift
 
             if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
-              return env.redirect "/#{referer_sitename}#{path}"
+              #   puts "redirecting for #{referer_sitename} and #{sitename}"
+              return env.redirect "/#{referer_sitename}#{path}" if sitename != "api"
             end
           end
         end
@@ -304,6 +307,11 @@ module TFWeb
       end
     end
 
+    before_all do |env|
+      env.response.headers["Access-Control-Allow-Origin"] = "*"
+      env.response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
+      env.response.headers["Access-Control-Allow-Headers"] = "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
+    end
     get "/" do |env|
       wikis = @@wikis.keys
       websites = @@websites.keys
@@ -356,7 +364,5 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-    include API::Simulator
-    include API::Members
   end
 end
