@@ -19,210 +19,126 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing)
+#environment name (for example:  production, staging, testing), is used to define location where code will be checked out is ~/$environment/code/... 
+#if empty then is ~/sandbox/code
 environment = ""
 
 [[wiki]]
-#unique name for the wiki
 name = "advisors"
-#http or git url
 url = "git@github.com:threefoldfoundation/info_advisors.git"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = false
-#path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing)
 environment = ""
 
 [[wiki]]
-#unique name for the wiki
 name = "board"
-#http or git url
 url = "git@github.com:threefoldfoundation/info_board.git"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = false
-#path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing)
 environment = ""
 
 
 
 [[wiki]]
-#unique name for the wiki
 name = "sdk"
-#http or git url
 url = "github.com/threefoldfoundation/info_tfgridsdk"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = false
-#path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing)
 environment = ""
 
 [[wiki]]
-#unique name for the wiki
 name = "sdk3"
-#http or git url
 url = "github.com/threefoldfoundation/info_tfgridsdk"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = false
-#path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing)
 environment = "staging"
 
 
 [[wiki]]
-#unique name for the wiki
 name = "wiki"
-#http or git url
 url = "https://github.com/threefoldfoundation/info_threefold"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = false
-#path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing)
 environment = ""
 
 [[wiki]]
-#unique name for the wiki
 name = "wiki3"
-#http or git url
 url = "https://github.com/threefoldfoundation/info_threefold"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = false
-#path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing)
 environment = "staging"
 
 
 #website
 [[www]]
 name = "freetft"
-#http or git url
 url = "git@github.com:threefoldfoundation/www_getfreetft.git"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = true
-#path in the repo where the info is, std "src"
 srcdir = ""
-#environment name (for example:  production, staging, testing)
 environment = ""
 
 
 #website
 [[www]]
 name = "threefold"
-#http or git url
 url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = true
-#path in the repo where the info is, std "src"
 srcdir = "html"
-#environment name (for example:  production, staging, testing)
 environment = ""
 
-
-#website
 [[www]]
 name = "incubaid"
-#http or git url
 url = "git@github.com:Incubaid/www_incubaid.git"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = true
-#path in the repo where the info is, std "src"
 srcdir = ""
-#environment name (for example:  production, staging, testing)
 environment = ""
 
 #website
 [[www]]
 name = "freeflownation"
-#http or git url
 url = "https://github.com/freeflownation/www_freeflownation"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = true
-#path in the repo where the info is, std "src"
 srcdir = "html"
-#environment name (for example:  production, staging, testing)
 environment = ""
 
 #data of simulator exports
 [[data]]
 name = "simexports"
 title = "Simulator data repo"
-#http or git url
 url = "https://github.com/threefoldfoundation/simulator_export"
-#if empty will be auto created
 path = ""
-#commit automatically when there is new info, only works when ssh used
 autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
-#switch branch automatically if the name given above and its different on FS
 branchswitch = true
-#path in the repo where the info is, std "src"
 srcdir = "html"
-#environment name (for example:  production, staging, testing)
 environment = ""

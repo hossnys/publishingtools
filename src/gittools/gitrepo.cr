@@ -31,7 +31,7 @@ module TFWeb
         if !@url.includes?("@") && !@url.starts_with?("https://")
           @url = "https://#{@url}"
         end
-        infer_provider_account_repo
+        infer_provider_account_repo()
       end
     end
 
@@ -54,9 +54,11 @@ module TFWeb
 
     def base_dir
       if @environment
+        puts "~/#{@environment}/code"
         "~/#{@environment}/code"
       else
-        "~/code"
+        puts "~/sandbox/code"
+        "~/sandbox/code"
       end
     end
 
@@ -65,7 +67,7 @@ module TFWeb
     end
 
     def ensure_repo_dir
-      d = guess_repo_dir
+      d = guess_repo_dir()
       Dir.mkdir_p(d)
       d
     end
@@ -92,7 +94,7 @@ module TFWeb
           @provider_suffix = validm.not_nil!["suffix"].to_s
           @account = validm.not_nil!["account"].to_s
           @name = validm.not_nil!["repo"].to_s
-          account_dir = ensure_account_dir
+          account_dir = ensure_account_dir()
           @path = File.join(account_dir, @name)
         end
       else
@@ -102,7 +104,7 @@ module TFWeb
             @provider = validm.not_nil!["provider"].to_s
             @account = validm.not_nil!["account"].to_s
             @name = validm.not_nil!["repo"].to_s
-            account_dir = ensure_account_dir
+            account_dir = ensure_account_dir()
             @path = File.join(account_dir, name)
           end
         end
