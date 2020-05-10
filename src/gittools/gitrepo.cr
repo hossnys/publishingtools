@@ -112,8 +112,9 @@ module TFWeb
     def ensure_repo(pull = false)
       account_dir = ensure_account_dir
       rewritten_url = @url
+      puts "cloning into #{@path}"
       unless Dir.exists?(@path)
-        `cd #{account_dir} && git clone #{rewritten_url} && cd #{@name} && git fetch`
+        `cd #{account_dir} && git clone #{rewritten_url} --depth=1 && cd #{@name} && git fetch`
       end
       if pull
         `cd #{guess_repo_dir} && git pull`

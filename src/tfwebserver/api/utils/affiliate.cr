@@ -9,7 +9,7 @@ module TFWeb
     @repo_key = ""
 
     def initialize
-      repo = GITRepo.new(url: REPO_URLS[@repo_key])
+      repo = GITRepo.new(url: REPO_URLS[@repo_key], environment: "production")
       repo_path = repo.ensure_repo(pull = true)
       @path = File.join(repo_path, @repo_key)
     end
