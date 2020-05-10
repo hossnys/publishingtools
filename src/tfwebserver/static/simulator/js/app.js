@@ -40,7 +40,7 @@ function sortTokenPrices(tokenPrices) {
     let nonFloatPrices = [];
 
     for (let price of tokenPrices) {
-        if (parseFloat(price) === NaN) {
+        if (isNaN(parseFloat(price))) {
             nonFloatPrices.push(price);
         } else {
             floatPrices.push(price)
