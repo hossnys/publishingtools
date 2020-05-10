@@ -31,6 +31,27 @@ const UNIT_PRICE_RANGE_LABELS = {
 
 const ajax = webix.ajax().headers({ "content-type": "application/json" });
 
+function numberSorter(a, b) {
+    return parseFloat(a) - parseFloat(b);
+}
+
+function sortTokenPrices(tokenPrices) {
+    let floatPrices = [];
+    let nonFloatPrices = [];
+
+    for (let price of tokenPrices) {
+        if (parseFloat(price) === NaN) {
+            nonFloatPrices.push(price);
+        } else {
+            floatPrices.push(price)
+        }
+    }
+
+    return [...floatPrices.sort(numberSorter), ...nonFloatPrices.sort()];
+}
+
+
+
 const response = webix.ajax().sync().get("/api/simulator/options");
 let availableOptions = JSON.parse(response.responseText)
 availableOptions.hardware_types = availableOptions.hardware_types.length ? availableOptions.hardware_types : HARDWARE_TYPES
@@ -39,17 +60,10 @@ availableOptions.token_prices = availableOptions.token_prices.length ? available
 availableOptions.unit_price_ranges = availableOptions.unit_price_ranges.length ? availableOptions.unit_price_ranges : UNIT_PRICE_RANGES
 
 
-function numberSorter(a, b) {
-    a = parseFloat(a);
-    b = parseFloat(b);
-
-    return a - b;
-}
-
-availableOptions.hardware_types.sort()
-availableOptions.growths.sort(numberSorter)
-availableOptions.token_prices.sort(numberSorter)
-availableOptions.unit_price_ranges.sort()
+availableOptions.hardware_types.sort();
+availableOptions.growths.sort(numberSorter);
+availableOptions.token_prices = sortTokenPrices(availableOptions.token_prices);
+availableOptions.unit_price_ranges.sort();
 
 const unitPriceOptions = availableOptions.unit_price_ranges.map((key) => {
     return {
