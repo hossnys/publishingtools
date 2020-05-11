@@ -286,9 +286,11 @@ module TFWeb
       env.response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
       env.response.headers["Access-Control-Allow-Headers"] = "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
     end
+
     get "/" do |env|
       wikis = @@wikis.keys
       websites = @@websites.keys
+      blogs = @@blogs.keys
       render "src/tfwebserver/views/wiki.ecr"
     end
 

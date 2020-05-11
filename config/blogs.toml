@@ -1,3 +1,8 @@
+
+[server]
+port = 3000
+addr = "0.0.0.0"
+
 # von sub blog
 [[blog]]
 name = "vonsubblog"
