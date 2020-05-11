@@ -56,7 +56,7 @@ module TFWeb
 
       def slugify(title)
         # for now
-        title.downcase.strip.gsub(" ", "-")
+        title.downcase.strip.gsub(" ", "-").gsub(/[^\w-]+/, "")
       end
 
       def get_excerpt(content, maxlen = 400)
