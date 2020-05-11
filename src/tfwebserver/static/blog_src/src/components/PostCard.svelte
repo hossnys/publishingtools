@@ -37,7 +37,7 @@
   //     .splice(1)
   //     .join("\n")
   //     .slice(0, 300);
-  summary = post.description || excerptOf(mdtext);
+  summary = post.description || post.excerpt || excerptOf(mdtext);
   //   import { fly } from "svelte/transition";
   export function format(inputDate) {
     var date = new Date(inputDate);
@@ -94,10 +94,7 @@
       <h3 class="h4">{post.title}</h3>
     </a>
     {#if showExcerpt}
-      <p class="text-muted">
-        {@html summary}
-        ..
-      </p>
+      <p class="text-muted">{summary} ..</p>
     {/if}
     <div class="widget tags d-flex justify-content-between">
       {#if post.tags}
