@@ -54,13 +54,13 @@ http://sdk.threefold.io, https://sdk.threefold.io {
 }
 
 
-http://sdk3.threefold.io, https://sdk3.threefold.io {
+http://sdk2.threefold.io, https://sdk2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
         }
         tls off
-        proxy / localhost:3000/sdk3
+        proxy / localhost:3000/sdk2
 }
 
 
@@ -70,15 +70,26 @@ http://wiki.threefold.io, https://wiki.threefold.io {
            / https://{host}{uri}
         }
         tls off
+        proxy /api localhost:3000/
         proxy / localhost:3000/wiki
 }
 
 
-http://wiki3.threefold.io, https://wiki3.threefold.io {
+http://wiki2.threefold.io, https://wiki2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
         }
         tls off
-        proxy / localhost:3000/wiki3
+        proxy /api localhost:3000/
+        proxy / localhost:3000/wiki2
+}
+
+http://simulators.threefold.io, https://simulators.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls off
+        proxy / localhost:3000/
 }
