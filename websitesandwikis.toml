@@ -19,7 +19,7 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, testing), is used to define location where code will be checked out is ~/$environment/code/... 
+#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
 #if empty then is ~/sandbox/code
 environment = "production"
 
@@ -65,7 +65,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = "testing"
+environment = "test"
 
 
 [[wiki]]
@@ -89,7 +89,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = "testing"
+environment = "test"
 
 
 #website

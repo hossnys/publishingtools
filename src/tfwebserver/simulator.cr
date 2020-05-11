@@ -2,7 +2,7 @@ module TFWeb
   module Simulator
     SIM_BASE_URL     = "/simulator"
     SIM_DATASITE_URL = "https://github.com/threefoldfoundation/simulator_export"
-    SIM_EXPORTS_DIR  = "tfsimulator/export"
+    SIM_EXPORTS_DIR  = "tfsimulator"
 
     class Options
       include JSON::Serializable
