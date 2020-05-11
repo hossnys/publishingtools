@@ -154,24 +154,22 @@ module TFWeb
         next if seen.includes?(thepath)
         seen << thepath.to_s
 
-        path_obj = Path.new(File.dirname(thepath))
-        child = File.basename(thepath)
-        next if child.starts_with?("_")
-        procs = [@namefixer, @readme, @img, @md, @docsifyreadmefixer, @docsifysidebarfixer, @linksimagesfixer, @imgdirrenamer] of Processor
+        path_obj = Path.new(thepath)
+        next if path_obj.basename.starts_with?("_")
+        procs = [@namefixer, @img, @md, @docsifyreadmefixer, @docsifysidebarfixer, @linksimagesfixer, @imgdirrenamer] of Processor
         procs.each do |p|
           begin
             # puts "thepath: #{thepath}"
             # puts "currentprocessor: #{p}"
-            if p.match(child)
-              thepath = p.process(path_obj, child)
+            if p.match(path_obj)
+              thepath = p.process(path_obj)
               #   puts "thepath: after processing: #{thepath}"
               thepath.try do |apath|
-                path_obj = Path.new(File.dirname(apath))
-                child = File.basename(apath)
+                path_obj = Path.new(apath)
               end
             end
           rescue exception
-            puts "error in #{p} for #{child} in #{path_obj} #{exception}".colorize(:red)
+            puts "error in #{p} for #{path_obj} #{exception}".colorize(:red)
             # raise exception
           end
         end

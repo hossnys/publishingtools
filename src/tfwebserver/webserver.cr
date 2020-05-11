@@ -1,5 +1,7 @@
 module TFWeb
   module WebServer
+    include API::Simulator
+    include API::Members
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
     @@wikis = Hash(String, Wiki).new
@@ -28,7 +30,8 @@ module TFWeb
             referer_sitename = referer_path_parts.shift
 
             if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
-              return env.redirect "/#{referer_sitename}#{path}"
+              #   puts "redirecting for #{referer_sitename} and #{sitename}"
+              return env.redirect "/#{referer_sitename}#{path}" if sitename != "api"
             end
           end
         end
@@ -49,6 +52,10 @@ module TFWeb
       @@blogs
     end
 
+    def self.markdowndocs_collections
+      @@markdowndocs_collections
+    end
+
     def self.prepare_wiki(wiki : Wiki)
       # TODO: handle the url if path is empty
       markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
@@ -64,8 +71,6 @@ module TFWeb
       @@wikis.values.each do |wiki|
         prepare_wiki(wiki)
       end
-
-      @@include_processor.mddocs_collections = @@markdowndocs_collections
     end
 
     def self.read_config(configfilepath)
@@ -95,7 +100,6 @@ module TFWeb
         end
 
         # TODO: code to validate the uniqueness of wiki, websites names..
-
         Kemal.config.port = serverconfig["port"].as(Int64).to_i
         Kemal.config.host_binding = serverconfig["addr"].as(String)
       end
@@ -125,41 +129,79 @@ module TFWeb
       Kemal.run
     end
 
+    def self.do200(env, msg)
+      env.response.status_code = 200
+      env.response.print msg
+      env.response.close
+    end
+
+    def self.do404(env, msg)
+      env.response.status_code = 404
+      env.response.print msg
+      env.response.close
+    end
+
+    private def self.get_readme_path(wiki, filename)
+      path = File.join(wiki.path, wiki.srcdir)
+      topfilename = File.basename(path) + ".md"
+      potential_readmes = [topfilename, "readme.md", "README.md"]
+      potential_readmes.each do |pot_readme|
+        filepath = File.join(path, pot_readme)
+        if File.exists?(filepath)
+          return filepath
+        end
+      end
+    end
+
     # checks the loaded metadata to find the required md file or image file
     # TODO: phase 2, in future we need to change this to use proper objects: MDDoc, Image, ...
-    def self.send_from_dirsinfo(env, wikiname, filename)
-      mddocs = @@markdowndocs_collections[wikiname]
-      filesinfo = mddocs.filesinfo
-      if filesinfo.has_key?(filename)
-        firstpath = filesinfo[filename].paths[0].as(String) # in decent repo it will be only 1 in this array.
-      elsif filesinfo.has_key?(filename.downcase)
-        firstpath = filesinfo[filename.downcase].paths[0].as(String)
-      else
-        # TODO: should try to reload before giving 404?
-        puts "couldn't find #{filename} in the markdowndocs_collection of #{wikiname}".colorize(:red)
-        env.response.status_code = 404
-        env.response.print "file #{filename} doesn't exist in scanned info."
-        env.response.close
+    def self.get_wiki_file_path(wikiname, filename)
+      wiki = @@wikis[wikiname]
+      full_path = File.join(wiki.path, wiki.srcdir, filename)
+      if File.exists?(full_path)
+        # good, found on file system
+        return full_path
       end
 
-      firstpath.try do |path|
-        if @@include_processor.match(path)
-          new_content = @@include_processor.apply_includes(wikiname, File.read(path))
-          if new_content.nil?
-            send_file env, path
-          else
-            env.response.content_type = "text/plain"
-            return new_content
-          end
+      if filename.downcase == "readme.md"
+        # special case for readme
+        get_readme_path(wiki, filename)
+      else
+        # try markdown docs collection
+        mddocs = @@markdowndocs_collections[wikiname]
+        filesinfo = mddocs.filesinfo
+        if filesinfo.has_key?(filename)
+          filesinfo[filename].paths[0].as(String) # in decent repo it will be only 1 in this array.
+        elsif filesinfo.has_key?(filename.downcase)
+          filesinfo[filename.downcase].paths[0].as(String)
         else
-          send_file env, path
+          puts "couldn't find #{filename} in the markdowndocs_collection of #{wikiname}".colorize(:red)
         end
       end
     end
 
     def self.serve_wikifile(env, wikiname, filename)
       msg = "Got request for wiki:#{name} url:#{env.params.url}"
-      self.send_from_dirsinfo(env, wikiname, filename)
+
+      filepath = self.get_wiki_file_path(wikiname, filename)
+
+      if filepath.nil?
+        puts msg.colorize :red
+        do404 env, msg
+      else
+        # do include macro is possible
+        if @@include_processor.match(filepath)
+          new_content = @@include_processor.apply_includes(wikiname, File.read(filepath))
+          if new_content.nil?
+            send_file env, filepath
+          else
+            env.response.content_type = "text/plain"
+            return new_content
+          end
+        else
+          send_file env, filepath
+        end
+      end
     end
 
     def self.serve_staticsite(env, sitename, filename)
@@ -178,18 +220,6 @@ module TFWeb
       end
     end
 
-    def self.do200(env, msg)
-      env.response.status_code = 200
-      env.response.print msg
-      env.response.close
-    end
-
-    def self.do404(env, msg)
-      env.response.status_code = 404
-      env.response.print msg
-      env.response.close
-    end
-
     private def self.handle_update(env, name, force)
       puts "trying to update #{name} force? #{force}".colorize(:blue)
       if @@wikis.has_key?(name)
@@ -204,27 +234,6 @@ module TFWeb
       else
         do404 env, "couldn't pull #{name}"
       end
-    end
-
-    private def self.handle_readme(env, name, path)
-      wiki = @@wikis[name]
-      if !path
-        path = File.join(wiki.path, wiki.srcdir)
-      end
-      topfilename = File.basename(path) + ".md"
-      potential_readmes = [topfilename, "readme.md", "README.md"]
-      potential_readmes.each do |pot_readme|
-        filepath = File.join(path, pot_readme)
-        if File.exists?(filepath)
-          return send_file env, filepath
-        end
-      end
-    end
-
-    private def self.handle_sidebar(env, name, path)
-      wiki = @@wikis[name]
-      filepath = File.join(wiki.path, wiki.srcdir, path.to_s)
-      send_file env, filepath
     end
 
     private def self.handle_datafile(env, name, path)
@@ -272,6 +281,11 @@ module TFWeb
       end
     end
 
+    before_all do |env|
+      env.response.headers["Access-Control-Allow-Origin"] = "*"
+      env.response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
+      env.response.headers["Access-Control-Allow-Headers"] = "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
+    end
     get "/" do |env|
       wikis = @@wikis.keys
       websites = @@websites.keys
@@ -308,29 +322,13 @@ module TFWeb
       self.handle_update(env, name, true)
     end
 
-    get "/:name/_sidebar.md" do |env|
-      name = env.params.url["name"]
-      fullpath = File.join(@@wikis[name].path, @@wikis[name].srcdir, "_sidebar.md")
-      send_file env, fullpath
-    end
-
-    get "/:name/README.md" do |env|
-      name = env.params.url["name"]
-      srcpath = Path.new(File.join(@@wikis[name].path, @@wikis[name].srcdir))
-      self.handle_readme(env, name, srcpath)
-    end
-
     get "/:name/*filepath" do |env|
       name = env.params.url["name"]
       filepath = env.params.url["filepath"]
-      if @@markdowndocs_collections.has_key?(name)
+      if @@wikis.has_key?(name)
         path = Path.new(filepath)
         if [".toml", ".json"].includes?(path.extension)
           self.handle_datafile(env, name, path)
-        elsif path.basename == "_sidebar.md"
-          self.handle_sidebar(env, name, path)
-        elsif path.basename.downcase == "readme.md"
-          self.handle_readme(env, name, path)
         else
           self.serve_wikifile(env, name, path.basename)
         end
@@ -340,7 +338,5 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-    include API::Simulator
-    include API::Members
   end
 end

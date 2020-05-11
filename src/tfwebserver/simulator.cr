@@ -4,7 +4,7 @@ module TFWeb
 
     SIM_BASE_URL     = "/simulator"
     SIM_DATASITE_URL = "https://github.com/threefoldfoundation/simulator_export"
-    SIM_EXPORTS_DIR  = "tfsimulator/export"
+    SIM_EXPORTS_DIR  = "tfsimulator"
 
     class Options
       include JSON::Serializable
@@ -36,19 +36,20 @@ module TFWeb
       unless WebServer.wikis.has_key?(name)
         sub_path = File.join(SIM_EXPORTS_DIR, params.join("/"))
 
-        wikiobj = Wiki.new_empty
-        wikiobj.name = name
-        wikiobj.url = TFWeb::Simulator::SIM_DATASITE_URL
-        wikiobj.srcdir = sub_path
+        wiki = Wiki.new_empty
+        wiki.name = name
+        wiki.url = TFWeb::Simulator::SIM_DATASITE_URL
+        wiki.environment = "production"
+        wiki.srcdir = sub_path
 
         begin
-          wikiobj.prepare_on_fs
-        rescue
-          raise "data path cannot be found '#{sub_path}'"
+          wiki.prepare_on_fs
+        rescue exception
+          raise "#{exception} data path cannot be found for #{wiki} '#{sub_path}'"
         end
 
-        WebServer.wikis[wikiobj.name] = wikiobj
-        WebServer.prepare_wiki(wikiobj)
+        WebServer.wikis[wiki.name] = wiki
+        WebServer.prepare_wiki(wiki)
       end
 
       name
@@ -82,14 +83,14 @@ module TFWeb
       available_options
     end
 
-    get "#{SIM_BASE_URL}/" do
-      render "src/tfwebserver/views/simulator/index.ecr"
-    end
+    # get "#{SIM_BASE_URL}/" do
+    #   render "src/tfwebserver/views/simulator/index.ecr"
+    # end
 
-    get "#{SIM_BASE_URL}/static/*filepath" do |env|
-      path = env.params.url["filepath"]
+    # get "#{SIM_BASE_URL}/static/*filepath" do |env|
+    #   path = env.params.url["filepath"]
 
-      send_file env, File.join("src/tfwebserver/static/simulator/", path)
-    end
+    #   send_file env, File.join("src/tfwebserver/static/simulator/", path)
+    # end
   end
 end

@@ -49,8 +49,8 @@ module TFWeb
     property all_mdlinks = [] of MDLink
     property filepath = ""
 
-    def match(file_name)
-      return File.extname(file_name) == ".md"
+    def match(path)
+      return File.extname(path) == ".md"
     end
 
     private def process_links_and_images(filepath)
@@ -63,11 +63,10 @@ module TFWeb
       renderer
     end
 
-    def process(path_obj, child)
-      child_path = path_obj.join(child)
+    def process(path)
       content = ""
-      content = File.read(child_path)
-      therenderer = process_links_and_images(child_path)
+      content = File.read(path)
+      therenderer = process_links_and_images(path)
 
       mdlinks = therenderer.links
       mdimages = therenderer.images
@@ -75,7 +74,7 @@ module TFWeb
       #   p mdlinks.size, mdimages
       mdlinks.each do |mdlink|
         link = mdlink.url
-        next if link.starts_with?("http") || link.starts_with?("#")
+        next if link.starts_with?("http") || link.starts_with?("#") || link.starts_with?("/")
 
         # TODO: probably should check if has extension in general. next unless link.ends_with?(".md")
         if link.ends_with?(".md")
@@ -109,10 +108,10 @@ module TFWeb
 
           newimg = newimg.downcase.gsub({"-": "_"})
 
-          if File.exists?(path_obj.join("img").join(baseimg))
+          if File.exists?(Path.new(path.dirname, "img", baseimg))
             newimg = "./img/#{newimg}"
           end
-          puts "#{path_obj} #{child} [imagefixer]old img is #{baseimg}  and new img should be #{newimg} in #{therenderer.filepath}".colorize(:blue) if img != newimg
+          puts "#{path.to_s} [imagefixer]old img is #{baseimg}  and new img should be #{newimg} in #{therenderer.filepath}".colorize(:blue) if img != newimg
 
           newcontent = content.gsub(img, newimg)
           content = newcontent
@@ -122,9 +121,9 @@ module TFWeb
       @all_mdimages.concat mdimages
       @all_mdlinks.concat mdlinks
       if all_mdimages.size > 0 || all_mdlinks.size > 0
-        File.write(child_path, content)
+        File.write(path, content)
       end
-      child_path
+      path
     end
   end
 end

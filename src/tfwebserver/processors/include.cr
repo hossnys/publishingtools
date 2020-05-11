@@ -7,11 +7,9 @@ module TFWeb
     # !!!include:$docname
     INCLUDE_RE = /\!\!\!\s*include\s*(?:\:\s*(.+)\s*)?\:\s*(.+)\s*/
 
-    property mddocs_collections : Hash(String, MarkdownDocs)?
-
     def get_doc_content(wiki_name, doc_name)
       wiki_name = wiki_name.strip
-      @mddocs_collections.try do |mdocs|
+      WebServer.markdowndocs_collections.try do |mdocs|
         unless mdocs.has_key?(wiki_name)
           raise "wiki name of '#{wiki_name}' is not configured"
         end
@@ -69,13 +67,12 @@ module TFWeb
       return content
     end
 
-    def match(filename)
-      File.extname(filename).strip.downcase == ".md"
+    def match(path)
+      File.extname(path).strip.downcase == ".md"
     end
 
-    def process(parent_path_obj, filename)
-      newname = parent_path_obj.join(filename)
-      newname
+    def process(path)
+      path
     end
   end
 end

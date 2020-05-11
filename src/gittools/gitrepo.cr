@@ -16,9 +16,9 @@ module TFWeb
     property account = ""
     property provider = "github"
     property provider_suffix = ".com"
-    property environment = ""
+    property environment = "production"
 
-    def initialize(@name = "", @path = "", @url = "", @branch = "master", @branchswitch = false, @environment = "")
+    def initialize(@name = "", @path = "", @url = "", @branch = "master", @branchswitch = false, @environment = "production")
       # TODO: check if ssh-agent loaded, if yes use git notation, otherwise html
       #   @url = "" # TODO: fill in the right url (git or http), if http no authentication
       if @path == "" && @url == ""
@@ -31,7 +31,7 @@ module TFWeb
         if !@url.includes?("@") && !@url.starts_with?("https://")
           @url = "https://#{@url}"
         end
-        infer_provider_account_repo
+        infer_provider_account_repo()
       end
     end
 
@@ -53,11 +53,7 @@ module TFWeb
     end
 
     def base_dir
-      if @environment
-        "~/#{@environment}/code"
-      else
-        "~/code"
-      end
+      "~/tfweb/#{@environment}/"
     end
 
     def guess_repo_dir
@@ -65,7 +61,7 @@ module TFWeb
     end
 
     def ensure_repo_dir
-      d = guess_repo_dir
+      d = guess_repo_dir()
       Dir.mkdir_p(d)
       d
     end
@@ -92,7 +88,7 @@ module TFWeb
           @provider_suffix = validm.not_nil!["suffix"].to_s
           @account = validm.not_nil!["account"].to_s
           @name = validm.not_nil!["repo"].to_s
-          account_dir = ensure_account_dir
+          account_dir = ensure_account_dir()
           @path = File.join(account_dir, @name)
         end
       else
@@ -102,7 +98,7 @@ module TFWeb
             @provider = validm.not_nil!["provider"].to_s
             @account = validm.not_nil!["account"].to_s
             @name = validm.not_nil!["repo"].to_s
-            account_dir = ensure_account_dir
+            account_dir = ensure_account_dir()
             @path = File.join(account_dir, name)
           end
         end
@@ -112,8 +108,9 @@ module TFWeb
     def ensure_repo(pull = false)
       account_dir = ensure_account_dir
       rewritten_url = @url
+      puts "cloning into #{@path}"
       unless Dir.exists?(@path)
-        `cd #{account_dir} && git clone #{rewritten_url} && git fetch`
+        `cd #{account_dir} && git clone #{rewritten_url} --depth=1 && cd #{@name} && git fetch`
       end
       if pull
         `cd #{guess_repo_dir} && git pull`
