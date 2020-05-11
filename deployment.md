@@ -7,3 +7,7 @@
 - configure websites and wikis you want to serve as defined in `websitesandwikis.toml` file
 - run the server `shards build --error-trace && ./bin/tfweb -c websitesandwikis.toml`
 - for Caddyfile make sure to change the basicauth used to the suitable ones agreed on in the ops team.
+
+## troubleshooting
+
+if for any reason you couldn't build remotely, make sure to do `shards build --static` on your local machine and then scp it over `scp bin/tfweb root@134.209.203.153:/usr/bin/tfweb` and use that binary instead
