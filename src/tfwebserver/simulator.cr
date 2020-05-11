@@ -37,12 +37,13 @@ module TFWeb
         wiki = Wiki.new
         wiki.name = name
         wiki.url = TFWeb::Simulator::SIM_DATASITE_URL
+        wiki.environment = "production"
         wiki.srcdir = sub_path
 
         begin
           wiki.prepare_on_fs
-        rescue
-          raise "data path cannot be found '#{sub_path}'"
+        rescue exception
+          raise "#{exception} data path cannot be found for #{wiki} '#{sub_path}'"
         end
 
         WebServer.wikis[wiki.name] = wiki

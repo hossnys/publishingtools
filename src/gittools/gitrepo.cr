@@ -16,9 +16,9 @@ module TFWeb
     property account = ""
     property provider = "github"
     property provider_suffix = ".com"
-    property environment = ""
+    property environment = "production"
 
-    def initialize(@name = "", @path = "", @url = "", @branch = "master", @branchswitch = false, @environment = "")
+    def initialize(@name = "", @path = "", @url = "", @branch = "master", @branchswitch = false, @environment = "production")
       # TODO: check if ssh-agent loaded, if yes use git notation, otherwise html
       #   @url = "" # TODO: fill in the right url (git or http), if http no authentication
       if @path == "" && @url == ""
@@ -53,11 +53,7 @@ module TFWeb
     end
 
     def base_dir
-      if @environment != ""
-        "~/tfweb/#{@environment}/"
-      else
-        raise "environment needs to be specified"
-      end
+      "~/tfweb/#{@environment}/"
     end
 
     def guess_repo_dir
