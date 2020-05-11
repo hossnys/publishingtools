@@ -65,7 +65,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = "test"
+environment = "testing"
 
 
 [[wiki]]
@@ -89,7 +89,7 @@ autocommit = false
 branch = "development"
 branchswitch = false
 srcdir = "src"
-environment = "test"
+environment = "testing"
 
 
 #website
