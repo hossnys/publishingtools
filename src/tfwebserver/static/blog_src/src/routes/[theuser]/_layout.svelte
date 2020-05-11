@@ -34,9 +34,6 @@
   export let posts = [];
   export let metadata = {};
   export let tags = [];
-
-  import { stores } from "@sapper/app";
-  const { preloading, page, session } = stores();
 </script>
 
 <!-- {#await metadata then value}
