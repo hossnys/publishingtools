@@ -21,4 +21,6 @@ dependencies:
   toml:
     github: crystal-community/toml.cr
     branch: master
+  crinja:
+    github: straight-shoota/crinja    
 license: MIT

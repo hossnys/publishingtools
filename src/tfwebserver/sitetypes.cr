@@ -1,3 +1,5 @@
+require "crinja"
+
 module TFWeb
   class Site
     property name = ""
@@ -9,9 +11,19 @@ module TFWeb
     property autocommit = false
     property srcdir = "src"
     property environment = ""
+    property jinja_env = Crinja.new()
 
+    # def initialize()
+    #   @jinja_env = Crinja.new()
+    # end
+    
     def prepare_on_fs
       repo = self.repo
+      templatesdir = File.join(@path, @srcdir, "templates")
+      if Dir.exists?(@path)
+        puts "TEMPLATE LOADED FOR #{templatesdir}"
+        @jinja_env.loader = Crinja::Loader::FileSystemLoader.new(templatesdir)
+      end
     end
 
     def repo
@@ -23,7 +35,8 @@ module TFWeb
     end
   end
 
-  class Wiki < Site
+  class Wiki < Site   
+
     private def prepare_index
       repo = self.repo
       title =  @title.size > 0 ? @title : @name
@@ -35,7 +48,6 @@ module TFWeb
 
     def prepare_on_fs
       super
-
       prepare_index
     end
   end

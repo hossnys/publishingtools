@@ -1,5 +1,9 @@
 version: 1.0
 shards:
+  crinja:
+    github: straight-shoota/crinja
+    version: 0.6.0
+
   exception_page:
     github: crystal-loot/exception_page
     version: 0.1.4

@@ -338,6 +338,24 @@ module TFWeb
       end
     end
 
+    #get template fill in data obj
+    get "/:name/template/:templatename" do |env|
+      name = env.params.url["name"]
+      if @@wikis.has_key?(name)
+        wikisite = @@wikis[name]
+        templatename = env.params.url["templatename"]
+        pp wikisite
+        # pp env.params.query
+        # pp env.params.query["b"]  
+        template = wikisite.jinja_env.get_template(templatename)
+        text=template.render(env.params.query)
+        do200 env, text        
+      else
+        do404 env, "couldn't find wiki #{name}"
+      end
+      
+    end
+
     get "/:name/try_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, false)
