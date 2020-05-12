@@ -4,7 +4,7 @@ module TFWeb
   class NameFixerProcessor < Processor
     def match(path)
       extensions = [".md", ".jpg", ".jpeg", ".png", "svg"]
-      if extensions.include?(path.extension)
+      if extensions.includes?(path.extension)
         true
       else
         false
