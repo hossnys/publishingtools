@@ -421,14 +421,5 @@ module TFWeb
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
     end
-    before_get "/:name/" do |env|
-      name = env.params.url["name"]
-      if @@wikis.has_key?(name)
-        if @@wikis[name].auth == true && env.session.bool?("auth") != true
-          env.session.string("request-uri", env.request.path)
-          env.redirect "/auth/login"
-        end
-      end
-    end
   end
 end
