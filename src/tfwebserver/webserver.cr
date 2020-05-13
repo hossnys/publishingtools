@@ -2,6 +2,7 @@ module TFWeb
   module WebServer
     include API::Simulator
     include API::Members
+    include API::Auth
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
     @@wikis = Hash(String, Wiki).new
@@ -87,6 +88,7 @@ module TFWeb
           wikiobj.autocommit = wiki["autocommit"].as(Bool)
           wikiobj.environment = wiki.fetch("environment", "production").as(String)
           wikiobj.title = wiki.fetch("title", "").as(String)
+          wikiobj.auth = wiki.fetch("auth", false).as(Bool)
           @@wikis[wikiobj.name] = wikiobj
         end
 
@@ -151,6 +153,14 @@ module TFWeb
       end
 
       self.prepare_wikis
+
+      secret = ENV.fetch("SESSION_SECRET", Random::Secure.hex(64))
+      Dir.mkdir_p("session_data")
+      Kemal::Session.config do |config|
+        config.engine = Kemal::Session::FileEngine.new({:sessions_dir => "./session_data"})
+        config.secret = secret
+      end
+
       Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites)
       Kemal.run
     end
@@ -379,6 +389,15 @@ module TFWeb
         self.serve_staticsite(env, name, filepath)
       else
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
+      end
+    end
+    before_get "/:name/" do |env|
+      name = env.params.url["name"]
+      if @@wikis.has_key?(name)
+        if @@wikis[name].auth == true && env.session.bool?("auth") != true
+          env.session.string("request-uri", env.request.path)
+          env.redirect "/auth/login"
+        end
       end
     end
   end

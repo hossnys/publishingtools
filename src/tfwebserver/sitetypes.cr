@@ -12,10 +12,8 @@ module TFWeb
     property srcdir = "src"
     property environment = ""
     property jinja_env = Crinja.new
+    property auth = false
 
-    # def initialize()
-    #   @jinja_env = Crinja.new()
-    # end
 
     def prepare_on_fs
       repo = self.repo
