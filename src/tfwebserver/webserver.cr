@@ -349,7 +349,7 @@ module TFWeb
     end
 
     # get template fill in data obj
-    get "/:name/template/:templatename" do |env|
+    get "/:name/templates/:templatename" do |env|
       name = env.params.url["name"]
       if @@wikis.has_key?(name)
         wikisite = @@wikis[name]
