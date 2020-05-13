@@ -10,6 +10,14 @@ module TFWeb
     @@datasites = Hash(String, Data).new
     @@include_processor = IncludeProcessor.new
 
+    def self.get_websites
+      @@websites
+    end
+
+    def self.get_wikis
+      @@wikis
+    end
+
     class MiddleWare < Kemal::Handler
       def initialize(
         @wikis : Hash(String, Wiki),
@@ -74,6 +82,21 @@ module TFWeb
       #   p @@config
       @@config.try do |okconfig|
         serverconfig = okconfig["server"].as(Hash)
+        okconfig.has_key?("group") && okconfig["group"].as(Array).each do |groupel|
+          group = groupel.as(Hash)
+          aclgroup = ACLGroup.new
+          aclgroup.name = group["name"].as(String)
+          aclgroup.description = group.fetch("description", "").as(String)
+          # TODO: can be better?
+          group["users"].as(Array).each do |u|
+            threebotuser = u.as(String)
+            unless threebotuser.ends_with?(".3bot")
+              threebotuser += ".3bot"
+            end
+            aclgroup.users << threebotuser
+          end
+          aclgroup.save
+        end
 
         okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
           wiki = wikiel.as(Hash)
@@ -89,6 +112,10 @@ module TFWeb
           wikiobj.environment = wiki.fetch("environment", "production").as(String)
           wikiobj.title = wiki.fetch("title", "").as(String)
           wikiobj.auth = wiki.fetch("auth", false).as(Bool)
+
+          wiki.fetch("groups", [] of String).as(Array).each do |g|
+            wikiobj.groups << g.as(String)
+          end
           @@wikis[wikiobj.name] = wikiobj
         end
 
@@ -104,6 +131,9 @@ module TFWeb
           websiteobj.autocommit = website["autocommit"].as(Bool)
           websiteobj.environment = website.fetch("environment", "production").as(String)
           websiteobj.title = website.fetch("title", "").as(String)
+          website.fetch("groups", [] of String).as(Array).each do |g|
+            websiteobj.groups << g.as(String)
+          end
           @@websites[websiteobj.name] = websiteobj
         end
 

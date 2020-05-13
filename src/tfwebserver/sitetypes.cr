@@ -1,6 +1,18 @@
 require "crinja"
 
 module TFWeb
+  GROUPS = Hash(String, ACLGroup).new
+
+  class ACLGroup
+    property name = ""
+    property description = ""
+    property users = Set(String).new
+
+    def save
+      GROUPS[@name] = self
+    end
+  end
+
   class Site
     property name = ""
     property title = ""
@@ -13,7 +25,24 @@ module TFWeb
     property environment = ""
     property jinja_env = Crinja.new
     property auth = false
+    property groups = [] of String
 
+    def to_s
+      "#{@name} #{@auth} #{@environment} "
+    end
+
+    def user_can_access?(username)
+      return true if @groups.size == 0
+      groups.each do |groupname|
+        puts GROUPS
+        puts GROUPS[groupname]
+        if GROUPS[groupname].users.includes?(username)
+          #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
+          return true
+        end
+      end
+      return false
+    end
 
     def prepare_on_fs
       repo = self.repo

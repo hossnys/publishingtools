@@ -4,6 +4,11 @@
 port = 3000
 addr = "0.0.0.0"
 
+[[group]]
+name = "admin"
+users = ["ahmedthabet"]
+
+
 [[wiki]]
 #unique name for the wiki
 name = "ambassadors"
@@ -55,6 +60,8 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "production"
+groups = ["admin"]
+auth = true
 
 [[wiki]]
 name = "sdk2"

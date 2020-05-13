@@ -3,15 +3,40 @@ module TFWeb
     module Auth
       @@OAUTH_URL = "https://oauth.threefold.io"
       @@REDIRECT_URL = "https://login.threefold.me"
-      @@wikis = Hash(String, Wiki).new
+      @@wikis : Hash(String, Wiki) = TFWeb::WebServer.get_wikis
+      @@websites : Hash(String, Website) = TFWeb::WebServer.get_websites
 
-      before_get "/:name/" do |env|
+      before_get "/:name" do |env|
+        puts "calllleeed auth."
+        puts @@wikis.keys
+        puts @@websites.keys
         name = env.params.url["name"]
+        puts "name: =>>> #{name}"
+        obj = Site.new
         if @@wikis.has_key?(name)
-          if @@wikis[name].auth == true && env.session.bool?("auth") != true
-            env.session.string("request-uri", env.request.path)
-            env.redirect "/auth/login"
-          end
+          obj = @@wikis[name].not_nil!
+        elsif @@websites.has_key?(name)
+          obj = @@websites[name].not_nil!
+        end
+        puts " obj: #{obj} #{obj.auth}", env.session.bool?("auth_#{name}") != true
+
+        puts env.session
+        env.session.bools.each do |k, v|
+          puts "#{k} => #{v}"
+        end
+
+        env.session.strings.each do |k, v|
+          puts "#{k} => #{v}"
+        end
+        if obj.auth && env.session.bool?("auth_#{name}") != true
+          puts "entering again..."
+          puts obj.auth
+          puts env.session.bool?("auth_#{name}") != true
+          env.session.string("request-uri", env.request.path)
+          env.session.string("sitename", name)
+          env.redirect "/auth/login"
+        else
+          puts "continuing..."
         end
       end
 
@@ -45,10 +70,29 @@ module TFWeb
           env.response.print "Oauth server aborted and returned with: #{res.status_message}"
         end
         body = JSON.parse(res.body)
-        env.session.string("username", body["username"].to_s)
-        env.session.string("email", body["email"].to_s)
-        env.session.bool("auth", true)
-        env.redirect env.session.string("request-uri")
+        username = body["username"].to_s
+        email = body["email"].to_s
+        env.session.string("username", username)
+        env.session.string("email", email)
+        sitename = env.session.string("sitename")
+        puts username
+        puts email
+
+        env.session.bool("auth_#{sitename}", true)
+        obj = Site.new
+        if @@wikis.has_key?(sitename)
+          obj = @@wikis[sitename].not_nil!
+        elsif @@websites.has_key?(sitename)
+          obj = @@websites[sitename].not_nil!
+        end
+        puts "checking for #{username} access on #{obj.name}"
+        if obj.not_nil!.user_can_access?(username)
+          env.redirect env.session.string("request-uri")
+        else
+          env.response.status_code = 401
+          env.response.print "unauthorized to access #{sitename}"
+          env.response.close
+        end
       end
     end
   end
