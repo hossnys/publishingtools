@@ -365,7 +365,7 @@ module TFWeb
       end
     end
 
-    get "/:name/try_update" do |env|
+    get "/:name/merge_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, false)
     end
