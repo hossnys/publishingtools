@@ -22,7 +22,6 @@ module TFWeb
   end
 
   class Farmers < Affiliate
-    @path = ""
     @repo_key = "farmers"
 
     def list_farmers

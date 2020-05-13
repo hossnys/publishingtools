@@ -36,7 +36,6 @@ module TFWeb
   end
 
   class Team < Affiliate
-    @path = ""
     @repo_key = "team"
 
     private def filter_member_mapping(member, projects, contribution_types)
