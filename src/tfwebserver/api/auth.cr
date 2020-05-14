@@ -23,13 +23,15 @@ module TFWeb
           puts "will authenticate using 3bot connect."
           env.redirect "/auth/login"
         else
-          theuser = env.session.string("username")
-          if obj.user_can_access?(theuser) # invalidate immediately
-            puts "already authenticated ..".colorize(:green)
-          else
-            env.response.status_code = 401
-            env.response.print "unauthorized to access #{name}"
-            env.response.close
+          if obj.auth
+            theuser = env.session.string("username")
+            if obj.user_can_access?(theuser) # invalidate immediately
+              puts "already authenticated ..".colorize(:green)
+            else
+              env.response.status_code = 401
+              env.response.print "unauthorized to access #{name}"
+              env.response.close
+            end
           end
         end
       end
