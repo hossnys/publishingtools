@@ -6,6 +6,7 @@ module TFWeb
 
         property type = ""
         property slug = ""
+        property title = ""
         property blog_name = ""
       end
 
@@ -86,12 +87,14 @@ module TFWeb
         results
       end
 
-      def new_search_result(type, slug, blog_name)
+      def new_search_result(blog_name, type, post)
         r = SearchResult.new_empty
-        r.slug = slug.not_nil!
         r.blog_name = blog_name.not_nil!
-
         r.type = type
+
+        r.slug = post.slug.not_nil!
+        r.title = post.title.not_nil!
+
         r
       end
 
@@ -111,11 +114,11 @@ module TFWeb
           pages = find_posts(blog.pages, query)
 
           posts.each do |post|
-            results << new_search_result("posts", post.slug, blog.name)
+            results << new_search_result(blog.name, "posts", post)
           end
 
           pages.each do |post|
-            results << new_search_result("pages", post.slug, blog.name)
+            results << new_search_result(blog.name, "pages", post)
           end
         end
 
