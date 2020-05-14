@@ -14,6 +14,8 @@ module TFWeb
   end
 
   class Site
+    include JSON::Serializable
+
     property name = ""
     property title = ""
     property path = ""
@@ -23,9 +25,11 @@ module TFWeb
     property autocommit = false
     property srcdir = "src"
     property environment = ""
-    property jinja_env = Crinja.new
     property auth = false
     property groups = [] of String
+
+    @[JSON::Field(ignore: true)]
+    property jinja_env = Crinja.new
 
     def to_s
       "#{@name} #{@auth} #{@environment} "
@@ -66,6 +70,10 @@ module TFWeb
       end
 
       return false
+    end
+
+    def self.new_empty
+      self.from_json("{}")
     end
 
     def srcpath
@@ -115,6 +123,14 @@ module TFWeb
   end
 
   class Blog < Site
+    property blog : Blogging::Blog?
+
+    def prepare_on_fs
+      super
+
+      loader = Blogging::Loader.new(self)
+      @blog = loader.blog
+    end
   end
 
   class Data < Site

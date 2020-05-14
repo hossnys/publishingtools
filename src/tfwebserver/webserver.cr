@@ -8,6 +8,7 @@ module TFWeb
     @@wikis = Hash(String, Wiki).new
     @@websites = Hash(String, Website).new
     @@datasites = Hash(String, Data).new
+    @@blogs = Hash(String, Blog).new
     @@include_processor = IncludeProcessor.new
 
     def self.get_websites
@@ -56,8 +57,16 @@ module TFWeb
       @@wikis
     end
 
+    def self.blogs
+      @@blogs
+    end
+
     def self.markdowndocs_collections
       @@markdowndocs_collections
+    end
+
+    def self.include_processor
+      @@include_processor
     end
 
     def self.prepare_wiki(wiki : Wiki)
@@ -79,7 +88,7 @@ module TFWeb
 
     def self.read_config(configfilepath)
       @@config = TOML.parse_file(configfilepath)
-      #   p @@config
+      # p @@config
       @@config.try do |okconfig|
         serverconfig = okconfig["server"].as(Hash)
         okconfig.has_key?("group") && okconfig["group"].as(Array).each do |groupel|
@@ -99,65 +108,26 @@ module TFWeb
         end
 
         okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
-          wiki = wikiel.as(Hash)
-          #   p wiki
-          wikiobj = Wiki.new
-          wikiobj.name = wiki["name"].as(String)
-          wikiobj.path = wiki["path"].as(String)
-          wikiobj.url = wiki["url"].as(String)
-          wikiobj.srcdir = wiki["srcdir"].as(String)
-          wikiobj.branch = wiki["branch"].as(String)
-          wikiobj.branchswitch = wiki["branchswitch"].as(Bool)
-          wikiobj.autocommit = wiki["autocommit"].as(Bool)
-          wikiobj.environment = wiki.fetch("environment", "production").as(String)
-          wikiobj.title = wiki.fetch("title", "").as(String)
-          wikiobj.auth = wiki.fetch("auth", false).as(Bool)
-
-          wiki.fetch("groups", [] of String).as(Array).each do |g|
-            wikiobj.groups << g.as(String)
-          end
-          @@wikis[wikiobj.name] = wikiobj
+          wiki = Wiki.from_json(wikiel.as(Hash).to_json)
+          @@wikis[wiki.name] = wiki
         end
 
         okconfig.has_key?("www") && okconfig["www"].as(Array).each do |websiteel|
-          website = websiteel.as(Hash)
-          websiteobj = Website.new
-          websiteobj.name = website["name"].as(String)
-          websiteobj.path = website["path"].as(String)
-          websiteobj.url = website["url"].as(String)
-          websiteobj.srcdir = website["srcdir"].as(String)
-          websiteobj.branch = website["branch"].as(String)
-          websiteobj.branchswitch = website["branchswitch"].as(Bool)
-          websiteobj.autocommit = website["autocommit"].as(Bool)
-          websiteobj.environment = website.fetch("environment", "production").as(String)
-          websiteobj.title = website.fetch("title", "").as(String)
-          website.fetch("groups", [] of String).as(Array).each do |g|
-            websiteobj.groups << g.as(String)
-          end
-          @@websites[websiteobj.name] = websiteobj
+          website = Website.from_json(websiteel.as(Hash).to_json)
+          @@websites[website.name] = website
         end
 
         okconfig.has_key?("data") && okconfig["data"].as(Array).each do |datael|
-          datasite = datael.as(Hash)
-          datasiteobj = Data.new
-          datasiteobj.name = datasite["name"].as(String)
-          datasiteobj.title = datasite["title"].as(String)
-          datasiteobj.path = datasite["path"].as(String)
-          datasiteobj.url = datasite["url"].as(String)
-          datasiteobj.srcdir = datasite["srcdir"].as(String)
-          datasiteobj.branch = datasite["branch"].as(String)
-          datasiteobj.branchswitch = datasite["branchswitch"].as(Bool)
-          datasiteobj.autocommit = datasite["autocommit"].as(Bool)
-          datasiteobj.environment = datasite.fetch("environment", "production").as(String)
-          datasiteobj.title = datasite.fetch("title", "").as(String)
-          @@datasites[datasiteobj.name] = datasiteobj
+          datasite = Data.from_json(datael.as(Hash).to_json)
+          @@datasites[datasite.name] = datasite
         end
 
-        # p @@wikis
-        # p @@websites
+        okconfig.has_key?("blog") && okconfig["blog"].as(Array).each do |blogel|
+          blog = Blog.from_json(blogel.as(Hash).to_json)
+          @@blogs[blog.name] = blog
+        end
 
-        # # TODO: code to validate the uniqueness of wiki, websites names..
-
+        # TODO: code to validate the uniqueness of wiki, websites names..
         Kemal.config.port = serverconfig["port"].as(Int64).to_i
         Kemal.config.host_binding = serverconfig["addr"].as(String)
       end
@@ -168,7 +138,7 @@ module TFWeb
       puts "Starting server from config at #{configfilepath}".colorize(:blue)
       channel_done = Channel(String).new
 
-      all = @@wikis.values + @@websites.values + @@datasites.values
+      all = @@wikis.values + @@websites.values + @@datasites.values + @@blogs.values
 
       all.each do |site|
         spawn do
@@ -297,6 +267,10 @@ module TFWeb
         @@websites[name].repo.try do |arepo|
           arepo.pull(force)
         end
+      elsif @@blogs.has_key?(name)
+        @@blogs[name].repo.try do |arepo|
+          arepo.pull(force)
+        end
       else
         do404 env, "couldn't pull #{name}"
       end
@@ -352,9 +326,11 @@ module TFWeb
       env.response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
       env.response.headers["Access-Control-Allow-Headers"] = "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
     end
+
     get "/" do |env|
       wikis = @@wikis.keys
       websites = @@websites.keys
+      blogs = @@blogs.keys
       render "src/tfwebserver/views/wiki.ecr"
     end
 

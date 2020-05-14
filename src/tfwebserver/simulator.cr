@@ -1,5 +1,7 @@
 module TFWeb
   module Simulator
+    extend Utils::FS
+
     SIM_BASE_URL     = "/simulator"
     SIM_DATASITE_URL = "https://github.com/threefoldfoundation/simulator_export"
     SIM_EXPORTS_DIR  = "tfsimulator"
@@ -34,7 +36,7 @@ module TFWeb
       unless WebServer.wikis.has_key?(name)
         sub_path = File.join(SIM_EXPORTS_DIR, params.join("/"))
 
-        wiki = Wiki.new
+        wiki = Wiki.new_empty
         wiki.name = name
         wiki.url = TFWeb::Simulator::SIM_DATASITE_URL
         wiki.environment = "production"
@@ -51,15 +53,6 @@ module TFWeb
       end
 
       name
-    end
-
-    def self.list_dirs(path, &block)
-      Dir.children(path).each do |sub_path|
-        full_path = File.join(path, sub_path)
-        if File.directory?(full_path)
-          yield sub_path
-        end
-      end
     end
 
     def self.get_available_options

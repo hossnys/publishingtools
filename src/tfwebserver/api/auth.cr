@@ -9,8 +9,14 @@ module TFWeb
       before_get "/:name" do |env|
         puts @@wikis.keys
         puts @@websites.keys
-        name = env.params.url["name"]
-        obj = Site.new
+
+        if env.params.url.has_key?("name")
+          name = env.params.url["name"]
+        else
+          next
+        end
+
+        obj = Site.new_empty
         if @@wikis.has_key?(name)
           obj = @@wikis[name].not_nil!
         elsif @@websites.has_key?(name)
@@ -73,12 +79,13 @@ module TFWeb
         sitename = env.session.string("sitename")
 
         env.session.bool("auth_#{sitename}", true)
-        obj = Site.new
+        obj = Site.new_empty
         if @@wikis.has_key?(sitename)
           obj = @@wikis[sitename].not_nil!
         elsif @@websites.has_key?(sitename)
           obj = @@websites[sitename].not_nil!
         end
+
         puts "checking for #{username} access on #{obj.name}".colorize(:blue)
         if obj.not_nil!.user_can_access?(username)
           puts "user #{username} can access #{obj.name}"

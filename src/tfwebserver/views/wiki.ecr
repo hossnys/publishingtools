@@ -20,6 +20,13 @@
                     <li><a href="/<%= website %>"><%= website %></a></li>
                 <%- end -%>
             </ul>
+
+            <h2>Blogs</h2>
+            <ul>
+                <%- blogs.each do |blog| -%>
+                    <li><a href="/blog/<%= blog %>"><%= blog %></a></li>
+                <%- end -%>
+            </ul>
         </div>
     </body>
 </html>

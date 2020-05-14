@@ -21,7 +21,9 @@ module TFWeb
 end
 
 require "./tfwebserver/cli"
+require "./tfwebserver/utils/*"
 require "./tfwebserver/simulator"
+require "./tfwebserver/blogging"
 require "./tfwebserver/api/*"
 require "./tfwebserver/*"
 require "./gittools/*"
