@@ -407,3 +407,23 @@ environment = "testing"
 
 - `/:name/force_update` force updates a wiki to the latest upstream
 - `/:name/merge_update` tries to merge upstream to local
+
+
+## preparing static binaries
+
+### alpine container
+
+```
+sudo docker run -it --name crystalalpine -h crystalalpine --privileged -v /opt/crystalalpine:/opt crystallang/crystal:0.34.0-alpine sh
+
+```
+
+### build binaries
+
+to be executed from the alpine container
+```
+#!/bin/sh
+## probably should add --release flag too
+shards build --static --link-flags "$(pkg-config libxml-2.0 --libs --static)"
+
+```
