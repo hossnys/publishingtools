@@ -147,3 +147,23 @@ http://simulators.threefold.io, https://simulators.threefold.io {
         tls info@threefold.io
         proxy / localhost:3000/
 }
+
+http://blog.threefold.io, https://blog.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/blog
+}
+
+
+http://blog2.threefold.io, https://blog2.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/blog
