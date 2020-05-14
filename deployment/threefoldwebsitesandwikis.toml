@@ -4,6 +4,51 @@
 port = 3000
 addr = "0.0.0.0"
 
+
+
+
+[[wiki]]
+#unique name for the wiki
+name = "matchmakers"
+#http or git url
+url = "git@github.com:threefoldfoundation/info_matchmakers.git"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "master"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
+#if empty then is ~/sandbox/code
+environment = "production"
+auth = true
+
+
+[[wiki]]
+#unique name for the wiki
+name = "matchmakers2"
+#http or git url
+url = "git@github.com:threefoldfoundation/info_matchmakers.git"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
+#if empty then is ~/sandbox/code
+environment = "testing"
+auth = true
+
+
 [[wiki]]
 #unique name for the wiki
 name = "ambassadors"
