@@ -67,6 +67,7 @@ srcdir = "src"
 #environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
 #if empty then is ~/sandbox/code
 environment = "production"
+auth = true
 
 [[wiki]]
 name = "advisors"
@@ -77,6 +78,7 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "production"
+auth = true
 
 [[wiki]]
 name = "board"
@@ -87,7 +89,7 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "production"
-
+auth = true
 
 
 [[wiki]]
