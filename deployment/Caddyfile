@@ -9,6 +9,12 @@ http://advisors.threefold.me {
 https://advisors.threefold.me {
 
     tls info@threefold.io
+    proxy /auth localhost:3000 {
+        transparent
+    }
+    rewrite /advisors/ /
+
+
     proxy / localhost:3000/advisors
 }
 
@@ -22,6 +28,12 @@ http://board.threefold.me {
 https://board.threefold.me {
 
     tls info@threefold.io
+    proxy /auth localhost:3000 {
+        transparent
+    }
+    rewrite /board/ /
+
+
     proxy / localhost:3000/board
 }
 
@@ -36,6 +48,11 @@ http://ambassadors.threefold.me {
 
 https://ambassadors.threefold.me {
     tls info@threefold.io
+    proxy /auth localhost:3000 {
+        transparent
+    }
+    rewrite /ambassadors/ /
+
     proxy / localhost:3000/ambassadors
 }
 
@@ -50,6 +67,10 @@ http://matchmakers.threefold.io {
 
 https://matchmakers.threefold.io {
     tls info@threefold.io
+    proxy /auth localhost:3000 {
+        transparent
+    }
+    rewrite /matchmakers/ /
     proxy / localhost:3000/matchmakers
 }
 
@@ -64,8 +85,13 @@ http://matchmakers2.threefold.io {
 
 https://matchmakers2.threefold.io {
     tls info@threefold.io
+    proxy /auth localhost:3000 {
+       transparent
+    }
+    redir /matchmakers2/ /
     proxy / localhost:3000/matchmakers2
 }
+
 
 
 
