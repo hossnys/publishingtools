@@ -49,7 +49,6 @@ http://matchmakers.threefold.io {
 
 
 https://matchmakers.threefold.io {
-    basicauth / user password
     tls info@threefold.io
     proxy / localhost:3000/matchmakers
 }
@@ -64,7 +63,6 @@ http://matchmakers2.threefold.io {
 
 
 https://matchmakers2.threefold.io {
-    basicauth / user password
     tls info@threefold.io
     proxy / localhost:3000/matchmakers2
 }
