@@ -55,7 +55,6 @@ branch = "master"
 branchswitch = false
 srcdir = "src"
 environment = "production"
-auth = true
 
 [[wiki]]
 name = "sdk2"
