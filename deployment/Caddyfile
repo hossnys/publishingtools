@@ -93,10 +93,6 @@ https://matchmakers2.threefold.io {
 }
 
 
-
-
-
-
 http://sdk.threefold.io, https://sdk.threefold.io {
        redir {
            if {scheme} is http
