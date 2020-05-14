@@ -270,6 +270,7 @@ module TFWeb
       elsif @@blogs.has_key?(name)
         @@blogs[name].repo.try do |arepo|
           arepo.pull(force)
+          @@blogs[name].prepare_on_fs
         end
       else
         do404 env, "couldn't pull #{name}"
