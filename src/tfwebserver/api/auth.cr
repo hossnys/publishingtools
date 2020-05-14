@@ -79,6 +79,15 @@ module TFWeb
         if obj.not_nil!.user_can_access?(username)
           env.redirect env.session.string("request-uri")
         else
+          tfwebaccesspath = Path["~/tfweb.access"].expand(home: true).to_s
+          unless File.exists?(tfwebaccesspath)
+            File.touch(tfwebaccesspath)
+          end
+          prev = File.read(tfwebaccesspath)
+          prev_uniq = prev.lines.uniq.join("\n")
+          updated = prev_uniq + "\n" + "#{username}:#{sitename}"
+          File.write(tfwebaccesspath, updated)
+
           env.response.status_code = 401
           env.response.print "unauthorized to access #{sitename}"
           env.response.close
