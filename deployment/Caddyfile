@@ -167,3 +167,4 @@ http://blog2.threefold.io, https://blog2.threefold.io {
         tls info@threefold.io
         proxy /api localhost:3000/
         proxy / localhost:3000/blog
+}
