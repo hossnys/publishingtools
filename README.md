@@ -357,3 +357,43 @@ in your hosts file
 ```
 
 and you can use [Caddyfiledev](./Caddyfiledev) by `caddy -conf Caddyfiledev`
+
+
+## authentication
+to protect wiki/websites with 3botconnect, you can define groups and attach these groups to a specific wiki or a website like the following
+
+```
+[[group]]
+name = "admin"
+users = ["ahmedthabet"]
+
+
+[[wiki]]
+name = "sdk"
+title = "Grid Manual"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+groups = ["admin"]
+auth = true
+
+[[wiki]]
+name = "sdk2"
+title = "Grid Manual Staging"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+```
+
+
+- Here we define a group named `admin` and of users `ahmedthabet`
+- We want to limit access to sdk to that admin group, so we need to define `groups = ["admin"]` and set `auth = true` 
