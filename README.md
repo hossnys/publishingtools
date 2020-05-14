@@ -397,3 +397,4 @@ environment = "testing"
 
 - Here we define a group named `admin` and of users `ahmedthabet`
 - We want to limit access to sdk to that admin group, so we need to define `groups = ["admin"]` and set `auth = true` 
+- in case of failed login attempts you will find the user who tried in `~/ftweb.access`
