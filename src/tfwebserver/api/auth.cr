@@ -23,18 +23,22 @@ module TFWeb
           obj = @@websites[name].not_nil!
         end
 
-        env.session.strings.each do |k, v|
-          puts "#{k} => #{v}"
-        end
         if obj.auth && env.session.bool?("auth_#{name}") != true
-          puts obj.auth
-          puts env.session.bool?("auth_#{name}") != true
           env.session.string("request-uri", env.request.path)
           env.session.string("sitename", name)
           puts "will authenticate using 3bot connect."
           env.redirect "/auth/login"
         else
-          puts "already authenticated ..".colorize(:green)
+          if obj.auth
+            theuser = env.session.string("username")
+            if obj.user_can_access?(theuser) # invalidate immediately
+              puts "already authenticated ..".colorize(:green)
+            else
+              env.response.status_code = 401
+              env.response.print "unauthorized to access #{name}"
+              env.response.close
+            end
+          end
         end
       end
 
@@ -84,6 +88,7 @@ module TFWeb
 
         puts "checking for #{username} access on #{obj.name}".colorize(:blue)
         if obj.not_nil!.user_can_access?(username)
+          puts "user #{username} can access #{obj.name}"
           env.redirect env.session.string("request-uri")
         else
           tfwebaccesspath = Path["~/tfweb.access"].expand(home: true).to_s

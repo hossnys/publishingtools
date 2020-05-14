@@ -1,10 +1,12 @@
 # document for operations team
 
 - 3 digital ocean machines (one of them will host code and caddy and create tunnels to the other two machines)
-- install caddy
+- install crystal lang follwing steps [here](https://crystal-lang.org/install/)
+- install caddy using: ```curl https://getcaddy.com | bash -s personal```
 - fill configurations of two in sshconnections.toml described in the repository README.md
 - remember to add ports 80, 443 in the configuration
-- in the 3rd machine run the sshtool on that sshconections.toml
+- copy the ssh-key of the machine hosting crystal server to the other two machines authorized-keys 
+- in the 3rd machine run the sshtool on that sshconections.toml using ```bin/sshtool -c sshconnections.toml```
 - configure websites and wikis you want to serve as defined in `deployment/threefoldwebsitesandwikis.toml` file
 - run the server `shards build --error-trace && ./bin/tfweb -c deployment/threefoldwebsitesandwikis.toml`
 - for Caddyfile make sure to change the basicauth used to the suitable ones agreed on in the ops team.

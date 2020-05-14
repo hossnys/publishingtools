@@ -104,9 +104,11 @@ module TFWeb
             post.slug = slugify(title)
             post.excerpt = get_excerpt(post.content)
 
-            tags = post.tags.not_nil!
-            if tags.is_a?(String)
-              post.tags = tags.split(",")
+            tags = post.tags
+            tags.try do |notniltags|
+              if notniltags.is_a?(String)
+                post.tags = notniltags.split(",")
+              end
             end
 
             posts << post

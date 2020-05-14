@@ -36,7 +36,10 @@ module TFWeb
     end
 
     def user_can_access?(username)
-      return true if @groups.size == 0
+      puts "started can access.."
+      return true if @auth == false
+
+      return true if @groups.size == 0 && !File.exists?(aclpath) # if there's no acl.toml too it's public.
       groups.each do |groupname|
         puts GROUPS
         puts GROUPS[groupname]
@@ -45,11 +48,40 @@ module TFWeb
           return true
         end
       end
+
+      puts "checking in ACL.toml at #{aclpath}"
+      if File.exists?(aclpath)
+        @@config = TOML.parse_file(aclpath)
+        #   p @@config
+        @@config.try do |okconfig|
+          puts "read config #{okconfig}"
+          if okconfig.has_key?("acl")
+            aclhash = okconfig["acl"].as(Hash)
+            aclhash["users"].as(Array).each do |u|
+              threebotuser = u.as(String)
+              unless threebotuser.ends_with?(".3bot")
+                threebotuser += ".3bot"
+                puts "checking #{username} against #{threebotuser} ".colorize(:blue)
+                return true if threebotuser == username
+              end
+            end
+          end
+        end
+      end
+
       return false
     end
 
     def self.new_empty
       self.from_json("{}")
+    end
+
+    def srcpath
+      File.join(@path, @srcdir)
+    end
+
+    private def aclpath
+      File.join(srcpath, "acl.toml")
     end
 
     def prepare_on_fs
