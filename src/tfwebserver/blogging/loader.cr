@@ -5,7 +5,7 @@ require "yaml"
 module TFWeb
   module Blogging
     class Document
-      META_REGX = /(?s)^\-{3}(.*?)\-{3}$/m
+      META_REGX = /(?s)^\-{3}(.*?)\-{3}\s*$/m
 
       property meta : PostMeta
       property content : String
@@ -104,12 +104,14 @@ module TFWeb
             post.slug = slugify(title)
             post.excerpt = get_excerpt(post.content)
 
-            tags = post.tags
-            tags.try do |notniltags|
+            post.tags.try do |notniltags|
               if notniltags.is_a?(String)
                 post.tags = notniltags.split(",")
+              elsif notniltags.is_a?(Array)
+                post.tags = notniltags
               end
             end
+            post.tags = post.tags || [] of String
 
             posts << post
           end
