@@ -236,6 +236,9 @@ user = "root"
 tcprouter_secret = ""
 
 ```
+### sshd_config
+
+make sure to `GatewayPorts yes` in `/etc/ssh/sshd_config`.
 
 ## Caddy Deployment
 
