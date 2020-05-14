@@ -81,7 +81,7 @@
             </div>
             <div class="title">
               <span>
-                <b>{post.author_name}|</b>
+                <b>{post.author}|</b>
               </span>
             </div>
           </a>

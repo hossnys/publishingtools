@@ -81,7 +81,7 @@
             class="img-fluid" />
         </div>
         <div class="title">
-          <span class="font-weight-bold">{post.author_name}</span>
+          <span class="font-weight-bold">{post.author}</span>
         </div>
       </a>
       <div class="d-flex align-items-center ml-auto flex-wrap">
