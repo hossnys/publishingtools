@@ -22,7 +22,7 @@
   <nav class="navbar fixed-top border-0">
     <div class="container">
       <a class="logo mr-auto" href="/blog/{username}/posts">
-        <img src="img/TFT-LOGO.png" alt="TFT Logo" />
+        <img src="img/TFN-LOGO.png" alt="TFN Logo" />
       </a>
     </div>
   </nav>

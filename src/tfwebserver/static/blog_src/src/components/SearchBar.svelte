@@ -1,7 +1,5 @@
 <script>
-    import {
-        search
-    } from "../routes/_api";
+  import { search } from "../routes/_api";
 
   import { stores } from "@sapper/app";
 
@@ -67,7 +65,7 @@
                 <a
                   href="{res.blog_name}/{res.type}/{res.slug}"
                   on:click={clear_results}>
-                  {res.type}: {res.slug}
+                  {res.type}: {res.title}
                 </a>
               </li>
             {/each}
