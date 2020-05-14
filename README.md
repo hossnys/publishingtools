@@ -34,7 +34,7 @@ tfweb allows serving multiple wikis, with unique names. by specifying the `url` 
 - `srcdir` is where the wiki dir starts in the repository
 - `branch` you can specify the branch to use
 - `branchswitch` forces switching to `branch` if the one on the filesystem is different.
-- `environment` enviroment name, if defined repos will be cloned under `~/{environment}/code/`.
+- `environment` enviroment name, if defined repos will be cloned under `~/tfweb/{environment}/`.
 
 ```toml
 [[wiki]]
@@ -54,7 +54,7 @@ branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
 #environment name (for example:  production, staging, testing)
-environment = ""
+environment = "production"
 ```
 
 #### Website config section
@@ -76,7 +76,7 @@ branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = ""
 #environment name (for example:  production, staging, testing)
-environment = ""
+environment = "production"
 ```
 the same as wiki, but in `[[www]]` array instead, used to serve static websites 
 
@@ -106,7 +106,7 @@ branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
 #environment name (for example:  production, staging, testing)
-environment = ""
+environment = "production"
 
 [[wiki]]
 #unique name for the wiki
@@ -124,7 +124,7 @@ branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
 #environment name (for example:  production, staging, testing)
-environment = ""
+environment = "production"
 
 ```
 
@@ -236,40 +236,55 @@ user = "root"
 tcprouter_secret = ""
 
 ```
+### sshd_config
+
+make sure to `GatewayPorts yes` in `/etc/ssh/sshd_config`.
 
 ## Caddy Deployment
 
 
 Create a config `Caddyfile` and fill in your websites.
 ```
-http://advisors.threefold.me, https://advisors.threefold.me {
+http://advisors.threefold.me {
     redir {
            if {scheme} is http
            / https://{host}{uri}
-    } 
-    basicauth / user password 
+    }
+}
+
+
+https://advisors.threefold.me {
+    basicauth / user password
 
     tls info@threefold.io
     proxy / localhost:3000/advisors
 }
 
-http://board.threefold.me, https://board.threefold.me {
+
+http://board.threefold.me {
     redir {
         if {scheme} is http
         / https://{host}{uri}
-    } 
-    basicauth / user password 
+    }
+}
+https://board.threefold.me {
+    basicauth / user password
 
     tls info@threefold.io
     proxy / localhost:3000/board
 }
 
-http://ambassadors.threefold.me, https://ambassadors.threefold.me {
+
+http://ambassadors.threefold.me {
     redir {
            if {scheme} is http
            / https://{host}{uri}
     }
-    basicauth / user password 
+}
+
+
+https://ambassadors.threefold.me {
+    basicauth / user password
     tls info@threefold.io
     proxy / localhost:3000/ambassadors
 }
@@ -280,18 +295,19 @@ http://sdk.threefold.io, https://sdk.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
         proxy / localhost:3000/sdk
 }
 
-http://sdk3.threefold.io, https://sdk3.threefold.io {
+
+http://sdk2.threefold.io, https://sdk2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
-        proxy / localhost:3000/sdk3
+        proxy / localhost:3000/sdk2
 }
 
 
@@ -299,21 +315,31 @@ http://wiki.threefold.io, https://wiki.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
+        proxy /api localhost:3000/
         proxy / localhost:3000/wiki
 }
 
 
-http://wiki3.threefold.io, https://wiki3.threefold.io {
+http://wiki2.threefold.io, https://wiki2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
-        } 
+        }
         tls info@threefold.io
-        proxy / localhost:3000/wiki3
+        proxy /api localhost:3000/
+        proxy / localhost:3000/wiki2
 }
 
+http://simulators.threefold.io, https://simulators.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/
+}
 ```
 to run execute `caddy` in the same directory of the `Caddyfile`
 
@@ -334,3 +360,50 @@ in your hosts file
 ```
 
 and you can use [Caddyfiledev](./Caddyfiledev) by `caddy -conf Caddyfiledev`
+
+
+## authentication
+to protect wiki/websites with 3botconnect, you can define groups and attach these groups to a specific wiki or a website like the following
+
+```
+[[group]]
+name = "admin"
+users = ["ahmedthabet"]
+
+
+[[wiki]]
+name = "sdk"
+title = "Grid Manual"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+groups = ["admin"]
+auth = true
+
+[[wiki]]
+name = "sdk2"
+title = "Grid Manual Staging"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+```
+
+
+- Here we define a group named `admin` and of users `ahmedthabet`
+- We want to limit access to sdk to that admin group, so we need to define `groups = ["admin"]` and set `auth = true` 
+- in case of failed login attempts you will find the user who tried in `~/ftweb.access`
+
+
+## Special endpoints
+
+- `/:name/force_update` force updates a wiki to the latest upstream
+- `/:name/merge_update` tries to merge upstream to local

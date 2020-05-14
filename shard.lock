@@ -1,5 +1,9 @@
 version: 1.0
 shards:
+  crinja:
+    github: straight-shoota/crinja
+    version: 0.6.0
+
   exception_page:
     github: crystal-loot/exception_page
     version: 0.1.4
@@ -7,6 +11,10 @@ shards:
   kemal:
     github: kemalcr/kemal
     version: 0.26.1
+
+  kemal-session:
+    github: kemalcr/kemal-session
+    commit: 29f65f0b360640ae36ea617d38d2d81bb2c0fa83
 
   kilt:
     github: jeromegn/kilt

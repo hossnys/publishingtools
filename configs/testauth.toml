@@ -1,0 +1,156 @@
+#can be many wiki & many www sites
+
+[server]
+port = 3000
+addr = "0.0.0.0"
+
+[[group]]
+name = "admin"
+users = ["ahmedthabet"]
+
+
+[[wiki]]
+#unique name for the wiki
+name = "ambassadors"
+#http or git url
+url = "git@github.com:threefoldfoundation/info_ambassadors.git"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = false
+#path in the repo where the info is, std "src"
+srcdir = "src"
+#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
+#if empty then is ~/sandbox/code
+environment = "production"
+
+[[wiki]]
+name = "advisors"
+url = "git@github.com:threefoldfoundation/info_advisors.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+
+[[wiki]]
+name = "board"
+url = "git@github.com:threefoldfoundation/info_board.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+
+
+
+[[wiki]]
+name = "sdk"
+title = "Grid Manual"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+groups = ["admin"]
+auth = true
+
+[[wiki]]
+name = "sdk2"
+title = "Grid Manual Staging"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+
+[[wiki]]
+name = "wiki"
+url = "https://github.com/threefoldfoundation/info_threefold"
+title = "ThreeFold Wiki"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+
+[[wiki]]
+name = "wiki2"
+title = "ThreeFold Wiki Staging"
+#http or git url
+url = "https://github.com/threefoldfoundation/info_threefold"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+
+#website
+# [[www]]
+# name = "freetft"
+# url = "git@github.com:threefoldfoundation/www_getfreetft.git"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = ""
+# environment = "production"
+
+
+# #website
+# [[www]]
+# name = "threefold"
+# url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = "html"
+# environment = "production"
+
+# [[www]]
+# name = "incubaid"
+# url = "git@github.com:Incubaid/www_incubaid.git"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = ""
+# environment = "production"
+
+# #website
+# [[www]]
+# name = "freeflownation"
+# url = "https://github.com/freeflownation/www_freeflownation"
+# path = ""
+# autocommit = false
+# branch = "development"
+# branchswitch = true
+# srcdir = "html"
+# environment = "production"
+
+#data of simulator exports
+[[data]]
+name = "simexports"
+title = "Simulator data repo"
+url = "https://github.com/threefoldfoundation/simulator_export"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "html"
+environment = "production"

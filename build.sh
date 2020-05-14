@@ -1,5 +1,5 @@
 set +ex
-crystal docs --output=./docs/tfweb
+#crystal docs --output=./docs/tfweb
 shards build
 cp bin/tfweb /usr/local/bin
 mkdir -p ~/Downloads/

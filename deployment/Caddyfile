@@ -9,7 +9,7 @@ http://advisors.threefold.me {
 https://advisors.threefold.me {
     basicauth / user password
 
-    tls off
+    tls info@threefold.io
     proxy / localhost:3000/advisors
 }
 
@@ -23,7 +23,7 @@ http://board.threefold.me {
 https://board.threefold.me {
     basicauth / user password
 
-    tls off
+    tls info@threefold.io
     proxy / localhost:3000/board
 }
 
@@ -38,7 +38,7 @@ http://ambassadors.threefold.me {
 
 https://ambassadors.threefold.me {
     basicauth / user password
-    tls off
+    tls info@threefold.io
     proxy / localhost:3000/ambassadors
 }
 
@@ -49,7 +49,7 @@ http://sdk.threefold.io, https://sdk.threefold.io {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls off
+        tls info@threefold.io
         proxy / localhost:3000/sdk
 }
 
@@ -59,9 +59,10 @@ http://sdk2.threefold.io, https://sdk2.threefold.io {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls off
+        tls info@threefold.io
         proxy / localhost:3000/sdk2
 }
+
 
 
 http://wiki.threefold.io, https://wiki.threefold.io {
@@ -69,7 +70,7 @@ http://wiki.threefold.io, https://wiki.threefold.io {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls off
+        tls info@threefold.io
         proxy /api localhost:3000/
         proxy / localhost:3000/wiki
 }
@@ -80,7 +81,7 @@ http://wiki2.threefold.io, https://wiki2.threefold.io {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls off
+        tls info@threefold.io
         proxy /api localhost:3000/
         proxy / localhost:3000/wiki2
 }
@@ -90,6 +91,6 @@ http://simulators.threefold.io, https://simulators.threefold.io {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls off
+        tls info@threefold.io
         proxy / localhost:3000/
 }

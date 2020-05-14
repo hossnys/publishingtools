@@ -8,16 +8,20 @@ module TFWeb
     @path = ""
     @repo_key = ""
 
-    def initialize
-      repo = GITRepo.new(url: REPO_URLS[@repo_key])
-      repo_path = repo.ensure_repo(pull = true)
-      @path = File.join(repo_path, @repo_key)
+    def path
+      if (value = @path) == ""
+        repo = GITRepo.new(url: REPO_URLS[@repo_key])
+        repo_path = repo.ensure_repo(pull = true)
+        @path = File.join(repo_path, @repo_key)
+      else
+        value
+      end
     end
 
     def collect_data(start_with)
       affiliates_data = [] of Hash(String, TOML::Type)
-      Dir.each_child(@path) do |affiliate|
-        affiliate_path = File.join(@path, affiliate).to_s
+      Dir.each_child(path) do |affiliate|
+        affiliate_path = File.join(path, affiliate).to_s
         if Dir.exists?(affiliate_path)
           toml_path = ""
           avatar = ""

@@ -2,6 +2,7 @@ module TFWeb
   module WebServer
     include API::Simulator
     include API::Members
+    include API::Auth
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
     @@wikis = Hash(String, Wiki).new
@@ -9,6 +10,14 @@ module TFWeb
     @@datasites = Hash(String, Data).new
     @@blogs = Hash(String, Blog).new
     @@include_processor = IncludeProcessor.new
+
+    def self.get_websites
+      @@websites
+    end
+
+    def self.get_wikis
+      @@wikis
+    end
 
     class MiddleWare < Kemal::Handler
       def initialize(
@@ -82,6 +91,21 @@ module TFWeb
       # p @@config
       @@config.try do |okconfig|
         serverconfig = okconfig["server"].as(Hash)
+        okconfig.has_key?("group") && okconfig["group"].as(Array).each do |groupel|
+          group = groupel.as(Hash)
+          aclgroup = ACLGroup.new
+          aclgroup.name = group["name"].as(String)
+          aclgroup.description = group.fetch("description", "").as(String)
+          # TODO: can be better?
+          group["users"].as(Array).each do |u|
+            threebotuser = u.as(String)
+            unless threebotuser.ends_with?(".3bot")
+              threebotuser += ".3bot"
+            end
+            aclgroup.users << threebotuser
+          end
+          aclgroup.save
+        end
 
         okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
           wiki = Wiki.from_json(wikiel.as(Hash).to_json)
@@ -129,6 +153,14 @@ module TFWeb
       end
 
       self.prepare_wikis
+
+      secret = ENV.fetch("SESSION_SECRET", Random::Secure.hex(64))
+      Dir.mkdir_p("session_data")
+      Kemal::Session.config do |config|
+        config.engine = Kemal::Session::FileEngine.new({:sessions_dir => "./session_data"})
+        config.secret = secret
+      end
+
       Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites)
       Kemal.run
     end
@@ -318,7 +350,24 @@ module TFWeb
       end
     end
 
-    get "/:name/try_update" do |env|
+    # get template fill in data obj
+    get "/:name/templates/:templatename" do |env|
+      name = env.params.url["name"]
+      if @@wikis.has_key?(name)
+        wikisite = @@wikis[name]
+        templatename = env.params.url["templatename"]
+
+        data = env.params.query["data"]
+        # validate its existence, and it won't scale that way, will only work for json endpoints.
+        template = wikisite.jinja_env.get_template(templatename)
+        text = template.render({"data" => data})
+        do200 env, text
+      else
+        do404 env, "couldn't find wiki #{name}"
+      end
+    end
+
+    get "/:name/merge_update" do |env|
       name = env.params.url["name"]
       self.handle_update(env, name, false)
     end

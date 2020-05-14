@@ -21,4 +21,9 @@ dependencies:
   toml:
     github: crystal-community/toml.cr
     branch: master
+  crinja:
+    github: straight-shoota/crinja 
+  kemal-session:
+    github: kemalcr/kemal-session
+    branch: master   
 license: MIT

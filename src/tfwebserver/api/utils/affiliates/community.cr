@@ -20,7 +20,6 @@ module TFWeb
   end
 
   class Community < Affiliate
-    @path = ""
     @repo_key = "partners"
 
     def list_partners

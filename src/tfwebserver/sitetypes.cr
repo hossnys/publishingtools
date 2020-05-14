@@ -1,4 +1,18 @@
+require "crinja"
+
 module TFWeb
+  GROUPS = Hash(String, ACLGroup).new
+
+  class ACLGroup
+    property name = ""
+    property description = ""
+    property users = Set(String).new
+
+    def save
+      GROUPS[@name] = self
+    end
+  end
+
   class Site
     include JSON::Serializable
 
@@ -11,6 +25,28 @@ module TFWeb
     property autocommit = false
     property srcdir = "src"
     property environment = ""
+    property auth = false
+    property groups = [] of String
+
+    @[JSON::Field(ignore: true)]
+    property jinja_env = Crinja.new
+
+    def to_s
+      "#{@name} #{@auth} #{@environment} "
+    end
+
+    def user_can_access?(username)
+      return true if @groups.size == 0
+      groups.each do |groupname|
+        puts GROUPS
+        puts GROUPS[groupname]
+        if GROUPS[groupname].users.includes?(username)
+          #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
+          return true
+        end
+      end
+      return false
+    end
 
     def self.new_empty
       self.from_json("{}")
@@ -18,6 +54,10 @@ module TFWeb
 
     def prepare_on_fs
       repo = self.repo
+      templatesdir = File.join(@path, @srcdir, "templates")
+      if Dir.exists?(@path)
+        @jinja_env.loader = Crinja::Loader::FileSystemLoader.new(templatesdir)
+      end
     end
 
     def repo
@@ -36,12 +76,13 @@ module TFWeb
       url_as_https = repo.not_nil!.url_as_https || ""
       html = render "src/tfwebserver/views/docsify.ecr"
       destindex = File.join(@path, @srcdir, "index.html")
-      File.write(destindex, html)
+      unless File.exists?(destindex)
+        File.write(destindex, html)
+      end
     end
 
     def prepare_on_fs
       super
-
       prepare_index
     end
   end

@@ -3,7 +3,12 @@ require "colorize"
 module TFWeb
   class NameFixerProcessor < Processor
     def match(path)
-      return true
+      extensions = [".md", ".jpg", ".jpeg", ".png", "svg"]
+      if extensions.includes?(path.extension)
+        true
+      else
+        false
+      end
     end
 
     def process(path)
