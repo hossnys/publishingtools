@@ -56,6 +56,10 @@ module TFWeb
       @@markdowndocs_collections
     end
 
+    def self.include_processor
+      @@include_processor
+    end
+
     def self.prepare_wiki(wiki : Wiki)
       # TODO: handle the url if path is empty
       markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))

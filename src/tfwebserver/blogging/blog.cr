@@ -42,8 +42,8 @@ module TFWeb
       include JSON::Serializable
 
       property title : String?
-      property author_name : String?
-      property author_email : String?
+      property author : String?
+      property email : String?
       property author_image : String?
       property post_image : String?
       property description : String?

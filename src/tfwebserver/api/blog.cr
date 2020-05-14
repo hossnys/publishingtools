@@ -21,8 +21,12 @@ module TFWeb
         TFWeb::WebServer.blogs.has_key?(name)
       end
 
+      def get_all_blog_names
+        TFWeb::WebServer.blogs.keys
+      end
+
       def get_all_blogs
-        TFWeb::WebServer.blogs.map { |k, blog| blog.blog.not_nil! }
+        get_all_blog_names.map { |name| get_blog(name) }
       end
 
       def get_metadata(blog_name)

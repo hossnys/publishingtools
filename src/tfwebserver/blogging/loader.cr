@@ -11,7 +11,17 @@ module TFWeb
       property content : String
       property content_with_meta : String
 
+      def apply_includes(content)
+        new_content = TFWeb::WebServer.include_processor.apply_includes("", content)
+        if new_content
+          new_content
+        else
+          content
+        end
+      end
+
       def initialize(@path : String)
+        # @content_with_meta = apply_includes(File.read(@path))
         @content_with_meta = File.read(@path)
         match = @content_with_meta.strip.match(META_REGX)
 
@@ -86,8 +96,8 @@ module TFWeb
 
             post.title = title
             post.published_at = post.published_at || get_published_date(title)
-            post.author_name = post.author_name || @metadata.author_name
-            post.author_email = post.author_email || @metadata.author_email
+            post.author = post.author || @metadata.author_name
+            post.email = post.email || @metadata.author_email
 
             post.content = document.content
             post.content_with_meta = document.content_with_meta
