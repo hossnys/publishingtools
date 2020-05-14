@@ -35,23 +35,6 @@
       post_author_image_link = post_author_image;
     }
   }
-
-  export function format(inputDate) {
-    var date = new Date(inputDate);
-    if (!isNaN(date.getTime())) {
-      var day = date.getDate().toString();
-      var month = (date.getMonth() + 1).toString();
-      // Months use 0 index.
-
-      return (
-        (day[1] ? day : "0" + day[0]) +
-        "/" +
-        (month[1] ? month : "0" + month[0]) +
-        "/" +
-        date.getFullYear()
-      );
-    }
-  }
 </script>
 
 <!-- Latest Posts -->
@@ -86,7 +69,7 @@
             </div>
           </a>
           <div class="d-flex align-items-center flex-wrap">
-            <div class="date">{format(post.published_at)}</div>
+            <div class="date">{post.published_at}</div>
           </div>
           <div class="widget tags d-flex justify-content-between ml-auto mb-0">
             {#if post.tags.length}
