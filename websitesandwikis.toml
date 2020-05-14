@@ -55,48 +55,48 @@ environment = "testing"
 
 
 #website
-# [[www]]
-# name = "freetft"
-# url = "git@github.com:threefoldfoundation/www_getfreetft.git"
-# path = ""
-# autocommit = false
-# branch = "development"
-# branchswitch = true
-# srcdir = ""
-# environment = "production"
+[[www]]
+name = "freetft"
+url = "git@github.com:threefoldfoundation/www_getfreetft.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "production"
 
 
-# #website
-# [[www]]
-# name = "threefold"
-# url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
-# path = ""
-# autocommit = false
-# branch = "development"
-# branchswitch = true
-# srcdir = "html"
-# environment = "production"
+#website
+[[www]]
+name = "threefold"
+url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "html"
+environment = "production"
 
-# [[www]]
-# name = "incubaid"
-# url = "git@github.com:Incubaid/www_incubaid.git"
-# path = ""
-# autocommit = false
-# branch = "development"
-# branchswitch = true
-# srcdir = ""
-# environment = "production"
+[[www]]
+name = "incubaid"
+url = "git@github.com:Incubaid/www_incubaid.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "production"
 
-# #website
-# [[www]]
-# name = "freeflownation"
-# url = "https://github.com/freeflownation/www_freeflownation"
-# path = ""
-# autocommit = false
-# branch = "development"
-# branchswitch = true
-# srcdir = "html"
-# environment = "production"
+#website
+[[www]]
+name = "freeflownation"
+url = "https://github.com/freeflownation/www_freeflownation"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "html"
+environment = "production"
 
 #data of simulator exports
 [[data]]
