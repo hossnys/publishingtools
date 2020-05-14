@@ -12,7 +12,7 @@ https://advisors.threefold.me {
     proxy /auth localhost:3000 {
         transparent
     }
-    rewrite /advisors/ /
+    redir /advisors/ /
 
 
     proxy / localhost:3000/advisors
@@ -31,7 +31,7 @@ https://board.threefold.me {
     proxy /auth localhost:3000 {
         transparent
     }
-    rewrite /board/ /
+    redir /board/ /
 
 
     proxy / localhost:3000/board
@@ -51,7 +51,7 @@ https://ambassadors.threefold.me {
     proxy /auth localhost:3000 {
         transparent
     }
-    rewrite /ambassadors/ /
+    redir /ambassadors/ /
 
     proxy / localhost:3000/ambassadors
 }
@@ -70,7 +70,7 @@ https://matchmakers.threefold.io {
     proxy /auth localhost:3000 {
         transparent
     }
-    rewrite /matchmakers/ /
+    redir /matchmakers/ /
     proxy / localhost:3000/matchmakers
 }
 
