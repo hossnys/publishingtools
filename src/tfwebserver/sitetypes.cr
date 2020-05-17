@@ -27,6 +27,7 @@ module TFWeb
     property environment = ""
     property auth = false
     property groups = [] of String
+    property aclusers = [] of String
 
     @[JSON::Field(ignore: true)]
     property jinja_env = Crinja.new
@@ -36,36 +37,13 @@ module TFWeb
     end
 
     def user_can_access?(username)
-      puts "started can access.."
       return true if @auth == false
-
-      return true if @groups.size == 0 && !File.exists?(aclpath) # if there's no acl.toml too it's public.
+      return true if @groups.size == 0 && @aclusers.size == 0 # if there's no acl.toml too it's public.
+      return true if @aclusers.includes?(username)
       groups.each do |groupname|
-        puts GROUPS
-        puts GROUPS[groupname]
-        if GROUPS[groupname].users.includes?(username)
-          #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
-          return true
-        end
-      end
-
-      puts "checking in ACL.toml at #{aclpath}"
-      if File.exists?(aclpath)
-        @@config = TOML.parse_file(aclpath)
-        #   p @@config
-        @@config.try do |okconfig|
-          puts "read config #{okconfig}"
-          if okconfig.has_key?("acl")
-            aclhash = okconfig["acl"].as(Hash)
-            aclhash["users"].as(Array).each do |u|
-              threebotuser = u.as(String)
-              unless threebotuser.ends_with?(".3bot")
-                threebotuser += ".3bot"
-                puts "checking #{username} against #{threebotuser} ".colorize(:blue)
-                return true if threebotuser == username
-              end
-            end
-          end
+        if GROUPS[groupname].users.includes?(username) ||
+           #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
+           return true
         end
       end
 
@@ -84,12 +62,36 @@ module TFWeb
       File.join(srcpath, "acl.toml")
     end
 
+    private def read_acl_file
+      puts "checking in ACL.toml at #{aclpath}"
+      # zerofiy aclusers
+      @aclusers = [] of String
+      if File.exists?(aclpath)
+        @@config = TOML.parse_file(aclpath)
+        #   p @@config
+        @@config.try do |okconfig|
+          puts "read config #{okconfig}"
+          if okconfig.has_key?("acl")
+            aclhash = okconfig["acl"].as(Hash)
+            aclhash["users"].as(Array).each do |u|
+              threebotuser = u.as(String)
+              unless threebotuser.ends_with?(".3bot")
+                threebotuser += ".3bot"
+                @aclusers << threebotuser
+              end
+            end
+          end
+        end
+      end
+    end
+
     def prepare_on_fs
       repo = self.repo
       templatesdir = File.join(@path, @srcdir, "templates")
       if Dir.exists?(@path)
         @jinja_env.loader = Crinja::Loader::FileSystemLoader.new(templatesdir)
       end
+      read_acl_file
     end
 
     def repo

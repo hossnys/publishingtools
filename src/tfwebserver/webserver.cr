@@ -165,7 +165,7 @@ module TFWeb
       end
       Dir.mkdir_p("session_data")
       Kemal::Session.config do |config|
-        config.timeout = Time::Span.new(168, 0, 0) # 7 days, 7*24
+        config.timeout = 7.days
         config.engine = Kemal::Session::FileEngine.new({:sessions_dir => "./session_data"})
         config.secret = secret
       end
