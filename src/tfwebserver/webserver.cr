@@ -154,9 +154,18 @@ module TFWeb
 
       self.prepare_wikis
 
-      secret = ENV.fetch("SESSION_SECRET", Random::Secure.hex(64))
+      secret = ENV.fetch("SESSION_SECRET", "")
+      if File.exists?("./session_secret")
+        secret = File.read("./session_secret")
+      else
+        if secret == ""
+          secret = Random::Secure.hex(64)
+          File.write("./session_secret", secret)
+        end
+      end
       Dir.mkdir_p("session_data")
       Kemal::Session.config do |config|
+        config.timeout = Time::Span.new(168, 0, 0) # 7 days, 7*24
         config.engine = Kemal::Session::FileEngine.new({:sessions_dir => "./session_data"})
         config.secret = secret
       end
@@ -397,6 +406,11 @@ module TFWeb
       else
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end
+    end
+
+    get "/:name/logout" do |env|
+      env.session.destroy
+      "You have been logged out."
     end
   end
 end
