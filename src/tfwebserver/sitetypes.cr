@@ -29,6 +29,9 @@ module TFWeb
     property groups = [] of String
     property aclusers = [] of String
 
+    @[JSON::Field(emit_null: true)]
+    property domain = ""
+
     @[JSON::Field(ignore: true)]
     property jinja_env = Crinja.new
 

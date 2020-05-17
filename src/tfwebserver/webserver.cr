@@ -10,6 +10,7 @@ module TFWeb
     @@datasites = Hash(String, Data).new
     @@blogs = Hash(String, Blog).new
     @@include_processor = IncludeProcessor.new
+    @@link_processor = LinkProcessor.new
 
     def self.get_websites
       @@websites
@@ -47,6 +48,10 @@ module TFWeb
 
         call_next env
       end
+    end
+
+    def self.config
+      @@config
     end
 
     def self.datasites
@@ -236,7 +241,10 @@ module TFWeb
       else
         # do include macro is possible
         if @@include_processor.match(filepath)
-          new_content = @@include_processor.apply_includes(wikiname, File.read(filepath))
+          content = File.read(filepath)
+          new_content = @@include_processor.apply(content, current_wiki: wikiname)
+          new_content = @@link_processor.apply(new_content)
+
           if new_content.nil?
             send_file env, filepath
           else

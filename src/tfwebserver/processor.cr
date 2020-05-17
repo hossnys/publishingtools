@@ -7,4 +7,12 @@ module TFWeb
       ""
     end
   end
+
+  class ContentProcessor
+    def match(path)
+    end
+
+    def apply(content, **options)
+    end
+  end
 end

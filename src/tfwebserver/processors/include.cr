@@ -1,11 +1,12 @@
 module TFWeb
-  class IncludeProcessor < Processor
+  class IncludeProcessor < ContentProcessor
     # this should match
     # !!!include:$wiki_name:$docname
     # where :$wikiname is optional
     # can be like
     # !!!include:$docname
-    INCLUDE_RE = /\!\!\!\s*include\s*(?:\:\s*(.+)\s*)?\:\s*(.+)\s*/
+    # include macro should be included in a line without any other content
+    INCLUDE_RE = /^\s*\!\!\!\s*include\s*(?:\:\s*(.+)\s*)?\:\s*(.+)\s*$/
 
     def get_doc_content(wiki_name, doc_name)
       wiki_name = wiki_name.strip
@@ -33,7 +34,7 @@ module TFWeb
             if path.strip.downcase.ends_with?(doc_name)
               content = File.read(path)
               # apply includes on doc itself too
-              return apply_includes(wiki_name, content)
+              return apply(content, current_wiki: wiki_name)
             end
           end
         end
@@ -42,37 +43,40 @@ module TFWeb
       raise "could not get doc content for '#{doc_name}' from '#{wiki_name}'"
     end
 
-    def apply_includes(current_wiki, content)
-      matches = content.scan(INCLUDE_RE)
+    def get_maches(content)
+      content.split("\n").each do |line|
+        match = line.match(INCLUDE_RE)
+        unless match.nil?
+          yield match
+        end
+      end
+    end
 
-      unless matches.empty?
-        matches.each do |match|
-          full_include = match[0]
-          wiki_name = match[1]? || current_wiki
-          doc_name = match[2].strip
+    def apply(content, **options)
+      current_wiki = options.fetch("current_wiki", "")
 
-          unless doc_name.downcase.ends_with?(".md")
-            doc_name += ".md"
-          end
+      get_maches(content) do |match|
+        full_include = match[0]
+        wiki_name = match[1]? || current_wiki
+        doc_name = match[2].strip
 
-          begin
-            newcontent = get_doc_content(wiki_name.downcase, doc_name.downcase).not_nil! + "\n"
-            content = content.gsub(full_include, newcontent)
-          rescue ex
-            return ex.message
-          end
+        unless doc_name.downcase.ends_with?(".md")
+          doc_name += ".md"
+        end
+
+        begin
+          newcontent = get_doc_content(wiki_name.downcase, doc_name.downcase).not_nil! + "\n"
+          content = content.gsub(full_include, newcontent)
+        rescue ex
+          return ex.message.as(String)
         end
       end
 
-      return content
+      content
     end
 
     def match(path)
       File.extname(path).strip.downcase == ".md"
-    end
-
-    def process(path)
-      path
     end
   end
 end
