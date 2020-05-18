@@ -32,7 +32,7 @@
               </li>
               <li class="mx-1">
                 <a href="https://twitter.com/threefold_io" target="_blank">
-                  <i class="fab fa-twitter fa-1x" />
+                  <i class="fab fa-twitter fa-1x" style="color:white" />
                 </a>
               </li>
               <li class="mx-1">
