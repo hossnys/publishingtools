@@ -3,11 +3,6 @@ module TFWeb
     def initialize(@wiki_name : String)
     end
 
-    def match_type(node_type)
-      # the same for images too
-      node_type == Markd::Node::Type::Link || node_type == Markd::Node::Type::Image
-    end
-
     def process_link(title, dest)
       unless dest.includes?(':')
         # append current source wiki for this include to dest

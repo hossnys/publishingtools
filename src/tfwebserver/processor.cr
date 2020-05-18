@@ -58,6 +58,18 @@ module TFWeb
       return title, dest
     end
 
+    def get_title(node)
+      title = ""
+      walker = node.walker
+      while event = walker.next
+        node, entering = event
+        if entering
+          title += node.text
+        end
+      end
+      title
+    end
+
     def process_node(node, content)
       # every link node has a child text node with title
       dest = node.data["destination"].as(String)
@@ -69,19 +81,18 @@ module TFWeb
 
       title = node.data["title"].as(String)
       if title.empty?
-        if node.type == Markd::Node::Type::Link
-          title = node.first_child.text
-        end
-      end
-
-      orig_link = "[#{title}](#{dest})"
-      if node.type == Markd::Node::Type::Image
-        orig_link = "!#{orig_link}"
+        title = get_title(node)
       end
 
       new_title, new_dest = process_link(title, dest)
       if new_title != title || new_dest != dest
-        new_link = "[#{title}](#{new_dest})"
+        orig_link = "[#{title}](#{dest})"
+        new_link = "[#{new_title}](#{new_dest})"
+        if node.type == Markd::Node::Type::Image
+          orig_link = "!#{orig_link}"
+          new_link = "!#{new_link}"
+        end
+
         content = content.gsub(orig_link, new_link)
       end
 

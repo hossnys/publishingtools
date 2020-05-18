@@ -24,7 +24,6 @@ module TFWeb
 
       def initialize(@path : String)
         @content_with_meta = apply_content_processors(File.read(@path))
-        @content_with_meta = File.read(@path)
         match = @content_with_meta.strip.match(META_REGX)
 
         unless match.nil?

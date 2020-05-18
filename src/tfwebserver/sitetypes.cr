@@ -128,13 +128,8 @@ module TFWeb
   end
 
   class Blog < Site
-    property blog : Blogging::Blog?
-
-    def prepare_on_fs
-      super
-
-      loader = Blogging::Loader.new(self)
-      @blog = loader.blog
+    def blog
+      Blogging::Loader.new(self).blog
     end
   end
 

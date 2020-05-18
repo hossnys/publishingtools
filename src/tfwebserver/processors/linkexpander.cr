@@ -12,8 +12,10 @@ module TFWeb
 
     def process_link(title, dest)
       # skip docsify helpers like ':ingore'
+      doit = dest.includes?(":") && !dest.includes?("':")
       if dest.includes?(":") && !dest.includes?("':")
         parts = dest.split(":")
+
         if parts.size == 2
           site_name, sub_dest = parts
           new_dest = resolve(site_name.strip, sub_dest.strip)
@@ -23,15 +25,20 @@ module TFWeb
         end
       end
 
-      return title, "#{dest}"
+      return title, dest
     end
 
     private def link_for_site(site, sub_dest, is_blog = false)
       if site.domain.empty?
+        server_config = TFWeb::WebServer.config.not_nil!["server"].as(Hash)
+        addr = server_config["addr"]
+        port = server_config["port"]
+        base = "http://#{addr}:#{port}"
+
         if is_blog
-          "/blog/#{site.name}/#{sub_dest}"
+          "#{base}/blog/#{site.name}/#{sub_dest}"
         else
-          "/#{site.name}/#{sub_dest}"
+          "#{base}/#{site.name}/#{sub_dest}"
         end
       else
         base = "https://#{site.domain}"
@@ -57,6 +64,9 @@ module TFWeb
         link_for_site(site, sub_dest)
       elsif TFWeb::WebServer.blogs.has_key?(site_name)
         site = TFWeb::WebServer.blogs[site_name]
+        unless sub_dest.starts_with?("pages") || sub_dest.starts_with?("posts")
+          sub_dest = "posts/#{sub_dest}"
+        end
         link_for_site(site, sub_dest, true)
       end
     end
