@@ -1,4 +1,23 @@
 module TFWeb
+  class LinkIncludeProcessor < LinkProcessor
+    def initialize(@wiki_name : String)
+    end
+
+    def match_type(node_type)
+      # the same for images too
+      node_type == Markd::Node::Type::Link || node_type == Markd::Node::Type::Image
+    end
+
+    def process_link(title, dest)
+      unless dest.includes?(':')
+        # append current source wiki for this include to dest
+        return title, "#{@wiki_name}:#{dest}"
+      end
+
+      return title, dest
+    end
+  end
+
   class IncludeProcessor < ContentProcessor
     # this should match
     # !!!include:$wiki_name:$docname
@@ -34,6 +53,8 @@ module TFWeb
             if path.strip.downcase.ends_with?(doc_name)
               content = File.read(path)
               # apply includes on doc itself too
+              linker = LinkIncludeProcessor.new(wiki_name)
+              content = linker.apply(content)
               return apply(content, current_wiki: wiki_name)
             end
           end
