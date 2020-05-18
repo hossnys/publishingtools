@@ -11,8 +11,10 @@ module TFWeb
       property content : String
       property content_with_meta : String
 
-      def apply_includes(content)
-        new_content = TFWeb::WebServer.include_processor.apply_includes("", content)
+      def apply_content_processors(content)
+        new_content = TFWeb::WebServer.include_processor.apply(content)
+        new_content = TFWeb::WebServer.link_expander.apply(new_content)
+
         if new_content
           new_content
         else
@@ -21,8 +23,7 @@ module TFWeb
       end
 
       def initialize(@path : String)
-        # @content_with_meta = apply_includes(File.read(@path))
-        @content_with_meta = File.read(@path)
+        @content_with_meta = apply_content_processors(File.read(@path))
         match = @content_with_meta.strip.match(META_REGX)
 
         unless match.nil?

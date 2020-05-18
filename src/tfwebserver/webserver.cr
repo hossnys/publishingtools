@@ -10,6 +10,7 @@ module TFWeb
     @@datasites = Hash(String, Data).new
     @@blogs = Hash(String, Blog).new
     @@include_processor = IncludeProcessor.new
+    @@link_expander = LinkExpander.new
 
     def self.get_websites
       @@websites
@@ -22,7 +23,8 @@ module TFWeb
     class MiddleWare < Kemal::Handler
       def initialize(
         @wikis : Hash(String, Wiki),
-        @websites : Hash(String, Website)
+        @websites : Hash(String, Website),
+        @blogs : Hash(String, Blog)
       )
       end
 
@@ -30,6 +32,13 @@ module TFWeb
         path = env.request.path
         path_parts = path.strip("/").split("/")
         sitename = path_parts.shift
+
+        # for now until blog UI is updated to serve on / or something
+        if sitename == "blog" || sitename == "api"
+          if @blogs.has_key?(path_parts[0])
+            return call_next env
+          end
+        end
 
         unless @wikis.has_key?(sitename) || @websites.has_key?(sitename)
           if env.request.headers.has_key?("Referer")
@@ -40,13 +49,21 @@ module TFWeb
 
             if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
               #   puts "redirecting for #{referer_sitename} and #{sitename}"
-              return env.redirect "/#{referer_sitename}#{path}" if sitename != "api"
+              return env.redirect "/#{referer_sitename}#{path}"
             end
           end
         end
 
         call_next env
       end
+    end
+
+    def self.config
+      @@config
+    end
+
+    def self.websites
+      @@websites
     end
 
     def self.datasites
@@ -67,6 +84,10 @@ module TFWeb
 
     def self.include_processor
       @@include_processor
+    end
+
+    def self.link_expander
+      @@link_expander
     end
 
     def self.prepare_wiki(wiki : Wiki)
@@ -170,7 +191,7 @@ module TFWeb
         config.secret = secret
       end
 
-      Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites)
+      Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites, blogs: @@blogs)
       Kemal.run
     end
 
@@ -236,7 +257,10 @@ module TFWeb
       else
         # do include macro is possible
         if @@include_processor.match(filepath)
-          new_content = @@include_processor.apply_includes(wikiname, File.read(filepath))
+          content = File.read(filepath)
+          new_content = @@include_processor.apply(content, current_wiki: wikiname)
+          new_content = @@link_expander.apply(new_content)
+
           if new_content.nil?
             send_file env, filepath
           else
