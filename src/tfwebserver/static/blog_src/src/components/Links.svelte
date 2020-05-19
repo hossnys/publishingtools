@@ -11,7 +11,7 @@
           <a href={link.link || link.page} target="_blank">
 
             {#if link.faclass}
-              <i class="fa {link.faclass}" />
+              <i class={link.faclass} />
             {/if}
 
             {#if link.img}
