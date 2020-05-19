@@ -35,9 +35,7 @@ module TFWeb
 
         # for now until blog UI is updated to serve on / or something
         if sitename == "blog" || sitename == "api"
-          if @blogs.has_key?(path_parts[0])
-            return call_next env
-          end
+          return call_next env
         end
 
         unless @wikis.has_key?(sitename) || @websites.has_key?(sitename)

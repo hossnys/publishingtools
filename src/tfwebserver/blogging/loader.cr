@@ -107,9 +107,9 @@ module TFWeb
 
             post.tags.try do |notniltags|
               if notniltags.is_a?(String)
-                post.tags = notniltags.split(",")
+                post.tags = notniltags.split(",").map &.strip
               elsif notniltags.is_a?(Array)
-                post.tags = notniltags
+                post.tags = notniltags.map &.strip
               end
             end
             post.tags = post.tags || [] of String
