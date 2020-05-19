@@ -3,6 +3,7 @@ module TFWeb
     include API::Simulator
     include API::Members
     include API::Auth
+    include TFWeb::Blogging
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
     @@wikis = Hash(String, Wiki).new
@@ -425,6 +426,8 @@ module TFWeb
         end
       elsif @@websites.has_key?(name)
         self.serve_staticsite(env, name, filepath)
+      elsif @@blogs.has_key?(name)
+        self.serve_blogfile(env, name, filepath)
       else
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
       end

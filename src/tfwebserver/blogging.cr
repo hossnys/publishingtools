@@ -2,16 +2,10 @@ module TFWeb
   module Blogging
     # TODO: make this a genric way to serve single page apps
 
-    BLOGGING_BASE_URL = "/blog"
     BLOGGING_BASE_DIR = "src/tfwebserver/static/blog"
     BLOGGING_INDEX    = File.join(BLOGGING_BASE_DIR, "index.html")
 
-    get "#{BLOGGING_BASE_URL}/" do |env|
-      send_file env, BLOGGING_INDEX
-    end
-
-    get "#{BLOGGING_BASE_URL}/*filepath" do |env|
-      path = env.params.url["filepath"]
+    def self.serve_blogfile(env, blog_name, path)
       full_path = File.join(BLOGGING_BASE_DIR, path)
       if File.exists?(full_path)
         send_file env, full_path

@@ -6,6 +6,6 @@ npm run export
 rm -r ../blog
 mkdir -p ../blog
 
-cp -a __sapper__/export/blog/* ../blog
+cp -a __sapper__/export/* ../blog
 
 echo "BUILD DONE!"
