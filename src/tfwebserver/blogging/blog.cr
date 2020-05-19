@@ -88,28 +88,17 @@ module TFWeb
       property posts = [] of TFWeb::Blogging::Post
       property pages = [] of TFWeb::Blogging::Post
 
-      private def valid_published_at(s)
-        s.split("-").map { |x| true if x.to_i rescue false }.all?
-      end
-
       def posts
-        invalid_ones = [] of Post
-        valid_ones = [] of Post
-
-        @posts.each do |p|
-          if !valid_published_at(p.published_at.not_nil!)
-            invalid_ones << p
-          else
-            valid_ones << p
+        now = Time.utc
+        longest_span = now - Time::UNIX_EPOCH # => Time::Span
+        @posts.sort_by do |p|
+          begin
+            # shortest span
+            now - Time.parse_utc(p.published_at.not_nil!, "%F")
+          rescue ArgumentError | Time::Format::Error
+            longest_span
           end
         end
-        sorted = valid_ones.sort_by { |p|
-          Time.parse_utc(p.published_at.not_nil!, "%F")
-        }
-        sorted.reverse!
-        sorted.concat invalid_ones
-
-        sorted
       end
     end
   end
