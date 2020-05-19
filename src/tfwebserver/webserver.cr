@@ -363,7 +363,7 @@ module TFWeb
       wikis = @@wikis.keys
       websites = @@websites.keys
       blogs = @@blogs.keys
-      render "src/tfwebserver/views/wiki.ecr"
+      render "src/tfwebserver/views/index.ecr"
     end
 
     get "/:name" do |env|
@@ -372,6 +372,8 @@ module TFWeb
         self.serve_wikifile(env, name, "index.html")
       elsif @@websites.has_key?(name)
         self.serve_staticsite(env, name, "index.html")
+      elsif @@blogs.has_key?(name)
+        self.serve_blogfile(env, name, "index.html")
       else
         self.do404 env, "file index.html doesn't exist on wiki/website #{name}"
       end

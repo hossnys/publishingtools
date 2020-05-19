@@ -28,25 +28,18 @@ module TFWeb
       return title, dest
     end
 
-    private def link_for_site(site, sub_dest, is_blog = false)
+    private def link_for_site(site, sub_dest)
       if site.domain.empty?
         server_config = TFWeb::WebServer.config.not_nil!["server"].as(Hash)
         addr = server_config["addr"]
         port = server_config["port"]
         base = "http://#{addr}:#{port}"
 
-        if is_blog
-          "#{base}/blog/#{site.name}/#{sub_dest}"
-        else
-          "#{base}/#{site.name}/#{sub_dest}"
-        end
+        "#{base}/#{site.name}/#{sub_dest}"
       else
         base = "https://#{site.domain}"
-        if is_blog
-          "#{base}/blog/#{site.name}/#{sub_dest}"
-        else
-          "#{base}/#{sub_dest}"
-        end
+
+        "#{base}/#{sub_dest}"
       end
     end
 
@@ -67,7 +60,7 @@ module TFWeb
         unless sub_dest.starts_with?("pages") || sub_dest.starts_with?("posts")
           sub_dest = "posts/#{sub_dest}"
         end
-        link_for_site(site, sub_dest, true)
+        link_for_site(site, sub_dest)
       end
     end
   end
