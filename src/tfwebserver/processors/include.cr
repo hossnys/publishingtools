@@ -23,6 +23,7 @@ module TFWeb
     INCLUDE_RE = /^\s*\!\!\!\s*include\s*(?:\:\s*(.+)\s*)?\:\s*(.+)\s*$/
 
     def get_doc_content(wiki_name, doc_name)
+      puts "get doc content #{wiki_name} #{doc_name}".colorize :red
       wiki_name = wiki_name.strip
       WebServer.markdowndocs_collections.try do |mdocs|
         unless mdocs.has_key?(wiki_name)
@@ -48,6 +49,11 @@ module TFWeb
             if path.strip.downcase.ends_with?(doc_name)
               content = File.read(path)
               # apply includes on doc itself too
+              # # TODO: remove when we settle on a proper specs for that include.
+              if doc_name.includes?("_sidebar.md")
+                return content
+              end
+
               linker = LinkIncludeProcessor.new(wiki_name)
               content = linker.apply(content)
               return apply(content, current_wiki: wiki_name)
@@ -59,7 +65,7 @@ module TFWeb
       raise "could not get doc content for '#{doc_name}' from '#{wiki_name}'"
     end
 
-    def get_maches(content)
+    def get_matches(content)
       content.split("\n").each do |line|
         match = line.match(INCLUDE_RE)
         unless match.nil?
@@ -71,7 +77,7 @@ module TFWeb
     def apply(content, **options)
       current_wiki = options.fetch("current_wiki", "")
 
-      get_maches(content) do |match|
+      get_matches(content) do |match|
         full_include = match[0]
         wiki_name = match[1]? || current_wiki
         doc_name = match[2].strip
