@@ -3,7 +3,6 @@ module TFWeb
     include API::Simulator
     include API::Members
     include API::Auth
-    include TFWeb::Blogging
     @@config : TOML::Table?
     @@markdowndocs_collections = Hash(String, MarkdownDocs).new
     @@wikis = Hash(String, Wiki).new
@@ -35,18 +34,18 @@ module TFWeb
         sitename = path_parts.shift
 
         # for now until blog UI is updated to serve on / or something
-        if sitename == "blog" || sitename == "api"
+        if sitename == "api"
           return call_next env
         end
 
-        unless @wikis.has_key?(sitename) || @websites.has_key?(sitename)
+        unless @wikis.has_key?(sitename) || @websites.has_key?(sitename) || @blogs.has_key?(sitename)
           if env.request.headers.has_key?("Referer")
             referer = URI.parse env.request.headers["Referer"]
             referer_path = referer.path
             referer_path_parts = referer_path.strip("/").split("/")
             referer_sitename = referer_path_parts.shift
 
-            if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
+            if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename) || @blogs.has_key?(referer_sitename)
               #   puts "redirecting for #{referer_sitename} and #{sitename}"
               return env.redirect "/#{referer_sitename}#{path}"
             end
@@ -436,6 +435,32 @@ module TFWeb
     get "/:name/logout" do |env|
       env.session.destroy
       "You have been logged out."
+    end
+
+    BLOGGING_BASE_DIR = "src/tfwebserver/static/blog"
+    BLOGGING_INDEX    = File.join(BLOGGING_BASE_DIR, "index.html")
+
+    def self.serve_blogfile(env, blog_name, path)
+      puts "callin serve blogfile... #{blog_name} #{path}"
+      full_path = File.join(BLOGGING_BASE_DIR, path)
+      if File.exists?(full_path)
+        send_file env, full_path
+      else
+        pathparts = path.split('/')
+        blog_name = pathparts[0]
+        file_path = pathparts[1..-1].join("/")
+        if TFWeb::WebServer.blogs.has_key?(blog_name)
+          blogsite = TFWeb::WebServer.blogs[blog_name]
+          asset_path = File.join(blogsite.path, file_path)
+          if File.exists?(asset_path) && File.file?(asset_path)
+            send_file env, asset_path
+          else
+            send_file env, BLOGGING_INDEX
+          end
+        else
+          send_file env, BLOGGING_INDEX
+        end
+      end
     end
   end
 end
