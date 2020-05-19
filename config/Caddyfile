@@ -170,10 +170,23 @@ http://blog.threefold.io, https://blog.threefold.io {
 
 
 http://blog2.threefold.io, https://blog2.threefold.io {
+        redir {
+            if {scheme} is https
+            if {path} is /
+            / /blog/tfblog2 307
+        }
+
+       redir {
+           if {scheme} is http
+           if {path} is /
+           / https://{host}blog/tfblog2/
+        }
+
        redir {
            if {scheme} is http
            / https://{host}{uri}
         }
+
         tls self_signed
         proxy /api localhost:3000/
         proxy / localhost:3000
