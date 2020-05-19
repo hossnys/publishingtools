@@ -69,11 +69,17 @@ module TFWeb
       include YAML::Serializable
       include JSON::Serializable
 
-      property title
-      property link
+      @[YAML::Field(emit_null: true)]
+      property title = ""
 
-      property page : String?
-      property faclass : String?
+      @[YAML::Field(emit_null: true)]
+      property link = ""
+
+      @[YAML::Field(emit_null: true)]
+      property page = ""
+
+      @[YAML::Field(emit_null: true)]
+      property faclass = ""
     end
 
     class Blog < Utils::YAML::Base
