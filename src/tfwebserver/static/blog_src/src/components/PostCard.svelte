@@ -6,31 +6,18 @@
   import { stores } from "@sapper/app";
   const { preloading, page, session } = stores();
   export let username = $page.params.theuser;
+
+  let getUniqueId = () => Date.now();
+
   let converter = new showdown.Converter({ metadata: true });
   converter.setFlavor("github");
   let mdtext = converter.makeHtml(post.content);
   export let showExcerpt = true;
-  let post_image = post.post_image;
+  let post_image = "";
   let post_image_link = "";
-
-  if (!post_image) {
-    post_image_link = "img/blog-post-1.jpeg";
-  } else if (!post_image.startsWith("http")) {
-    post_image_link = `/blog/${username}/assets/images/${post_image}`;
-  } else {
-    post_image_link = post_image;
-  }
-
-  let post_author_image = post.author_image;
+  let post_author_image = "";
   let post_author_image_link = "";
   let summary = "";
-  if (!post_author_image) {
-    post_author_image_link = "me.jpg";
-  } else if (!post_author_image.startsWith("http")) {
-    post_author_image_link = `/blog/${username}/assets/images/${post_author_image}`;
-  } else {
-    post_author_image_link = post_author_image;
-  }
 
   //   let summary = mdtext
   //     .split("\n")
@@ -39,6 +26,26 @@
   //     .slice(0, 300);
   summary = post.description || post.excerpt || excerptOf(mdtext);
   //   import { fly } from "svelte/transition";
+
+  $: {
+    post_image = post.post_image;
+    if (!post_image) {
+      post_image_link = "img/blog-post-1.jpeg";
+    } else if (!post_image.startsWith("http")) {
+      post_image_link = `/blog/${username}/assets/images/${post_image}`;
+    } else {
+      post_image_link = post_image;
+    }
+
+    post_author_image = post.author_image;
+    if (!post_author_image) {
+      post_author_image_link = "me.jpg";
+    } else if (!post_author_image.startsWith("http")) {
+      post_author_image_link = `/blog/${username}/assets/images/${post_author_image}`;
+    } else {
+      post_author_image_link = post_author_image;
+    }
+  }
 </script>
 
 <div class="post col-xl-6">
@@ -59,7 +66,7 @@
         class="author d-flex align-items-center flex-wrap">
         <div class="avatar">
           <img
-            src={post_author_image_link}
+            src="{post_author_image_link}?{getUniqueId()}"
             onerror="this.src='me.jpg'"
             alt="..."
             class="img-fluid" />
