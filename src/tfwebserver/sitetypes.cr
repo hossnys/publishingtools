@@ -66,7 +66,6 @@ module TFWeb
     end
 
     private def read_acl_file
-      puts "checking in ACL.toml at #{aclpath}"
       # zerofiy aclusers
       @aclusers = [] of String
       if File.exists?(aclpath)
