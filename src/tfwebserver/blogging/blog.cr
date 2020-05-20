@@ -80,6 +80,9 @@ module TFWeb
 
       @[YAML::Field(emit_null: true)]
       property faclass = ""
+
+      @[YAML::Field(emit_null: true)]
+      property colorcode = ""
     end
 
     class Blog < Utils::YAML::Base
