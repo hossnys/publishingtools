@@ -167,9 +167,11 @@ sidebar_social_links:
   - title: twitter
     link: https://instagram.com
     faclass: fab fa-twitter
+    colorcode: blue
 
 ```
 lists your relevant social media links
+- you can use `colorcode` to set color for your fontawesome icon.
 
 ### Navlinks
 
