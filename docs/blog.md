@@ -208,6 +208,28 @@ more markdown omitted...
 - post_image: custom post image
 
 
+### Example entry in the config toml
+
+```[[blog]]
+name = "tfblog"
+title = "Threefold Blog"
+#http or git url
+url = "https://github.com/threefoldfoundation/blog_threefold"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "master"
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "production"
+``
+
+
+
 
 ### Development
 
