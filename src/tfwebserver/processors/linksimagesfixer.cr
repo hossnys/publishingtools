@@ -120,7 +120,6 @@ module TFWeb
           puts "#{path.to_s} [imagefixer]old img is #{baseimg}  and new img should be #{newimg} in #{therenderer.filepath}".colorize(:blue) if img != newimg
 
           newcontent = content.gsub(img, newimg)
-          puts "replacing #{img} => #{newimg}"
           content = newcontent
         end
       end
