@@ -3,13 +3,13 @@
 
   export async function preload({ host, path, params, query }) {
     try {
-      const blogs = await getBlogs();
+      //   const blogs = await getBlogs();
       let metadata = {};
       if (params.theuser) {
         metadata = await getMetadata(params.theuser);
       }
 
-      return { blogs, metadata };
+      return { metadata };
     } catch (error) {
       console.log(error);
     }
@@ -64,12 +64,6 @@
   }
 </style>
 
-<svelte:head>
-  <title>Blogs</title>
-</svelte:head>
-
-<Nav {segment} {metadata} />
-
-<BlogsList {blogs} />
-
-<Footer />
+<center>
+  <img src="img/loader.gif" />
+</center>
