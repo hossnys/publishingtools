@@ -18,20 +18,50 @@ ul li.list-results {
     margin-bottom: 10px;
 }
 
+ul li.list-results {
+    display: block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
 ul {
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    padding-left: 20px;
+
+    list-style: circle;
+}
+
+ul li {
+    /* display: inline-block; */
+    margin-right: 10px;
+}
+
+.main-footer ul li i, .categories ul li i{
+    padding: 1px 3px;
+    border-radius: 5px;
+}
+.main-footer ul, .categories ul {
     padding: 0;
     margin: 0;
     list-style: none;
 }
 
-ul li {
+.main-footer ul li, .categories ul li {
     display: inline-block;
     margin-right: 10px;
 }
 
-ul li i {
-    padding: 1px 3px;
-    border-radius: 5px;
+
+.post-body p ul {
+    /* display: inline; */
+}
+.post-body p ul li {
+    /* display: inline */
+    list-style-type: dotted;
+
+    /* display: block; */
 }
 
 .fa-facebook {

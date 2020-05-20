@@ -3,11 +3,12 @@
   export let links = [];
 
   let getStyleForLink = link => {
-    let theStyle = "height: 50px;width: 50px;";
-    if (link.colorcode !== null) {
+    let theStyle = "";
+    console.log(typeof link.colorcode);
+    console.log(`color code is >${link.colorcode}<`);
+    if (link.colorcode.trim() !== "" || link.colorcode !== null) {
       theStyle += `color: ${link.colorcode}`;
     }
-    console.log(`the style is ${theStyle}`);
     return theStyle;
   };
 </script>
