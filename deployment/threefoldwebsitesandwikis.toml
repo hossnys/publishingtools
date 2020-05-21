@@ -22,11 +22,11 @@ branch = "master"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
+#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/...
 #if empty then is ~/sandbox/code
 environment = "production"
 auth = true
-
+domain = "matchmakers.threefold.io"
 
 [[wiki]]
 #unique name for the wiki
@@ -43,10 +43,11 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
+#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/...
 #if empty then is ~/sandbox/code
 environment = "testing"
 auth = true
+domain = "matchmakers2.threefold.io"
 
 
 [[wiki]]
@@ -64,10 +65,12 @@ branch = "development"
 branchswitch = false
 #path in the repo where the info is, std "src"
 srcdir = "src"
-#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/... 
+#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/...
 #if empty then is ~/sandbox/code
 environment = "production"
 auth = true
+domain = "ambassadors.threefold.me"
+
 
 [[wiki]]
 name = "advisors"
@@ -79,6 +82,8 @@ branchswitch = false
 srcdir = "src"
 environment = "production"
 auth = true
+domain = "advisors.threefold.me"
+
 
 [[wiki]]
 name = "board"
@@ -90,6 +95,7 @@ branchswitch = false
 srcdir = "src"
 environment = "production"
 auth = true
+domain = "board.threefold.me"
 
 
 [[wiki]]
@@ -102,6 +108,8 @@ branch = "master"
 branchswitch = false
 srcdir = "src"
 environment = "production"
+domain = "sdk.threefold.io"
+
 
 [[wiki]]
 name = "sdk2"
@@ -113,6 +121,7 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
+domain = "sdk2.threefold.io"
 
 
 [[wiki]]
@@ -125,6 +134,8 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
+domain = "sdk3.threefold.io"
+
 
 [[wiki]]
 name = "wiki"
@@ -136,6 +147,8 @@ branch = "master"
 branchswitch = false
 srcdir = "src"
 environment = "production"
+domain = "wiki.threefold.io"
+
 
 [[wiki]]
 name = "wiki2"
@@ -148,6 +161,7 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
+domain = "wiki2.threefold.io"
 
 
 [[wiki]]
@@ -161,6 +175,8 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
+domain = "wiki3.threefold.io"
+
 
 #website
 [[www]]
@@ -264,6 +280,24 @@ branchswitch = true
 srcdir = "html"
 environment = "production"
 
+[[blog]]
+name = "tfblog"
+title = "Threefold Blog"
+#http or git url
+url = "https://github.com/threefoldfoundation/blog_threefold"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "master"
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "production"
+domain = "blog.threefold.io"
+
 
 [[blog]]
 name = "tfblog2"
@@ -281,21 +315,4 @@ branchswitch = true
 srcdir = ""
 #environment name (for example:  production, staging, testing)
 environment = "testing"
-
-
-[[blog]]
-name = "tfblog"
-title = "Threefold Blog"
-#http or git url
-url = "https://github.com/threefoldfoundation/blog_threefold"
-#if empty will be auto created
-path = ""
-#commit automatically when there is new info, only works when ssh used
-autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
-branch = "master"
-branchswitch = true
-#path in the repo where the info is, std "src"
-srcdir = ""
-#environment name (for example:  production, staging, testing)
-environment = "production"
+domain = "blog2.threefold.io"
