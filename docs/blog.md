@@ -140,7 +140,7 @@ allow_navbar: true
 - images dir: where your images for the blog exist (default `assets/images`)
 - posts_per_page: number of posts to show in page
 - allow_disqus: to allow disqus plugin
-- allow_navbar: to allow navigation links
+- allow_navbar: to allow navigation links 
 - allow_footer: to show the footer.
 
 ### Sidebar config
@@ -160,18 +160,19 @@ Describes what shows up in sidebar links section (think if you want to pinposts 
 sidebar_social_links:
   - title: facebook
     link: https://www.facebook.com/ThreeFoldNetwork/
-    class: fab fa-facebook
+    faclass: fab fa-facebook fa-2x
   - title: instagram
     link: https://instagram.com
-    faclass: fab fa-instagram
+    faclass: fab fa-instagram fa-2x
   - title: twitter
     link: https://instagram.com
-    faclass: fab fa-twitter
+    faclass: fab fa-twitter fa-2x
     colorcode: blue
 
 ```
 lists your relevant social media links
-- you can use `colorcode` to set color for your fontawesome icon.
+- you can use `colorcode` to set color for your fontawesome icon. (colorcode can be in hex as well e.g `#3b5998`)
+
 
 ### Navlinks
 
@@ -185,7 +186,7 @@ nav_links:
     link: https://threefold.io
 
 ```
-you can control the links in the navbar using 
+you can control the links in the navbar using `nav_links` fields for each page link.
 
 ## Post structure
 
@@ -204,7 +205,7 @@ more markdown omitted...
 ```
 - title: describes post title
 - author: to override the global author name
-- author_image: to override the global author image
+- author_image: to override the global author image `me.jpg` 
 - tags: to define tags for the post
 - published at: the date `YEAR-MONTH-DAY`
 - post_image: custom post image
@@ -212,7 +213,8 @@ more markdown omitted...
 
 ### Example entry in the config toml
 
-```[[blog]]
+```toml
+[[blog]]
 name = "tfblog"
 title = "Threefold Blog"
 #http or git url
