@@ -3,6 +3,8 @@ require "option_parser"
 require "toml"
 
 module TFWeb
+  Logger = Logging.with_colors(self)
+
   module CLI
     BUILD_BRANCH   = {{ `git rev-parse --abbrev-ref HEAD`.chomp.stringify }}
     BUILD_COMMIT   = {{ `git rev-parse HEAD`.chomp.stringify }}
@@ -24,7 +26,7 @@ module TFWeb
         begin
           WebServer.serve(theconfigpath)
         rescue exception
-          puts "couldn't start server #{exception}"
+          Logger.fatal(exception: exception) { "couldn't start server" }
         end
       end
     end

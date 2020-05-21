@@ -1,5 +1,4 @@
 require "file_utils"
-require "log"
 
 module TFWeb
   module WebServer
@@ -9,7 +8,7 @@ module TFWeb
 
     include Config
 
-    Logger = Log.for(self, level: Log::Severity::Info)
+    Logger = Logging.with_colors(self)
 
     class SiteCloneStatus
       property name = ""
@@ -23,7 +22,7 @@ module TFWeb
     def self.serve(configfilepath : String)
       Config.load_from_file(configfilepath)
 
-      Logger.info { "Starting server from config at #{configfilepath}".colorize(:blue) }
+      Logger.info { "Starting server from config at #{configfilepath}" }
 
       channel_done = Channel(SiteCloneStatus).new
 
@@ -44,16 +43,18 @@ module TFWeb
       Config.all.size.times do
         status = channel_done.receive # wait for all of them.
         if status.success
-          Logger.info { "wiki/website/datasite #{status.name} is ready".colorize(:blue) }
+          Logger.info { "wiki/website/datasite #{status.name} is ready" }
         else
-          Logger.error(exception: status.exception.not_nil!) { "could not load wiki/website/datasite #{status.name}, please check the config" }
+          Logger.error(exception: status.exception.not_nil!) {
+            "could not load wiki/website/datasite #{status.name}, please check the config"
+          }
         end
       end
 
       session = Session.new
       Kemal::Session.config do |config|
         config.timeout = session.timeout
-        config.engine = Kemal::Session::FileEngine.new({:sessions_dir => session.dir_path})
+        config.engine = Kemal::Session::FileEngine.new({:sessions_dir => session.path})
         config.secret = session.secret
       end
 
@@ -110,7 +111,8 @@ module TFWeb
         elsif filesinfo.has_key?(filename.downcase)
           filesinfo[filename.downcase].paths[0].as(String)
         else
-          puts "couldn't find #{filename} in the markdown docs collection of #{wikiname}".colorize(:red)
+          Logger.error { "couldn't find #{filename} in the markdown docs collection of #{wikiname}" }
+          nil # return nil if not found, not logger
         end
       end
     end
@@ -121,7 +123,7 @@ module TFWeb
       filepath = self.get_wiki_file_path(wikiname, filename)
 
       if filepath.nil?
-        puts msg.colorize :red
+        Logger.error { msg }
         do404 env, msg
       else
         # do include macro is possible
@@ -159,7 +161,7 @@ module TFWeb
     end
 
     private def self.handle_update(env, name, force)
-      puts "trying to update #{name} force? #{force}".colorize(:blue)
+      Logger.info { "trying to update #{name} force? #{force}" }
       if Config.wikis.has_key?(name)
         wiki = Config.wikis[name]
         wiki.repo.try do |arepo|
@@ -210,7 +212,7 @@ module TFWeb
 
           return do200 env, content.to_json
         rescue exception
-          puts "#{exception}".colorize(:red)
+          Logger.error(exception: exception) { "error parsing toml data file" }
         end
       elsif docs.filesinfo.has_key?(jsonpath)
         filepathindocs = docs.filesinfo[jsonpath].paths[0]
@@ -220,7 +222,7 @@ module TFWeb
 
           return do200 env, content
         rescue exception
-          puts "#{exception}".colorize(:red)
+          Logger.error(exception: exception) { "error parsing reading data file" }
         end
       end
     end

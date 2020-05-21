@@ -23,7 +23,7 @@ module TFWeb
     INCLUDE_RE = /^\s*\!\!\!\s*include\s*(?:\:\s*(.+)\s*)?\:\s*(.+)\s*$/
 
     def get_doc_content(wiki_name, doc_name)
-      puts "get doc content #{wiki_name} #{doc_name}".colorize :red
+      Logger.info { "get doc content #{wiki_name} #{doc_name}" }
       wiki_name = wiki_name.strip
       unless Config.wikis.has_key?(wiki_name)
         raise "wiki name of '#{wiki_name}' is not configured"

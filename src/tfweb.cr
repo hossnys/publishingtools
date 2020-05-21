@@ -1,5 +1,6 @@
 require "kemal"
 require "toml"
+require "log"
 require "colorize"
 require "uri"
 require "kemal-session"

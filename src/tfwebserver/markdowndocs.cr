@@ -1,7 +1,6 @@
 require "./processor"
 require "./processors/*"
 require "file_utils"
-require "colorize"
 
 module TFWeb
   class MarkdownDocs
@@ -83,7 +82,7 @@ module TFWeb
         content = content + "# #{filename} \n"
         content = content + err + "\n"
       end
-      puts "saving errors to #{File.join(path, "errors.md")}".colorize(:blue)
+      Logger.info { "saving errors to #{File.join(path, "errors.md")}" }
 
       errpath = File.join(path, "errors.md")
       File.write(errpath, content)
@@ -169,7 +168,7 @@ module TFWeb
               end
             end
           rescue exception
-            puts "error in #{p} for #{path_obj} #{exception}".colorize(:red)
+            Logger.info { "error in #{p} for #{path_obj} #{exception}" }
             # raise exception
           end
         end

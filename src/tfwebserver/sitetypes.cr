@@ -1,8 +1,6 @@
 require "crinja"
 
 module TFWeb
-  Logger = Log.for(self)
-
   class Site
     include JSON::Serializable
 
@@ -116,7 +114,7 @@ module TFWeb
       begin
         @mdocs.checks_dups_and_fix
       rescue exception
-        Logger.error(exception: exception) { "error happened #{exception}".colorize(:red) }
+        Logger.error(exception: exception) { "error happened #{exception}" }
       end
     end
 
