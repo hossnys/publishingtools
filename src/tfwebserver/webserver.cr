@@ -154,23 +154,47 @@ module TFWeb
       end
     end
 
+    class SiteCloneStatus
+      property name = ""
+      property success = true
+      property errmsg = ""
+    end
+
     def self.serve(configfilepath : String)
       self.read_config(configfilepath)
       puts "Starting server from config at #{configfilepath}".colorize(:blue)
-      channel_done = Channel(String).new
+      channel_done = Channel(SiteCloneStatus).new
 
       all = @@wikis.values + @@websites.values + @@datasites.values + @@blogs.values
 
       all.each do |site|
         spawn do
-          site.prepare_on_fs
-          channel_done.send(site.name)
+          success = true
+          errmsg = ""
+          sitename = site.name
+          begin
+            site.prepare_on_fs
+          rescue exception
+            errmsg = "#{exception}"
+            success = false
+          end
+          ssc = SiteCloneStatus.new
+          ssc.name = site.name
+          ssc.errmsg = errmsg
+          ssc.success = success
+          channel_done.send(ssc)
         end
       end
 
       all.size.times do
-        ready = channel_done.receive # wait for all of them.
-        puts "wiki/website/datasite #{ready} is ready".colorize(:blue)
+        ssc = channel_done.receive # wait for all of them.
+        ready = ssc.success
+        name = ssc.name
+        if ready == true
+          puts "wiki/website/datasite #{name} #{ready} is ready".colorize(:blue)
+        else
+          puts "wiki/website/datasite #{name} failed #{ssc.errmsg}".colorize(:red)
+        end
       end
 
       self.prepare_wikis
