@@ -191,7 +191,7 @@ module TFWeb
         ready = ssc.success
         name = ssc.name
         if ready == true
-          puts "wiki/website/datasite #{name} #{ready} is ready".colorize(:blue)
+          puts "wiki/website/datasite #{name} is ready".colorize(:blue)
         else
           puts "wiki/website/datasite #{name} failed #{ssc.errmsg}".colorize(:red)
         end
