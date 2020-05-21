@@ -1,17 +1,7 @@
 require "crinja"
 
 module TFWeb
-  GROUPS = Hash(String, ACLGroup).new
-
-  class ACLGroup
-    property name = ""
-    property description = ""
-    property users = Set(String).new
-
-    def save
-      GROUPS[@name] = self
-    end
-  end
+  Logger = Log.for(self)
 
   class Site
     include JSON::Serializable
@@ -35,6 +25,9 @@ module TFWeb
     @[JSON::Field(ignore: true)]
     property jinja_env = Crinja.new
 
+    @[JSON::Field(ignore: true)]
+    property mdocs = MarkdownDocs.new("")
+
     def to_s
       "#{@name} #{@auth} #{@environment} "
     end
@@ -44,7 +37,7 @@ module TFWeb
       return true if @groups.size == 0 && @aclusers.size == 0 # if there's no acl.toml too it's public.
       return true if @aclusers.includes?(username)
       groups.each do |groupname|
-        if GROUPS[groupname].users.includes?(username) ||
+        if Config::GROUPS[groupname].users.includes?(username) ||
            #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
            return true
         end
@@ -72,7 +65,7 @@ module TFWeb
         @@config = TOML.parse_file(aclpath)
         #   p @@config
         @@config.try do |okconfig|
-          puts "read config #{okconfig}"
+          Logger.info { "read config #{okconfig}" }
           if okconfig.has_key?("acl")
             aclhash = okconfig["acl"].as(Hash)
             aclhash["users"].as(Array).each do |u|
@@ -117,9 +110,20 @@ module TFWeb
       end
     end
 
+    def prepare_docs
+      # TODO: handle the url if path is empty
+      @mdocs = MarkdownDocs.new(File.join(self.path, self.srcdir))
+      begin
+        @mdocs.checks_dups_and_fix
+      rescue exception
+        Logger.error(exception: exception) { "error happened #{exception}".colorize(:red) }
+      end
+    end
+
     def prepare_on_fs
       super
       prepare_index
+      prepare_docs
     end
   end
 

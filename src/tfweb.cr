@@ -22,6 +22,7 @@ end
 
 require "./tfwebserver/cli"
 require "./tfwebserver/utils/*"
+require "./tfwebserver/middlewares/*"
 require "./tfwebserver/simulator"
 require "./tfwebserver/blogging"
 require "./tfwebserver/api/*"

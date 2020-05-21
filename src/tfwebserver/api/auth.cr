@@ -3,8 +3,8 @@ module TFWeb
     module Auth
       @@OAUTH_URL = "https://oauth.threefold.io"
       @@REDIRECT_URL = "https://login.threefold.me"
-      @@wikis : Hash(String, Wiki) = TFWeb::WebServer.get_wikis
-      @@websites : Hash(String, Website) = TFWeb::WebServer.get_websites
+      @@wikis : Hash(String, Wiki) = TFWeb::Config.wikis
+      @@websites : Hash(String, Website) = TFWeb::Config.websites
 
       before_get "/:name" do |env|
         puts @@wikis.keys

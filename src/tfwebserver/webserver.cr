@@ -1,228 +1,66 @@
 require "file_utils"
+require "log"
 
 module TFWeb
   module WebServer
     include API::Simulator
     include API::Members
     include API::Auth
-    @@config : TOML::Table?
-    @@markdowndocs_collections = Hash(String, MarkdownDocs).new
-    @@wikis = Hash(String, Wiki).new
-    @@websites = Hash(String, Website).new
-    @@datasites = Hash(String, Data).new
-    @@blogs = Hash(String, Blog).new
-    @@include_processor = IncludeProcessor.new
-    @@link_expander = LinkExpander.new
 
-    def self.get_websites
-      @@websites
-    end
+    include Config
 
-    def self.get_wikis
-      @@wikis
-    end
-
-    class MiddleWare < Kemal::Handler
-      def initialize(
-        @wikis : Hash(String, Wiki),
-        @websites : Hash(String, Website),
-        @blogs : Hash(String, Blog)
-      )
-      end
-
-      def call(env)
-        path = env.request.path
-        path_parts = path.strip("/").split("/")
-        sitename = path_parts.shift
-
-        # for now until blog UI is updated to serve on / or something
-        if sitename == "blog" || sitename == "api"
-          return call_next env
-        end
-
-        unless @wikis.has_key?(sitename) || @websites.has_key?(sitename)
-          if env.request.headers.has_key?("Referer")
-            referer = URI.parse env.request.headers["Referer"]
-            referer_path = referer.path
-            referer_path_parts = referer_path.strip("/").split("/")
-            referer_sitename = referer_path_parts.shift
-
-            if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
-              #   puts "redirecting for #{referer_sitename} and #{sitename}"
-              return env.redirect "/#{referer_sitename}#{path}"
-            end
-          end
-        end
-
-        call_next env
-      end
-    end
-
-    def self.config
-      @@config
-    end
-
-    def self.websites
-      @@websites
-    end
-
-    def self.datasites
-      @@datasites
-    end
-
-    def self.wikis
-      @@wikis
-    end
-
-    def self.blogs
-      @@blogs
-    end
-
-    def self.markdowndocs_collections
-      @@markdowndocs_collections
-    end
-
-    def self.include_processor
-      @@include_processor
-    end
-
-    def self.link_expander
-      @@link_expander
-    end
-
-    def self.prepare_wiki(wiki : Wiki)
-      # TODO: handle the url if path is empty
-      markdowndocs = MarkdownDocs.new(File.join(wiki.path, wiki.srcdir))
-      begin
-        markdowndocs.checks_dups_and_fix
-      rescue exception
-        puts "error happened #{exception}".colorize(:red)
-      end
-      @@markdowndocs_collections[wiki.name] = markdowndocs
-    end
-
-    def self.prepare_wikis
-      @@wikis.values.each do |wiki|
-        prepare_wiki(wiki)
-      end
-    end
-
-    def self.read_config(configfilepath)
-      @@config = TOML.parse_file(configfilepath)
-      # p @@config
-      @@config.try do |okconfig|
-        serverconfig = okconfig["server"].as(Hash)
-        okconfig.has_key?("group") && okconfig["group"].as(Array).each do |groupel|
-          group = groupel.as(Hash)
-          aclgroup = ACLGroup.new
-          aclgroup.name = group["name"].as(String)
-          aclgroup.description = group.fetch("description", "").as(String)
-          # TODO: can be better?
-          group["users"].as(Array).each do |u|
-            threebotuser = u.as(String)
-            unless threebotuser.ends_with?(".3bot")
-              threebotuser += ".3bot"
-            end
-            aclgroup.users << threebotuser
-          end
-          aclgroup.save
-        end
-
-        okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
-          wiki = Wiki.from_json(wikiel.as(Hash).to_json)
-          @@wikis[wiki.name] = wiki
-        end
-
-        okconfig.has_key?("www") && okconfig["www"].as(Array).each do |websiteel|
-          website = Website.from_json(websiteel.as(Hash).to_json)
-          @@websites[website.name] = website
-        end
-
-        okconfig.has_key?("data") && okconfig["data"].as(Array).each do |datael|
-          datasite = Data.from_json(datael.as(Hash).to_json)
-          @@datasites[datasite.name] = datasite
-        end
-
-        okconfig.has_key?("blog") && okconfig["blog"].as(Array).each do |blogel|
-          blog = Blog.from_json(blogel.as(Hash).to_json)
-          @@blogs[blog.name] = blog
-        end
-
-        # TODO: code to validate the uniqueness of wiki, websites names..
-        Kemal.config.port = serverconfig["port"].as(Int64).to_i
-        Kemal.config.host_binding = serverconfig["addr"].as(String)
-      end
-    end
+    Logger = Log.for(self, level: Log::Severity::Info)
 
     class SiteCloneStatus
       property name = ""
       property success = true
-      property errmsg = ""
+      property exception : Exception | Nil
+
+      def initialize(@name, @success, @exception)
+      end
     end
 
     def self.serve(configfilepath : String)
-      self.read_config(configfilepath)
-      puts "Starting server from config at #{configfilepath}".colorize(:blue)
+      Config.load_from_file(configfilepath)
+
+      Logger.info { "Starting server from config at #{configfilepath}".colorize(:blue) }
+
       channel_done = Channel(SiteCloneStatus).new
 
-      all = @@wikis.values + @@websites.values + @@datasites.values + @@blogs.values
-
-      all.each do |site|
+      Config.all.each do |site|
         spawn do
-          success = true
-          errmsg = ""
+          exception = nil
           sitename = site.name
           begin
             site.prepare_on_fs
+            success = true
           rescue exception
-            errmsg = "#{exception}"
             success = false
           end
-          ssc = SiteCloneStatus.new
-          ssc.name = site.name
-          ssc.errmsg = errmsg
-          ssc.success = success
-          channel_done.send(ssc)
+          channel_done.send(SiteCloneStatus.new(sitename, success, exception))
         end
       end
 
-      all.size.times do
-        ssc = channel_done.receive # wait for all of them.
-        ready = ssc.success
-        name = ssc.name
-        if ready == true
-          puts "wiki/website/datasite #{name} is ready".colorize(:green)
+      Config.all.size.times do
+        status = channel_done.receive # wait for all of them.
+        if status.success
+          Logger.info { "wiki/website/datasite #{status.name} is ready".colorize(:blue) }
         else
-          puts "wiki/website/datasite #{name} failed #{ssc.errmsg}".colorize(:red)
+          Logger.error(exception: status.exception.not_nil!) { "could not load wiki/website/datasite #{status.name}, please check the config" }
         end
       end
 
-      self.prepare_wikis
-
-      # at this point ~/tfweb is created
-
-      secret_file_path = Path["~/tfweb/session_secret"].expand(home: true).to_s
-      session_dir_path = Path["~/tfweb/session_data"].expand(home: true).to_s
-      unless File.exists?(session_dir_path)
-        FileUtils.mkdir_p(session_dir_path)
-      end
-      secret = ENV.fetch("SESSION_SECRET", "")
-      if File.exists?(secret_file_path)
-        secret = File.read(secret_file_path)
-      else
-        if secret == ""
-          secret = Random::Secure.hex(64)
-          File.write(secret_file_path, secret)
-        end
-      end
-      Dir.mkdir_p("session_data")
+      session = Session.new
       Kemal::Session.config do |config|
-        config.timeout = 7.days
-        config.engine = Kemal::Session::FileEngine.new({:sessions_dir => session_dir_path})
-        config.secret = secret
+        config.timeout = session.timeout
+        config.engine = Kemal::Session::FileEngine.new({:sessions_dir => session.dir_path})
+        config.secret = session.secret
       end
 
-      Kemal.config.add_handler MiddleWare.new(wikis: @@wikis, websites: @@websites, blogs: @@blogs)
+      Kemal.config.port = Config.server_config["port"].to_i32
+      Kemal.config.host_binding = Config.server_config["addr"].to_s
+
+      Kemal.config.add_handler RefererMiddleware.new(wikis: Config.wikis, websites: Config.websites, blogs: Config.blogs)
       Kemal.run
     end
 
@@ -253,7 +91,7 @@ module TFWeb
     # checks the loaded metadata to find the required md file or image file
     # TODO: phase 2, in future we need to change this to use proper objects: MDDoc, Image, ...
     def self.get_wiki_file_path(wikiname, filename)
-      wiki = @@wikis[wikiname]
+      wiki = Config.wikis[wikiname]
       full_path = File.join(wiki.path, wiki.srcdir, filename)
       if File.exists?(full_path)
         # good, found on file system
@@ -265,14 +103,14 @@ module TFWeb
         get_readme_path(wiki, filename)
       else
         # try markdown docs collection
-        mddocs = @@markdowndocs_collections[wikiname]
+        mddocs = wiki.mdocs
         filesinfo = mddocs.filesinfo
         if filesinfo.has_key?(filename)
           filesinfo[filename].paths[0].as(String) # in decent repo it will be only 1 in this array.
         elsif filesinfo.has_key?(filename.downcase)
           filesinfo[filename.downcase].paths[0].as(String)
         else
-          puts "couldn't find #{filename} in the markdowndocs_collection of #{wikiname}".colorize(:red)
+          puts "couldn't find #{filename} in the markdown docs collection of #{wikiname}".colorize(:red)
         end
       end
     end
@@ -287,10 +125,10 @@ module TFWeb
         do404 env, msg
       else
         # do include macro is possible
-        if @@include_processor.match(filepath)
+        if Config.include_processor.match(filepath)
           content = File.read(filepath)
-          new_content = @@include_processor.apply(content, current_wiki: wikiname)
-          new_content = @@link_expander.apply(new_content)
+          new_content = Config.include_processor.apply(content, current_wiki: wikiname)
+          new_content = Config.link_expander.apply(new_content)
 
           if new_content.nil?
             send_file env, filepath
@@ -305,7 +143,7 @@ module TFWeb
     end
 
     def self.serve_staticsite(env, sitename, filename)
-      website = @@websites[sitename]
+      website = Config.websites[sitename]
       website_src_path = File.join(website.path, website.srcdir)
       path = File.join(website_src_path, filename)
 
@@ -322,19 +160,20 @@ module TFWeb
 
     private def self.handle_update(env, name, force)
       puts "trying to update #{name} force? #{force}".colorize(:blue)
-      if @@wikis.has_key?(name)
-        @@wikis[name].repo.try do |arepo|
+      if Config.wikis.has_key?(name)
+        wiki = Config.wikis[name]
+        wiki.repo.try do |arepo|
           arepo.pull(force)
-          @@markdowndocs_collections[name].checks_dups_and_fix
+          wiki.prepare_docs
         end
-      elsif @@websites.has_key?(name)
-        @@websites[name].repo.try do |arepo|
+      elsif Config.websites.has_key?(name)
+        Config.websites[name].repo.try do |arepo|
           arepo.pull(force)
         end
-      elsif @@blogs.has_key?(name)
-        @@blogs[name].repo.try do |arepo|
+      elsif Config.blogs.has_key?(name)
+        Config.blogs[name].repo.try do |arepo|
           arepo.pull(force)
-          @@blogs[name].prepare_on_fs
+          Config.blogs[name].prepare_on_fs
         end
       else
         do404 env, "couldn't pull #{name}"
@@ -342,13 +181,13 @@ module TFWeb
     end
 
     private def self.handle_datafile(env, name, path)
-      wiki = @@wikis[name]
+      wiki = Config.wikis[name]
       filepath = File.join(wiki.path, wiki.srcdir, path.to_s)
 
       basename = File.basename(path)
       ext = File.extname(basename)
       filename_without_ext = File.basename(basename, ext)
-      docs = @@markdowndocs_collections[name]
+      docs = wiki.mdocs
       tomlpath = filename_without_ext + ".toml"
       #   yamlpath = filename_without_ext + ".yaml"
       ymlpath = filename_without_ext + ".yml"
@@ -393,17 +232,17 @@ module TFWeb
     end
 
     get "/" do |env|
-      wikis = @@wikis.keys
-      websites = @@websites.keys
-      blogs = @@blogs.keys
+      wikis = Config.wikis.keys
+      websites = Config.websites.keys
+      blogs = Config.blogs.keys
       render "src/tfwebserver/views/wiki.ecr"
     end
 
     get "/:name" do |env|
       name = env.params.url["name"]
-      if @@markdowndocs_collections.has_key?(name)
+      if Config.wikis.has_key?(name)
         self.serve_wikifile(env, name, "index.html")
-      elsif @@websites.has_key?(name)
+      elsif Config.websites.has_key?(name)
         self.serve_staticsite(env, name, "index.html")
       else
         self.do404 env, "file index.html doesn't exist on wiki/website #{name}"
@@ -412,8 +251,8 @@ module TFWeb
 
     get "/:name/reload_errors" do |env|
       name = env.params.url["name"]
-      if @@wikis.has_key?(name)
-        @@markdowndocs_collections[name].checks_dups_and_fix
+      if Config.wikis.has_key?(name)
+        Config.wikis[name].prepare_docs
       else
         do404 env, "couldn't reload for  #{name}"
       end
@@ -422,8 +261,8 @@ module TFWeb
     # get template fill in data obj
     get "/:name/templates/:templatename" do |env|
       name = env.params.url["name"]
-      if @@wikis.has_key?(name)
-        wikisite = @@wikis[name]
+      if Config.wikis.has_key?(name)
+        wikisite = Config.wikis[name]
         templatename = env.params.url["templatename"]
 
         data = env.params.query["data"]
@@ -449,14 +288,14 @@ module TFWeb
     get "/:name/*filepath" do |env|
       name = env.params.url["name"]
       filepath = env.params.url["filepath"]
-      if @@wikis.has_key?(name)
+      if Config.wikis.has_key?(name)
         path = Path.new(filepath)
         if [".toml", ".json"].includes?(path.extension)
           self.handle_datafile(env, name, path)
         else
           self.serve_wikifile(env, name, path.basename)
         end
-      elsif @@websites.has_key?(name)
+      elsif Config.websites.has_key?(name)
         self.serve_staticsite(env, name, filepath)
       else
         self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"

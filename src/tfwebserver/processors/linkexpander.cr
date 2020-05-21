@@ -30,7 +30,7 @@ module TFWeb
 
     private def link_for_site(site, sub_dest, is_blog = false)
       if site.domain.empty?
-        server_config = TFWeb::WebServer.config.not_nil!["server"].as(Hash)
+        server_config = TFWeb::Config.server_config
         addr = server_config["addr"]
         port = server_config["port"]
         base = "http://#{addr}:#{port}"
@@ -51,19 +51,19 @@ module TFWeb
     end
 
     private def resolve(site_name, sub_dest)
-      if TFWeb::WebServer.wikis.has_key?(site_name)
-        site = TFWeb::WebServer.wikis[site_name]
+      if TFWeb::Config.wikis.has_key?(site_name)
+        site = TFWeb::Config.wikis[site_name]
         ext = File.extname(sub_dest).strip.downcase
         if ext == ".md" || ext.empty?
           # then it's a document served by docsify, append hash
           sub_dest = "#/#{sub_dest}"
         end
         link_for_site(site, sub_dest)
-      elsif TFWeb::WebServer.websites.has_key?(site_name)
-        site = TFWeb::WebServer.websites[site_name]
+      elsif TFWeb::Config.websites.has_key?(site_name)
+        site = TFWeb::Config.websites[site_name]
         link_for_site(site, sub_dest)
-      elsif TFWeb::WebServer.blogs.has_key?(site_name)
-        site = TFWeb::WebServer.blogs[site_name]
+      elsif TFWeb::Config.blogs.has_key?(site_name)
+        site = TFWeb::Config.blogs[site_name]
         unless sub_dest.starts_with?("pages") || sub_dest.starts_with?("posts")
           sub_dest = "posts/#{sub_dest}"
         end

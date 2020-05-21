@@ -11,7 +11,7 @@ module TFWeb
       end
 
       def get_blogsite(name)
-        TFWeb::WebServer.blogs[name]
+        TFWeb::Config.blogs[name]
       end
 
       def get_blog(name)
@@ -19,11 +19,11 @@ module TFWeb
       end
 
       def blog_exists?(name)
-        TFWeb::WebServer.blogs.has_key?(name)
+        TFWeb::Config.blogs.has_key?(name)
       end
 
       def get_all_blog_names
-        TFWeb::WebServer.blogs.keys
+        TFWeb::Config.blogs.keys
       end
 
       def get_all_blogs
