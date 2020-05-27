@@ -17,7 +17,7 @@ module TFWeb
           data = {"name" => name}.to_json
           env.response.print data
         rescue exc
-          puts exc.message.colorize(:red)
+          Logger.error(exception: exc) { "cannot get data for current options" }
           env.response.status_code = 404
           error = {"message" => "data cannot be found for current options"}.to_json
           env.response.print error

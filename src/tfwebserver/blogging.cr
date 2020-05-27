@@ -19,8 +19,8 @@ module TFWeb
         pathparts = path.split('/')
         blog_name = pathparts[0]
         file_path = pathparts[1..-1].join("/")
-        if TFWeb::WebServer.blogs.has_key?(blog_name)
-          blogsite = TFWeb::WebServer.blogs[blog_name]
+        if TFWeb::Config.blogs.has_key?(blog_name)
+          blogsite = TFWeb::Config.blogs[blog_name]
           asset_path = File.join(blogsite.path, file_path)
           if File.exists?(asset_path) && File.file?(asset_path)
             send_file env, asset_path

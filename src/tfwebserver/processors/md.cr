@@ -1,5 +1,3 @@
-require "colorize"
-
 module TFWeb
   class MdProcessor < Processor
     def match(path)
@@ -12,7 +10,7 @@ module TFWeb
       clean_child = path.basename.downcase.gsub({" ": "_", "-": "_"})
       new_path = Path.new(path.dirname, clean_child)
       if new_path != path
-        puts "[md]renaming #{path.to_s} to #{new_path.to_s} ".colorize(:blue)
+        Logger.info { "[md]renaming #{path.to_s} to #{new_path.to_s} " }
         File.rename(path.to_s, new_path.to_s)
       end
       new_path

@@ -33,7 +33,7 @@ module TFWeb
       params = [hardware_type, "#{growth}", "tft_#{token_price}", "price_#{unit_price_range}"]
       name = "sim_" + params.join("_")
 
-      unless WebServer.wikis.has_key?(name)
+      unless Config.wikis.has_key?(name)
         sub_path = File.join(SIM_EXPORTS_DIR, params.join("/"))
 
         wiki = Wiki.new_empty
@@ -48,8 +48,7 @@ module TFWeb
           raise "#{exception} data path cannot be found for #{wiki} '#{sub_path}'"
         end
 
-        WebServer.wikis[wiki.name] = wiki
-        WebServer.prepare_wiki(wiki)
+        Config.wikis[wiki.name] = wiki
       end
 
       name
@@ -58,7 +57,7 @@ module TFWeb
     def self.get_available_options
       available_options = AvailableOptions.from_json("{}")
 
-      WebServer.datasites.each do |name, site|
+      Config.datasites.each do |name, site|
         if site.url.downcase.includes?(SIM_DATASITE_URL)
           path = File.join(site.path, SIM_EXPORTS_DIR)
           list_dirs(path) do |hardware_type|

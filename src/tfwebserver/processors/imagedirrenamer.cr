@@ -1,5 +1,3 @@
-require "colorize"
-
 module TFWeb
   class ImagesDirProcessor < Processor
     def match(path)
@@ -8,7 +6,7 @@ module TFWeb
 
     def process(path)
       newname = Path.new(path.dirname, "img").to_s
-      puts "[img->images]renaming dir images at #{path.to_s} to #{newname}".colorize(:blue)
+      Logger.info { "[img->images]renaming dir images at #{path.to_s} to #{newname}" }
       File.rename(path.to_s, newname)
       newname
     end

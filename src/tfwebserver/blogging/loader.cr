@@ -12,8 +12,8 @@ module TFWeb
       property content_with_meta : String
 
       def apply_content_processors(content)
-        new_content = TFWeb::WebServer.include_processor.apply(content)
-        new_content = TFWeb::WebServer.link_expander.apply(new_content)
+        new_content = TFWeb::Config.include_processor.apply(content)
+        new_content = TFWeb::Config.link_expander.apply(new_content)
 
         if new_content
           new_content

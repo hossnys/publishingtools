@@ -1,5 +1,6 @@
 require "kemal"
 require "toml"
+require "log"
 require "colorize"
 require "uri"
 require "kemal-session"
@@ -22,6 +23,7 @@ end
 
 require "./tfwebserver/cli"
 require "./tfwebserver/utils/*"
+require "./tfwebserver/middlewares/*"
 require "./tfwebserver/simulator"
 require "./tfwebserver/blogging"
 require "./tfwebserver/api/*"

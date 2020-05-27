@@ -3,13 +3,10 @@ module TFWeb
     module Auth
       @@OAUTH_URL = "https://oauth.threefold.io"
       @@REDIRECT_URL = "https://login.threefold.me"
-      @@wikis : Hash(String, Wiki) = TFWeb::WebServer.get_wikis
-      @@websites : Hash(String, Website) = TFWeb::WebServer.get_websites
+      @@wikis : Hash(String, Wiki) = TFWeb::Config.wikis
+      @@websites : Hash(String, Website) = TFWeb::Config.websites
 
       before_get "/:name" do |env|
-        puts @@wikis.keys
-        puts @@websites.keys
-
         if env.params.url.has_key?("name")
           name = env.params.url["name"]
         else
@@ -26,13 +23,13 @@ module TFWeb
         if obj.auth && env.session.bool?("auth_#{name}") != true
           env.session.string("request-uri", env.request.path)
           env.session.string("sitename", name)
-          puts "will authenticate using 3bot connect."
+          Logger.info { "will authenticate using 3bot connect." }
           env.redirect "/auth/login"
         else
           if obj.auth
             theuser = env.session.string("username")
             if obj.user_can_access?(theuser) # invalidate immediately
-              puts "already authenticated ..".colorize(:green)
+              Logger.info { "already authenticated .." }
             else
               env.response.status_code = 401
               env.response.print "unauthorized to access #{name}"
@@ -86,9 +83,9 @@ module TFWeb
           obj = @@websites[sitename].not_nil!
         end
 
-        puts "checking for #{username} access on #{obj.name}".colorize(:blue)
+        Logger.debug { "checking for #{username} access on #{obj.name}" }
         if obj.not_nil!.user_can_access?(username)
-          puts "user #{username} can access #{obj.name}"
+          Logger.info { "user #{username} can access #{obj.name}" }
           env.redirect env.session.string("request-uri")
         else
           tfwebaccesspath = Path["~/tfweb.access"].expand(home: true).to_s

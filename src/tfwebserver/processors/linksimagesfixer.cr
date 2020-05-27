@@ -1,5 +1,4 @@
 require "markd"
-require "colorize"
 
 module TFWeb
   class MDElement
@@ -95,12 +94,13 @@ module TFWeb
           if link != newlink
             newcontent = content.gsub link, newlink
             content = newcontent
-            puts "[linksfixer]old link is #{link}  and new link should be #{newlink} in #{therenderer.filepath}".colorize(:blue) if link != newlink
+            if link != newlink
+              Logger.info { "[linksfixer]old link is #{link}  and new link should be #{newlink} in #{therenderer.filepath}" }
+            end
           end
         end
       end
 
-      #   puts "abdo #{images}"
       mdimages.uniq.each do |mdimg|
         img = mdimg.url
         next if img.includes?("/img")
@@ -117,10 +117,12 @@ module TFWeb
           if File.exists?(Path.new(path.dirname, "img", baseimg))
             newimg = "./img/#{newimg}"
           end
-          puts "#{path.to_s} [imagefixer]old img is #{baseimg}  and new img should be #{newimg} in #{therenderer.filepath}".colorize(:blue) if img != newimg
 
-          newcontent = content.gsub(img, newimg)
-          content = newcontent
+          if img != newimg
+            Logger.info { "#{path.to_s} [imagefixer]old img is #{baseimg}  and new img should be #{newimg} in #{therenderer.filepath}" }
+            newcontent = content.gsub(img, newimg)
+            content = newcontent
+          end
         end
       end
 
