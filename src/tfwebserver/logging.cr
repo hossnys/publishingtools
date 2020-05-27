@@ -1,6 +1,23 @@
 module TFWeb
   module Logging
+    LOG_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+
     class ColoredBackend < Log::IOBackend
+      property formatter = ->(entry : Log::Entry, io : IO) do
+        label = entry.severity.label
+        io << "["
+        entry.timestamp.to_s(LOG_TIME_FORMAT, io)
+        io << " #" << Process.pid << "] "
+        label.rjust(7, io)
+        io << " -- " << PROGRAM_NAME << ":" << entry.source << ": " << entry.message
+        if entry.context.size > 0
+          io << " -- " << entry.context
+        end
+        if ex = entry.exception
+          io << " -- " << ex.class << ": " << ex
+        end
+      end
+
       # default IO of IOBackend is STDOUT
       # TODO: better to use a formatter here
       def write(entry : Log::Entry)
