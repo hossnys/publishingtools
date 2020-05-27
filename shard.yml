@@ -1,0 +1,29 @@
+name: tfwiki
+version: 0.1.0
+
+authors:
+  - kristof <kristof@incubaid.com>
+
+targets:
+  tfweb:
+    main: src/tfweb.cr
+
+  sshtool:
+    main: src/sshtool.cr
+
+crystal: 0.34.0
+
+dependencies:
+  markd:
+    github: icyleaf/markd
+  kemal:
+    github: kemalcr/kemal
+  toml:
+    github: crystal-community/toml.cr
+    branch: master
+  crinja:
+    github: straight-shoota/crinja 
+  kemal-session:
+    github: kemalcr/kemal-session
+    branch: master   
+license: MIT

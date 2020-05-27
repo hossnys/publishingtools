@@ -1,0 +1,32 @@
+<html>
+    <head>
+    <title>TFWeb URLs</title>
+    <style>
+        body { padding: 50px }
+    </style>
+    </head>
+    <body>
+        <div>
+            <h2>Wikis</h2>
+            <ul>
+                <%- wikis.each do |wiki| -%>
+                    <li><a href="/<%= wiki %>"><%= wiki %></a></li>
+                <%- end -%>
+            </ul>
+
+            <h2>Websites</h2>
+            <ul>
+                <%- websites.each do |website| -%>
+                    <li><a href="/<%= website %>"><%= website %></a></li>
+                <%- end -%>
+            </ul>
+
+            <h2>Blogs</h2>
+            <ul>
+                <%- blogs.each do |blog| -%>
+                    <li><a href="/blog/<%= blog %>"><%= blog %></a></li>
+                <%- end -%>
+            </ul>
+        </div>
+    </body>
+</html>

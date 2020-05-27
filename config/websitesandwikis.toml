@@ -1,0 +1,184 @@
+#can be many wiki & many www sites
+
+[server]
+port = 3000
+addr = "0.0.0.0"
+
+
+[[wiki]]
+name = "sdk"
+title = "Grid Manual"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+groups = ["admin"]
+auth = true
+
+[[wiki]]
+name = "sdk2"
+title = "Grid Manual Staging"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+
+[[wiki]]
+name = "wiki"
+url = "https://github.com/threefoldfoundation/info_threefold"
+title = "ThreeFold Wiki"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+
+[[wiki]]
+name = "wiki2"
+title = "ThreeFold Wiki Staging"
+#http or git url
+url = "https://github.com/threefoldfoundation/info_threefold"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+
+#website
+[[www]]
+name = "freetft"
+url = "git@github.com:threefoldfoundation/www_getfreetft.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+
+#website
+[[www]]
+name = "threefold"
+url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
+[[www]]
+name = "incubaid"
+url = "git@github.com:Incubaid/www_incubaid.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "freeflownation"
+url = "https://github.com/freeflownation/www_freeflownation"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
+#data of simulator exports
+[[data]]
+name = "simexports"
+title = "Simulator data repo"
+url = "https://github.com/threefoldfoundation/simulator_export"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
+
+# von sub blog
+[[blog]]
+name = "vonsubblog"
+title = "Von Sub Blog"
+#http or git url
+url = "https://github.com/VonSub/blog"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "testing"
+
+# xmon blog
+[[blog]]
+name = "xmonblog"
+title = "Xmon Blog"
+#http or git url
+url = "https://gitlab.com/xmonader/sample-blog-jsx"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "master"
+#switch branch automatically if the name given above and its different on FS
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "testing"
+
+[[blog]]
+name = "tfblog2"
+title = "Threefold Blog Staging"
+#http or git url
+url = "https://github.com/threefoldfoundation/blog_threefold"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "testing"
+
+
+[[blog]]
+name = "tfblog"
+title = "Threefold Blog"
+#http or git url
+url = "https://github.com/threefoldfoundation/blog_threefold"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "master"
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "production"
