@@ -18,15 +18,39 @@ module TFWeb
       else
         pathparts = path.split('/')
         blog_name = pathparts[0]
+
+        unless TFWeb::Config.blogs.has_key?(blog_name)
+          # get from referer if set
+          if env.request.headers.has_key?("Referer")
+            referer = env.request.headers["Referer"]
+            referer = URI.parse env.request.headers["Referer"]
+            parts = referer.path.split('/')
+            begin
+              blog_name = parts[2]
+              pathparts = [blog_name] + pathparts
+            rescue IndexError
+            end
+          end
+        end
+
         file_path = pathparts[1..-1].join("/")
+        Logger.debug { "serving for blog: #{blog_name}, path: #{file_path}" }
+
         if TFWeb::Config.blogs.has_key?(blog_name)
           blogsite = TFWeb::Config.blogs[blog_name]
-          asset_path = File.join(blogsite.path, file_path)
-          if File.exists?(asset_path) && File.file?(asset_path)
-            send_file env, asset_path
-          else
-            send_file env, BLOGGING_INDEX
+          metadata = blogsite.blog.not_nil!.metadata.not_nil!
+          asset_dirs = [blogsite.path] + [metadata.assets_dir, metadata.images_dir].map do |dir|
+            File.join(blogsite.path, dir)
           end
+          foundpath = BLOGGING_INDEX
+          asset_dirs.each do |asset_dir|
+            asset_path = File.join(asset_dir, file_path)
+            if File.exists?(asset_path) && File.file?(asset_path)
+              foundpath = asset_path
+              break
+            end
+          end
+          send_file env, foundpath
         else
           send_file env, BLOGGING_INDEX
         end
