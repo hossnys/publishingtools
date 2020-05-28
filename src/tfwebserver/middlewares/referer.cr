@@ -25,7 +25,6 @@ module TFWeb
           referer_sitename = referer_path_parts.shift
 
           if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
-            #   puts "redirecting for #{referer_sitename} and #{sitename}"
             return env.redirect "/#{referer_sitename}#{path}"
           end
         end
