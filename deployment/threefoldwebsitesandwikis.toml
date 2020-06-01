@@ -177,6 +177,58 @@ srcdir = "src"
 environment = "testing"
 domain = "wiki3.threefold.io"
 
+[[wiki]]
+name = "cw"
+title = "Crystalhome Wiki"
+#http or git url
+url = "https://github.com/crystal-home/info_crystalhome"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "wiki.crystalhome.org"
+
+
+[[wiki]]
+name = "cw2"
+title = "Crystalhome Wiki Staging"
+#http or git url
+url = "https://github.com/crystal-home/info_crystalhome"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "wiki2.crystalhome.org"
+
+
+[[wiki]]
+name = "bettertoken"
+title = "Bettertoken wiki"
+url = "https://github.com/BetterToken/info_bettertoken"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "wiki.bettertoken.com"
+
+
+[[wiki]]
+name = "bettertoken2"
+title = "Bettertoken wiki Staging"
+url = "https://github.com/BetterToken/info_bettertoken"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "wiki2.bettertoken.com"
 
 #website
 [[www]]
