@@ -178,7 +178,7 @@ environment = "testing"
 domain = "wiki3.threefold.io"
 
 [[wiki]]
-name = "wiki_crystalhome"
+name = "crystalhome"
 title = "Crystalhome Wiki"
 #http or git url
 url = "https://github.com/crystal-home/info_crystalhome"
@@ -192,7 +192,7 @@ domain = "wiki.crystalhome.org"
 
 
 [[wiki]]
-name = "wiki2_crystalhome"
+name = "crystalhome2"
 title = "Crystalhome Wiki Staging"
 #http or git url
 url = "https://github.com/crystal-home/info_crystalhome"
@@ -206,7 +206,7 @@ domain = "wiki2.crystalhome.org"
 
 
 [[wiki]]
-name = "wiki_bettertoken"
+name = "bettertoken"
 title = "Bettertoken wiki"
 url = "https://github.com/BetterToken/info_bettertoken"
 path = ""
@@ -219,7 +219,7 @@ domain = "wiki.bettertoken.com"
 
 
 [[wiki]]
-name = "wiki2_bettertoken"
+name = "bettertoken2"
 title = "Bettertoken wiki Staging"
 url = "https://github.com/BetterToken/info_bettertoken"
 path = ""
