@@ -178,7 +178,7 @@ environment = "testing"
 domain = "wiki3.threefold.io"
 
 [[wiki]]
-name = "crystalhome"
+name = "cw"
 title = "Crystalhome Wiki"
 #http or git url
 url = "https://github.com/crystal-home/info_crystalhome"
@@ -192,7 +192,7 @@ domain = "wiki.crystalhome.org"
 
 
 [[wiki]]
-name = "crystalhome2"
+name = "cw2"
 title = "Crystalhome Wiki Staging"
 #http or git url
 url = "https://github.com/crystal-home/info_crystalhome"

@@ -171,7 +171,7 @@ http://wiki2.crystalhome.org, https://wiki2.crystalhome.org {
            / https://{host}{uri}
         }
         tls info@threefold.io
-        proxy / localhost:3000/crystalhome2
+        proxy / localhost:3000/cw2
 }
 
 http://wiki.crystalhome.org, https://wiki.crystalhome.org {
@@ -180,7 +180,7 @@ http://wiki.crystalhome.org, https://wiki.crystalhome.org {
            / https://{host}{uri}
         }
         tls info@threefold.io
-        proxy / localhost:3000/crystalhome
+        proxy / localhost:3000/cw
 }
 
 
