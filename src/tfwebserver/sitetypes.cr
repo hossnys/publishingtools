@@ -33,7 +33,10 @@ module TFWeb
     def user_can_access?(username)
       return true if @auth == false
       return true if @groups.size == 0 && @aclusers.size == 0 # if there's no acl.toml too it's public.
-      return true if @aclusers.includes?(username)
+
+      username = username.downcase
+      return true if @aclusers.map(&.downcase).includes?(username)
+
       groups.each do |groupname|
         if Config::GROUPS[groupname].users.includes?(username) ||
            #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
