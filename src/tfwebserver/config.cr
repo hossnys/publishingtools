@@ -60,7 +60,7 @@ module TFWeb
           aclgroup.description = group.fetch("description", "").as(String)
           # TODO: can be better?
           group["users"].as(Array).each do |u|
-            threebotuser = u.as(String)
+            threebotuser = u.as(String).downcase
             unless threebotuser.ends_with?(".3bot")
               threebotuser += ".3bot"
             end
