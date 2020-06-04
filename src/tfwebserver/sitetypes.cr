@@ -38,9 +38,9 @@ module TFWeb
       return true if @aclusers.map(&.downcase).includes?(username)
 
       groups.each do |groupname|
-        if Config::GROUPS[groupname].users.includes?(username) ||
-           #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
-           return true
+        if Config::GROUPS[groupname].users.includes?(username)
+          #   puts "will return true... #{username} can access #{@name} form group #{groupname} valid groups are #{@groups}"
+          return true
         end
       end
 
