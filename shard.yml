@@ -8,12 +8,12 @@ targets:
   tfweb:
     main: src/tfweb.cr
 
-  sshtool:
-    main: src/sshtool.cr
-
 crystal: 0.34.0
 
 dependencies:
+  crystaltools:
+    github: crystaluniverse/crystaltools
+    branch: master
   markd:
     github: icyleaf/markd
   kemal:

@@ -1,6 +1,6 @@
-require "../../../gittools/*"
 require "toml"
 require "json"
+require "crystaltools"
 require "./cons"
 
 module TFWeb
@@ -10,9 +10,10 @@ module TFWeb
 
     def path
       if (value = @path) == ""
-        repo = GITRepo.new(url: REPO_URLS[@repo_key])
-        repo_path = repo.ensure_repo(pull = true)
-        @path = File.join(repo_path, @repo_key)
+        gitrepo_factory = CrystalTools::GITRepoFactory.new
+        repo = gitrepo_factory.get(url: REPO_URLS[@repo_key])
+        repo.pull
+        @path = File.join(repo.path, @repo_key)
       else
         value
       end

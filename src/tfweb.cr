@@ -28,6 +28,5 @@ require "./tfwebserver/simulator"
 require "./tfwebserver/blogging"
 require "./tfwebserver/api/*"
 require "./tfwebserver/*"
-require "./gittools/*"
 
 TFWeb::CLI.main
