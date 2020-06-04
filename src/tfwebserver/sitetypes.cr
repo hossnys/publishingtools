@@ -1,4 +1,5 @@
 require "crinja"
+require "crystaltools"
 
 module TFWeb
   class Site
@@ -16,6 +17,9 @@ module TFWeb
     property auth = false
     property groups = [] of String
     property aclusers = [] of String
+
+    @[JSON::Field(ignore: true)]
+    property gitrepo_factory = CrystalTools::GITRepoFactory.new
 
     @[JSON::Field(emit_null: true)]
     property domain = ""
@@ -92,8 +96,9 @@ module TFWeb
 
     def repo
       if @url != ""
-        repo = TFWeb::GITRepo.new(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, environment: @environment)
-        @path = repo.ensure_repo
+        repo = @gitrepo_factory.get(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, environment: @environment)
+        repo.pull
+        @path = repo.path
         repo
       end
     end
