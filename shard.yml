@@ -11,9 +11,6 @@ targets:
 crystal: 0.34.0
 
 dependencies:
-  crystaltools:
-    github: crystaluniverse/crystaltools
-    branch: master
   markd:
     github: icyleaf/markd
   kemal:
@@ -22,8 +19,12 @@ dependencies:
     github: crystal-community/toml.cr
     branch: master
   crinja:
-    github: straight-shoota/crinja 
+    github: straight-shoota/crinja
   kemal-session:
     github: kemalcr/kemal-session
-    branch: master   
+    branch: master
+  crystaltools:
+    github: crystaluniverse/crystaltools
+    branch: master
+
 license: MIT
