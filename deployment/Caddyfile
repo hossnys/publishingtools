@@ -38,24 +38,6 @@ https://board.threefold.me {
 }
 
 
-http://ambassadors.threefold.me {
-    redir {
-           if {scheme} is http
-           / https://{host}{uri}
-    }
-}
-
-
-https://ambassadors.threefold.me {
-    tls info@threefold.io
-    proxy /auth localhost:3000 {
-        transparent
-    }
-    redir /ambassadors/ /
-
-    proxy / localhost:3000/ambassadors
-}
-
 
 http://matchmakers.threefold.io {
     redir {
@@ -216,7 +198,7 @@ http://blog.threefold.io, https://blog.threefold.io {
        redir {
            if {scheme} is http
            if {path} is /
-           / https://{host}blog/tfblog/
+           / https://{host}/blog/tfblog/
         }
 
        redir {
@@ -240,7 +222,7 @@ http://blog2.threefold.io, https://blog2.threefold.io {
        redir {
            if {scheme} is http
            if {path} is /
-           / https://{host}blog/tfblog2/
+           / https://{host}/blog/tfblog2/
         }
 
        redir {
