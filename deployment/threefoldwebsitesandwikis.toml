@@ -206,6 +206,32 @@ domain = "wiki2.crystalhome.org"
 
 
 [[wiki]]
+name = "crystaltwin"
+title = "crystaluniverse Wiki production"
+url = "github.com/crystaluniverse/info_crystal"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain="wiki.crystaltwin.me"
+
+
+[[wiki]]
+name = "crystaltwin2"
+title = "crystaluniverse Wiki Staging"
+url = "github.com/crystaluniverse/info_crystal"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain="wiki2.crystaltwin.me"
+
+
+[[wiki]]
 name = "bettertoken"
 title = "Bettertoken wiki"
 url = "https://github.com/BetterToken/info_bettertoken"
