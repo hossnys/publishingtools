@@ -6,7 +6,7 @@ shards:
 
   crystaltools:
     github: crystaluniverse/crystaltools
-    commit: 73caa6ba4de9c729e475b88dc2d271fb78fef766
+    commit: f3eaed3a22451953a8ee1e5f392db65b3ed35a22
 
   crystar:
     github: naqvis/crystar

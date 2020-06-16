@@ -96,7 +96,8 @@ module TFWeb
 
     def repo
       if @url != ""
-        repo = @gitrepo_factory.get(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, environment: @environment)
+        @gitrepo_factory.environment = @environment
+        repo = @gitrepo_factory.get(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, depth: 1)
         repo.pull
         @path = repo.path
         repo
