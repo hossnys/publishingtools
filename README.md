@@ -424,6 +424,9 @@ to be executed from the alpine container
 ```
 #!/bin/sh
 ## probably should add --release flag too
-shards build --static --link-flags "$(pkg-config libxml-2.0 --libs --static)"
+shards build --static --link-flags "$(pkg-config libxml-2.0 --libs --static)" --link-flags "$(pkg-config libssh2 --libs --static)"
+
 
 ```
+
+- you might need to install libssh2-static package `apk add libssh2-static`
