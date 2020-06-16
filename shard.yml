@@ -20,6 +20,7 @@ dependencies:
     branch: master
   crinja:
     github: straight-shoota/crinja
+    commit: 96039f1d59a1113f525b9e4292d75f05b9858427
   kemal-session:
     github: kemalcr/kemal-session
     branch: master

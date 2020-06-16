@@ -2,15 +2,15 @@ version: 1.0
 shards:
   crinja:
     github: straight-shoota/crinja
-    version: 0.6.0
+    commit: 96039f1d59a1113f525b9e4292d75f05b9858427
 
   crystaltools:
     github: crystaluniverse/crystaltools
-    commit: 886b4d41b843b5a9e06f317da7b0d41d4f5d2a47
+    commit: 73caa6ba4de9c729e475b88dc2d271fb78fef766
 
   crystar:
     github: naqvis/crystar
-    version: 0.1.5
+    version: 0.1.6
 
   docker:
     github: aca-labs/crystal-docker
