@@ -133,7 +133,7 @@ environment = "production"
 
 #### ubuntu machine setup
 
-make sure you have the following `apt-get install -y build-essential curl libevent-dev libssl-dev libxml2-dev libyaml-dev libgmp-dev git`
+make sure you have the following `apt-get install -y build-essential curl libevent-dev libssl-dev libxml2-dev libyaml-dev libgmp-dev git libssh2 libssh2-dev`
 
 building is as simple as `shards build` or `shards build --error-trace` to allow more error traces information
 
@@ -429,4 +429,4 @@ shards build --static --link-flags "$(pkg-config libxml-2.0 --libs --static)" --
 
 ```
 
-- you might need to install libssh2-static package `apk add libssh2-static`
+- you might need to install libssh2-static package `apk add libssh2-static libssh2 libssh2-dev`
