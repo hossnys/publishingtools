@@ -1,0 +1,35 @@
+#can be many wiki & many www sites
+
+[server]
+port = 3000
+addr = "0.0.0.0"
+
+# von sub blog
+[[blog]]
+name = "vonsubblog"
+title = "Von Sub Blog"
+#http or git url
+url = "https://github.com/VonSub/blog"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "testing"
+
+[[wiki]]
+name = "crystaltwin"
+title = "crystaluniverse Wiki production"
+url = "github.com/crystaluniverse/info_crystal"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain="wiki.crystaltwin.me"

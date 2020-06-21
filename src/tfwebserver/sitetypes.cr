@@ -97,6 +97,7 @@ module TFWeb
     def repo
       if @url != ""
         gitrepo_factory = CrystalTools::GITRepoFactory.new(environment: @environment)
+        gitrepo_factory.interactive = false
         repo = gitrepo_factory.get(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, depth: 1)
         repo.pull
         @path = repo.path
