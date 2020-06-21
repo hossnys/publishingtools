@@ -18,8 +18,8 @@ module TFWeb
     property groups = [] of String
     property aclusers = [] of String
 
-    @[JSON::Field(ignore: true)]
-    property gitrepo_factory = CrystalTools::GITRepoFactory.new
+    # @[JSON::Field(ignore: true)]
+    # property gitrepo_factory = CrystalTools::GITRepoFactory.new(env: @environment)
 
     @[JSON::Field(emit_null: true)]
     property domain = ""
@@ -96,8 +96,8 @@ module TFWeb
 
     def repo
       if @url != ""
-        @gitrepo_factory.environment = @environment
-        repo = @gitrepo_factory.get(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, depth: 1)
+        gitrepo_factory = CrystalTools::GITRepoFactory.new(environment: @environment)
+        repo = gitrepo_factory.get(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, depth: 1)
         repo.pull
         @path = repo.path
         repo
