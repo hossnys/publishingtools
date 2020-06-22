@@ -99,7 +99,11 @@ module TFWeb
         gitrepo_factory = CrystalTools::GITRepoFactory.new(environment: @environment)
         gitrepo_factory.interactive = false
         repo = gitrepo_factory.get(url: @url, path: @path, branch: @branch, branchswitch: @branchswitch, depth: 1)
-        repo.pull
+        if ENV.fetch("GIT_UPDATE", "0") == "1" 
+          repo.pull
+        else
+          repo.ensure
+        end
         @path = repo.path
         repo
       end

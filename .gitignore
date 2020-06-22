@@ -5,3 +5,5 @@
 .vscode
 /session_data
 session_secret
+shard.lock
+

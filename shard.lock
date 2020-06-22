@@ -14,7 +14,7 @@ shards:
 
   crystaltools:
     git: https://github.com/crystaluniverse/crystaltools.git
-    version: 0.1.0+git.commit.e9c91b83ac340e0aa09cc62edd1e1cbfad65710e
+    version: 0.1.0+git.commit.29a31cce7c4c6f2ed4a947e3f3728b1843ad385a
 
   crystar:
     git: https://github.com/naqvis/crystar.git

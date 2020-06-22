@@ -15,6 +15,15 @@ Publishing tools consist of multiple things a wiki and static websites server, s
 
 tfweb config is toml based, to provide more expressive configurations languages and less confusing switches/command line options.
 
+there are 2 env variables
+
+```bash
+#will make sure git gets updated when webserver starts
+export GIT_UPDATE=1
+#will show debug info
+export DEBUG=1
+```
+
 
 #### Server config section 
 ```toml
