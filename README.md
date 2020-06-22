@@ -423,7 +423,7 @@ environment = "testing"
 ### alpine container
 
 ```
-sudo docker run -it --name crystalalpine -h crystalalpine --privileged -v /opt/crystalalpine:/opt crystallang/crystal:0.34.0-alpine sh
+sudo docker run -it --name crystalalpine -h crystalalpine --privileged -v /opt/crystalalpine:/opt crystallang/crystal:0.35.1-alpine sh
 
 ```
 
