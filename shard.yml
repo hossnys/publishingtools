@@ -8,14 +8,13 @@ targets:
   tfweb:
     main: src/tfweb.cr
 
-crystal: 0.35.1
+crystal: 0.34.0
 
 dependencies:
   markd:
     github: icyleaf/markd
   kemal:
     github: kemalcr/kemal
-    commit: a8c0f09b858162bd13c96663febef5527b322a32
   toml:
     github: crystal-community/toml.cr
     branch: master
@@ -27,6 +26,6 @@ dependencies:
     branch: master
   crystaltools:
     github: crystaluniverse/crystaltools
-    branch: master
+    commit: 7334320f9ee42e0d12a9247c37f957fddda54d03
 
 license: MIT

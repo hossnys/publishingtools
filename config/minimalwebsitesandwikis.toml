@@ -33,3 +33,53 @@ branchswitch = false
 srcdir = "src"
 environment = "production"
 domain="wiki.crystaltwin.me"
+
+[[wiki]]
+name = "sdk"
+title = "Grid Manual"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "sdk.threefold.io"
+
+
+[[wiki]]
+name = "sdk2"
+title = "Grid Manual"
+url = "github.com/threefoldfoundation/info_tfgridsdk"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "sdk.threefold.io"
+
+
+[[wiki]]
+name = "wiki"
+url = "https://github.com/threefoldfoundation/info_threefold"
+title = "ThreeFold Wiki"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "wiki.threefold.io"
+
+
+#website
+[[www]]
+name = "freetft2"
+url = "git@github.com:threefoldfoundation/www_getfreetft.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
