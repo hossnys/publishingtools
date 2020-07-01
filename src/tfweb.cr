@@ -21,6 +21,8 @@ module TFWeb
   end
 end
 
+require "./tfwebserver/kemalmp"
+
 require "./tfwebserver/cli"
 require "./tfwebserver/utils/*"
 require "./tfwebserver/middlewares/*"
