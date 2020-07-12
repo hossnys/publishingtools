@@ -112,9 +112,13 @@ module TFWeb
 
   class Wiki < Site
     private def prepare_index
-      repo = self.repo
+      if self.repo.nil?
+        url_as_https = ""
+      else
+        url_as_https = self.repo.not_nil!.url_as_https
+      end
+
       title = @title.size > 0 ? @title : @name
-      url_as_https = repo.not_nil!.url_as_https || ""
       html = render "src/tfwebserver/views/docsify.ecr"
       destindex = File.join(@path, @srcdir, "index.html")
       unless File.exists?(destindex)

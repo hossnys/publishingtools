@@ -118,11 +118,11 @@ module TFWeb
     end
 
     def self.serve_wikifile(env, wikiname, filename)
-      msg = "Got request for wiki:#{name} url:#{env.params.url}"
-
+      Logger.debug { "Got request for wiki:#{name} url:#{env.params.url}" }
       filepath = self.get_wiki_file_path(wikiname, filename)
 
       if filepath.nil?
+        msg = "could not find file '#{filename}' in '#{wikiname}'"
         Logger.error { msg }
         do404 env, msg
       else
