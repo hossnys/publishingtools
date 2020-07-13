@@ -2,9 +2,10 @@ module TFWeb
   module Simulator
     extend Utils::FS
 
-    SIM_BASE_URL     = "/simulator"
-    SIM_DATASITE_URL = "https://github.com/threefoldfoundation/simulator_export"
-    SIM_EXPORTS_DIR  = "tfsimulator"
+    SIM_BASE_URL      = "/simulator"
+    SIM_DATASITE_URL  = "https://github.com/threefoldfoundation/simulator_export"
+    SIM_EXPORTS_DIR   = "tfsimulator"
+    SIM_DATASITE_NAME = "simexports"
 
     class Options
       include JSON::Serializable
@@ -38,7 +39,13 @@ module TFWeb
 
         wiki = Wiki.new_empty
         wiki.name = name
-        wiki.url = TFWeb::Simulator::SIM_DATASITE_URL
+        if Config.datasites.has_key?(SIM_DATASITE_NAME)
+          # read from configured data site
+          wiki.path = Config.datasites[SIM_DATASITE_NAME].path
+        else
+          # just clone it
+          wiki.url = TFWeb::Simulator::SIM_DATASITE_URL
+        end
         wiki.environment = "production"
         wiki.srcdir = sub_path
 
