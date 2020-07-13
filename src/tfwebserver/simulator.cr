@@ -65,25 +65,29 @@ module TFWeb
       available_options = AvailableOptions.from_json("{}")
 
       Config.datasites.each do |name, site|
-        if site.url.downcase.includes?(SIM_DATASITE_URL)
-          path = File.join(site.path, SIM_EXPORTS_DIR)
-          list_dirs(path) do |hardware_type|
-            available_options.hardware_types << hardware_type
-            hardware_type_path = File.join(path, hardware_type)
-            list_dirs(hardware_type_path) do |growth|
-              available_options.growths << growth.to_i64
+        unless site.name == SIM_DATASITE_NAME || site.url.downcase.includes?(SIM_DATASITE_URL)
+          next
+        end
 
-              token_prices_path = File.join(hardware_type_path, growth)
-              list_dirs(token_prices_path) do |token_price|
-                available_options.token_prices << token_price.gsub("tft_", "")
-                price_ranges_path = File.join(token_prices_path, token_price)
-                list_dirs(price_ranges_path) do |unit_price_range|
-                  available_options.unit_price_ranges << unit_price_range.gsub("price_", "").to_i8
-                end
+        path = File.join(site.path, SIM_EXPORTS_DIR)
+        list_dirs(path) do |hardware_type|
+          available_options.hardware_types << hardware_type
+          hardware_type_path = File.join(path, hardware_type)
+          list_dirs(hardware_type_path) do |growth|
+            available_options.growths << growth.to_i64
+
+            token_prices_path = File.join(hardware_type_path, growth)
+            list_dirs(token_prices_path) do |token_price|
+              available_options.token_prices << token_price.gsub("tft_", "")
+              price_ranges_path = File.join(token_prices_path, token_price)
+              list_dirs(price_ranges_path) do |unit_price_range|
+                available_options.unit_price_ranges << unit_price_range.gsub("price_", "").to_i8
               end
             end
           end
         end
+
+        break
       end
 
       available_options
