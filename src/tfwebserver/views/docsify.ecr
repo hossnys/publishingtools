@@ -10,7 +10,7 @@
 
     <style>
         .markdown-section {
-            max-width: 60em !important;  
+            max-width: 60em !important;
             padding-left: 0 !important;
             padding-right: 0 !important;
         }
@@ -54,6 +54,10 @@
             markdown: {
                 renderer: {
                     code: function (code, lang) {
+
+                        if (lang === "pdf") {
+                            return `<embed src="https://drive.google.com/viewerng/viewer?embedded=true&url=${code}" width="100%" height="800">`
+                        }
                         if (lang === "gallery") {
                             let lines = code.split("\n");
                             let images = "";
