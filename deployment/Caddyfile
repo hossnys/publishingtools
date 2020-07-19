@@ -117,6 +117,39 @@ http://wiki2.threefold.io, https://wiki2.threefold.io {
         proxy / localhost:3000/wiki2
 }
 
+http://info.threefold.io, https://info.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/info
+}
+
+
+http://info.threefold.me, https://info.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/infome
+}
+
+http://wiki.threefold.me, https://wiki.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/wikime
+}
+
+
+
 http://simulators.threefold.io, https://simulators.threefold.io {
        redir {
            if {scheme} is http
@@ -185,6 +218,17 @@ http://wiki2.crystaltwin.me, https://wiki2.crystaltwin.me {
         tls info@threefold.io
         proxy /api localhost:3000/
         proxy / localhost:3000/crystaltwin2
+}
+
+
+http://manual.threefold.io, https://manual.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/manual
 }
 
 

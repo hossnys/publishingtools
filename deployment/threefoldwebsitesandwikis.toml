@@ -101,7 +101,7 @@ domain = "board.threefold.me"
 [[wiki]]
 name = "sdk"
 title = "Grid Manual"
-url = "github.com/threefoldfoundation/info_tfgridsdk"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
 autocommit = false
 branch = "master"
@@ -114,7 +114,7 @@ domain = "sdk.threefold.io"
 [[wiki]]
 name = "sdk2"
 title = "Grid Manual Staging"
-url = "github.com/threefoldfoundation/info_tfgridsdk"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
 autocommit = false
 branch = "development"
@@ -127,7 +127,7 @@ domain = "sdk2.threefold.io"
 [[wiki]]
 name = "sdk3"
 title = "Grid Manual Staging"
-url = "github.com/threefoldfoundation/info_tfgridsdk"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
 autocommit = false
 branch = "development"
@@ -138,8 +138,21 @@ domain = "sdk3.threefold.io"
 
 
 [[wiki]]
+name = "manual"
+title = "Grid Manual"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "manual.threefold.io"
+
+
+[[wiki]]
 name = "wiki"
-url = "https://github.com/threefoldfoundation/info_threefold"
+url = "https://github.com/threefoldfoundation/info_foundation"
 title = "ThreeFold Wiki"
 path = ""
 autocommit = false
@@ -154,7 +167,7 @@ domain = "wiki.threefold.io"
 name = "wiki2"
 title = "ThreeFold Wiki Staging"
 #http or git url
-url = "https://github.com/threefoldfoundation/info_threefold"
+url = "https://github.com/threefoldfoundation/info_foundation"
 path = ""
 autocommit = false
 branch = "development"
@@ -168,7 +181,7 @@ domain = "wiki2.threefold.io"
 name = "wiki3"
 title = "ThreeFold Wiki Staging"
 #http or git url
-url = "https://github.com/threefoldfoundation/info_threefold"
+url = "https://github.com/threefoldfoundation/info_foundation"
 path = ""
 autocommit = false
 branch = "development"
@@ -176,6 +189,44 @@ branchswitch = false
 srcdir = "src"
 environment = "testing"
 domain = "wiki3.threefold.io"
+
+
+[[wiki]]
+name = "info"
+url = "https://github.com/threefoldfoundation/info_foundation"
+title = "ThreeFold Wiki"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "info.threefold.io"
+
+[[wiki]]
+name = "infome"
+url = "https://github.com/threefoldfoundation/info_foundation"
+title = "ThreeFold Wiki"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "info.threefold.me"
+
+[[wiki]]
+name = "wikime"
+url = "https://github.com/threefoldfoundation/info_foundation"
+title = "ThreeFold Wiki"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "wiki.threefold.me"
+
 
 [[wiki]]
 name = "cw"
@@ -385,7 +436,7 @@ environment = "production"
 name = "tfblog"
 title = "Threefold Blog"
 #http or git url
-url = "https://github.com/threefoldfoundation/blog_threefold"
+url = "https://github.com/threefoldfoundation/www_tfblog"
 #if empty will be auto created
 path = ""
 #commit automatically when there is new info, only works when ssh used
@@ -404,7 +455,7 @@ domain = "blog.threefold.io"
 name = "tfblog2"
 title = "Threefold Blog Staging"
 #http or git url
-url = "https://github.com/threefoldfoundation/blog_threefold"
+url = "https://github.com/threefoldfoundation/www_tfblog"
 #if empty will be auto created
 path = ""
 #commit automatically when there is new info, only works when ssh used
