@@ -234,3 +234,24 @@ http://blog2.threefold.io, https://blog2.threefold.io {
         proxy /api localhost:3000/
         proxy / localhost:3000
 }
+
+http://info.internet9.me, https://info.internet9.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/internet9
+}
+
+
+http://info2.internet9.me, https://info2.internet9.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/internet9_2
+}

@@ -243,7 +243,6 @@ srcdir = "src"
 environment = "production"
 domain = "wiki.bettertoken.com"
 
-
 [[wiki]]
 name = "bettertoken2"
 title = "Bettertoken wiki Staging"
@@ -255,6 +254,30 @@ branchswitch = false
 srcdir = "src"
 environment = "testing"
 domain = "wiki2.bettertoken.com"
+
+[[wiki]]
+name = "internet9"
+title = "internet9 wiki"
+url = "https://github.com/threefoldfoundation/info_internet9"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "info.internet9.me"
+
+[[wiki]]
+name = "internet9_2"
+title = "internet9 wiki Staging"
+url = "https://github.com/threefoldfoundation/info_internet9"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "info2.internet9.me"
 
 #website
 [[www]]
