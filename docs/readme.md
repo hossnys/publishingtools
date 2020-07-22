@@ -16,7 +16,7 @@ Publishing tools consist of multiple things a wiki and static websites server, s
 tfweb config is toml based, to provide more expressive configurations languages and less confusing switches/command line options.
 
 
-#### Server config section 
+#### Server config section
 ```toml
 [server]
 port = 3000
@@ -78,7 +78,7 @@ srcdir = ""
 #environment name (for example:  production, staging, testing)
 environment = "production"
 ```
-the same as wiki, but in `[[www]]` array instead, used to serve static websites 
+the same as wiki, but in `[[www]]` array instead, used to serve static websites
 
 
 
@@ -351,7 +351,7 @@ NOTE: Make sure that you have 80, 443 connections configured on the sshtool conf
 in your hosts file
 ```
 127.0.0.1 sdk.threefold.io
-127.0.0.1 sdk3.threefold.io                       
+127.0.0.1 sdk3.threefold.io
 127.0.0.1 wiki.threefold.io
 127.0.0.1 wiki3.threefold.io
 127.0.0.1 boardthreefold.me
@@ -399,7 +399,7 @@ environment = "testing"
 
 
 - Here we define a group named `admin` and of users `ahmedthabet`
-- We want to limit access to sdk to that admin group, so we need to define `groups = ["admin"]` and set `auth = true` 
+- We want to limit access to sdk to that admin group, so we need to define `groups = ["admin"]` and set `auth = true`
 - in case of failed login attempts you will find the user who tried in `~/ftweb.access`
 
 
@@ -426,4 +426,45 @@ to be executed from the alpine container
 ## probably should add --release flag too
 shards build --static --link-flags "$(pkg-config libxml-2.0 --libs --static)"
 
+```
+
+## Includes
+
+You can include any markdown document from any wiki in other wikis, websites, or blogs.
+
+**Syntax**:
+
+```
+!!!include:<wiki name>:<document name>
+```
+
+Also, inside current wiki, can be used as:
+
+```
+!!!include:<document name>
+```
+
+Examples:
+
+In wikis or blogs:
+
+```
+!!!include:crystaltwin:news.md
+```
+
+In websites, markdown need to be rendered as HTML, for example, [markdown-element](https://github.com/mikeal/markdown-element) can be used:
+
+Include the script:
+
+
+```
+<script src="https://cdn.jsdelivr.net/npm/markdown-element/dist/markdown-element.min.js"></script>
+```
+
+Then use it with include as the following in any part of the page:
+
+```
+<mark-down>
+!!!include:crystaltwin:funding
+</mark-down>
 ```
