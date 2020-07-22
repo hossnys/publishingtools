@@ -130,7 +130,6 @@ module TFWeb
         if Config.include_processor.match(filepath)
           content = File.read(filepath)
           new_content = Config.include_processor.apply(content, current_wiki: wikiname)
-          new_content = Config.link_expander.apply(new_content)
 
           if new_content.nil?
             send_file env, filepath
@@ -154,6 +153,12 @@ module TFWeb
       end
 
       if File.exists?(path)
+        if path.downcase.ends_with?(".html")
+          env.response.content_type = "text/html"
+          return Config.include_processor.apply(File.read(path))
+        end
+
+        # send normal file
         send_file env, path
       else
         do404 env, "file #{path} is not found"
