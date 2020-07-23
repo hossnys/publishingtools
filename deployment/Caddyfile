@@ -94,6 +94,15 @@ http://sdk2.threefold.io, https://sdk2.threefold.io {
         proxy / localhost:3000/sdk2
 }
 
+http://manual.threefold.io, https://manual.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/sdk
+}
 
 
 http://wiki.threefold.io, https://wiki.threefold.io {
@@ -124,7 +133,7 @@ http://info.threefold.io, https://info.threefold.io {
         }
         tls info@threefold.io
         proxy /api localhost:3000/
-        proxy / localhost:3000/info
+        proxy / localhost:3000/wiki
 }
 
 
@@ -135,7 +144,7 @@ http://info.threefold.me, https://info.threefold.me {
         }
         tls info@threefold.io
         proxy /api localhost:3000/
-        proxy / localhost:3000/infome
+        proxy / localhost:3000/wiki
 }
 
 http://wiki.threefold.me, https://wiki.threefold.me {
@@ -145,7 +154,7 @@ http://wiki.threefold.me, https://wiki.threefold.me {
         }
         tls info@threefold.io
         proxy /api localhost:3000/
-        proxy / localhost:3000/wikime
+        proxy / localhost:3000/wiki
 }
 
 
@@ -220,16 +229,6 @@ http://wiki2.crystaltwin.me, https://wiki2.crystaltwin.me {
         proxy / localhost:3000/crystaltwin2
 }
 
-
-http://manual.threefold.io, https://manual.threefold.io {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy /api localhost:3000/
-        proxy / localhost:3000/manual
-}
 
 
 http://blog.threefold.io, https://blog.threefold.io {
