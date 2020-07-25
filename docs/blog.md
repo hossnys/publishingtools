@@ -2,8 +2,6 @@
 
 Here we discuss blog configurations and a typical structure for a blog.
 
-
-
 ## Blog structure
 
 ```
