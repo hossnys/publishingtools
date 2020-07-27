@@ -230,29 +230,6 @@ http://wiki2.crystaltwin.me, https://wiki2.crystaltwin.me {
 }
 
 
-http://wiki.bettertoken.com, https://wiki.bettertoken.com {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy /api localhost:3000/
-        proxy / localhost:3000/bettertoken
-}
-
-
-http://wiki2.bettertoken.com, https://wiki2.bettertoken.com {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy /api localhost:3000/
-        proxy / localhost:3000/bettertoken2
-}
-
-
-
 http://blog.threefold.io, https://blog.threefold.io {
         redir {
             if {scheme} is https
