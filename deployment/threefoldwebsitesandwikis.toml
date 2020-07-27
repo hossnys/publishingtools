@@ -1,320 +1,3 @@
-#can be many wiki & many www sites
-
-[server]
-port = 3000
-addr = "0.0.0.0"
-
-
-
-
-[[wiki]]
-#unique name for the wiki
-name = "matchmakers"
-#http or git url
-url = "git@github.com:threefoldfoundation/info_matchmakers.git"
-#if empty will be auto created
-path = ""
-#commit automatically when there is new info, only works when ssh used
-autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
-branch = "master"
-#switch branch automatically if the name given above and its different on FS
-branchswitch = false
-#path in the repo where the info is, std "src"
-srcdir = "src"
-#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/...
-#if empty then is ~/sandbox/code
-environment = "production"
-auth = true
-domain = "matchmakers.threefold.io"
-
-[[wiki]]
-#unique name for the wiki
-name = "matchmakers2"
-#http or git url
-url = "git@github.com:threefoldfoundation/info_matchmakers.git"
-#if empty will be auto created
-path = ""
-#commit automatically when there is new info, only works when ssh used
-autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
-branch = "development"
-#switch branch automatically if the name given above and its different on FS
-branchswitch = false
-#path in the repo where the info is, std "src"
-srcdir = "src"
-#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/...
-#if empty then is ~/sandbox/code
-environment = "testing"
-auth = true
-domain = "matchmakers2.threefold.io"
-
-
-[[wiki]]
-#unique name for the wiki
-name = "ambassadors"
-#http or git url
-url = "git@github.com:threefoldfoundation/info_ambassadors.git"
-#if empty will be auto created
-path = ""
-#commit automatically when there is new info, only works when ssh used
-autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
-branch = "development"
-#switch branch automatically if the name given above and its different on FS
-branchswitch = false
-#path in the repo where the info is, std "src"
-srcdir = "src"
-#environment name (for example:  production, staging, test), is used to define location where code will be checked out is ~/$environment/code/...
-#if empty then is ~/sandbox/code
-environment = "production"
-auth = true
-domain = "ambassadors.threefold.me"
-
-
-[[wiki]]
-name = "advisors"
-url = "git@github.com:threefoldfoundation/info_advisors.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-auth = true
-domain = "advisors.threefold.me"
-
-
-[[wiki]]
-name = "board"
-url = "git@github.com:threefoldfoundation/info_board.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-auth = true
-domain = "board.threefold.me"
-
-
-[[wiki]]
-name = "sdk"
-title = "Grid Manual"
-url = "https://github.com/threefoldfoundation/info_gridmanual"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-domain = "sdk.threefold.io"
-
-
-[[wiki]]
-name = "sdk2"
-title = "Grid Manual Staging"
-url = "https://github.com/threefoldfoundation/info_gridmanual"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "sdk2.threefold.io"
-
-
-
-[[wiki]]
-name = "wiki"
-url = "https://github.com/threefoldfoundation/info_foundation"
-title = "ThreeFold Wiki"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-domain = "wiki.threefold.io"
-
-
-[[wiki]]
-name = "wiki2"
-title = "ThreeFold Wiki Staging"
-#http or git url
-url = "https://github.com/threefoldfoundation/info_foundation"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "wiki2.threefold.io"
-
-
-
-
-[[wiki]]
-name = "cw"
-title = "Crystalhome Wiki"
-#http or git url
-url = "https://github.com/crystal-home/info_crystalhome"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-domain = "wiki.crystalhome.org"
-
-
-[[wiki]]
-name = "cw2"
-title = "Crystalhome Wiki Staging"
-#http or git url
-url = "https://github.com/crystal-home/info_crystalhome"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "wiki2.crystalhome.org"
-
-
-[[wiki]]
-name = "crystaltwin"
-title = "crystaluniverse Wiki production"
-url = "github.com/crystaluniverse/info_crystal"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-domain="wiki.crystaltwin.me"
-
-
-[[wiki]]
-name = "crystaltwin2"
-title = "crystaluniverse Wiki Staging"
-url = "github.com/crystaluniverse/info_crystal"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain="wiki2.crystaltwin.me"
-
-
-[[wiki]]
-name = "bettertoken"
-title = "Bettertoken wiki"
-url = "https://github.com/BetterToken/info_bettertoken"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-domain = "wiki.bettertoken.com"
-
-[[wiki]]
-name = "bettertoken2"
-title = "Bettertoken wiki Staging"
-url = "https://github.com/BetterToken/info_bettertoken"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "wiki2.bettertoken.com"
-
-[[wiki]]
-name = "internet9"
-title = "internet9 wiki"
-url = "https://github.com/threefoldfoundation/info_internet9"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-domain = "info.internet9.me"
-
-[[wiki]]
-name = "internet9_2"
-title = "internet9 wiki Staging"
-url = "https://github.com/threefoldfoundation/info_internet9"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "info2.internet9.me"
-
-
-[[wiki]]
-name = "bettertoken"
-url = "https://github.com/BetterToken/info_bettertoken"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-auth = true
-domain = "wiki.bettertoken.com"
-
-
-[[wiki]]
-name = "bettertoken2"
-url = "https://github.com/BetterToken/info_bettertoken"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-auth = true
-domain = "wiki2.bettertoken.com"
-
-
-#website
-[[www]]
-name = "freetft2"
-url = "git@github.com:threefoldfoundation/www_getfreetft.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = true
-srcdir = ""
-environment = "testing"
-
-
-#website
-[[www]]
-name = "threefold2"
-url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = true
-srcdir = "html"
-environment = "testing"
-
-[[www]]
-name = "incubaid2"
-url = "git@github.com:Incubaid/www_incubaid.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = true
-srcdir = ""
-environment = "testing"
 
 #website
 [[www]]
@@ -328,96 +11,231 @@ srcdir = "html"
 environment = "testing"
 
 
-
-[[www]]
-name = "freetft"
-url = "git@github.com:threefoldfoundation/www_getfreetft.git"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = true
-srcdir = ""
-environment = "production"
-
-
 #website
 [[www]]
-name = "threefold"
-url = "git@github.com:threefoldfoundation/www_threefold.io_new.git"
+name = "3bot2"
+url = "https://github.com/threefoldtech/www_3bot_org"
 path = ""
 autocommit = false
-branch = "master"
-branchswitch = true
-srcdir = "html"
-environment = "production"
-
-[[www]]
-name = "incubaid"
-url = "git@github.com:Incubaid/www_incubaid.git"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = true
-srcdir = ""
-environment = "production"
-
-#website
-[[www]]
-name = "freeflownation"
-url = "https://github.com/freeflownation/www_freeflownation"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = true
-srcdir = "html"
-environment = "production"
-
-
-#data of simulator exports
-[[data]]
-name = "simexports"
-title = "Simulator data repo"
-url = "https://github.com/threefoldfoundation/simulator_export"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = true
-srcdir = "html"
-environment = "production"
-
-[[blog]]
-name = "tfblog"
-title = "Threefold Blog"
-#http or git url
-url = "https://github.com/threefoldfoundation/www_tfblog"
-#if empty will be auto created
-path = ""
-#commit automatically when there is new info, only works when ssh used
-autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
-branch = "master"
-branchswitch = true
-#path in the repo where the info is, std "src"
-srcdir = ""
-#environment name (for example:  production, staging, testing)
-environment = "production"
-domain = "blog.threefold.io"
-
-
-[[blog]]
-name = "tfblog2"
-title = "Threefold Blog Staging"
-#http or git url
-url = "https://github.com/threefoldfoundation/www_tfblog"
-#if empty will be auto created
-path = ""
-#commit automatically when there is new info, only works when ssh used
-autocommit = false
-#branch name, of "" then will be the default or what is found on the FS
 branch = "development"
 branchswitch = true
-#path in the repo where the info is, std "src"
 srcdir = ""
-#environment name (for example:  production, staging, testing)
 environment = "testing"
-domain = "blog2.threefold.io"
+
+
+#website
+[[www]]
+name = "atwg2"
+url = "https://github.com/atwgreen/www_atwg_tech"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "enertia2"
+url = "https://github.com/enertia-io/www_enertia_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "euroflow2"
+url = "https://github.com/euroflow-io/www_euroflow_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "freeflowtoken2"
+url = "https://github.com/freeflowtoken/www_freeflowtoken_com"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "mazraa2"
+url = "https://github.com/mazraa/www_mazraa_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "vedaretreats2"
+url = "https://github.com/veda-websites/www_veda-retreats"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "esveda2"
+url = "https://github.com/veda-egypt/www_es.veda-egypt.com"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "bettertoken2"
+url = "https://github.com/BetterToken/www_bettertoken.com"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "threefoldlove2"
+url = "https://github.com/threefold-love/www_threefold_love"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+
+#website
+[[www]]
+name = "openlylive2"
+url = "https://github.com/openlylive/www_openly_live"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "vedaegypt2"
+url = "https://github.com/veda-egypt/www_veda-egypt_com"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "cultivo2"
+url = "https://github.com/cultivo/www_cultivo_earth"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "goldflow2"
+url = "https://github.com/goldflow-io/www_goldflow_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+
+#website
+[[www]]
+name = "cloudthreefold2"
+url = "https://github.com/threefoldfoundation/www_cloud_threefold.io"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "farmerthreefold2"
+url = "https://github.com/threefoldfoundation/www_farmer_threefold.io"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "crystalhome2"
+url = "https://github.com/crystal-home/www_crystalhome"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "codescalers2"
+url = "https://github.com/codescalers/www-codescalers"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "www.codescalers.com"
+environment = "testing"
+
+
+#website
+[[www]]
+name = "inidio2"
+url = "https://github.com/threefoldtech/www_inid.io"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
