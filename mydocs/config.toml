@@ -1,0 +1,17 @@
+#can be many wiki & many www sites
+
+[server]
+port = 3000
+addr = "0.0.0.0"
+
+[[wiki]]
+name = "publishingtools"
+title = "publishingtools"
+url = "git@github.com:crystaluniverse/publishingtools.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "mydocs"
+environment = ""
+
