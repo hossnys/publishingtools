@@ -101,7 +101,7 @@ domain = "board.threefold.me"
 [[wiki]]
 name = "sdk"
 title = "Grid Manual"
-url = "github.com/threefoldfoundation/info_tfgridsdk"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
 autocommit = false
 branch = "master"
@@ -114,7 +114,7 @@ domain = "sdk.threefold.io"
 [[wiki]]
 name = "sdk2"
 title = "Grid Manual Staging"
-url = "github.com/threefoldfoundation/info_tfgridsdk"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
 autocommit = false
 branch = "development"
@@ -124,22 +124,10 @@ environment = "testing"
 domain = "sdk2.threefold.io"
 
 
-[[wiki]]
-name = "sdk3"
-title = "Grid Manual Staging"
-url = "github.com/threefoldfoundation/info_tfgridsdk"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "sdk3.threefold.io"
-
 
 [[wiki]]
 name = "wiki"
-url = "https://github.com/threefoldfoundation/info_threefold"
+url = "https://github.com/threefoldfoundation/info_foundation"
 title = "ThreeFold Wiki"
 path = ""
 autocommit = false
@@ -154,7 +142,7 @@ domain = "wiki.threefold.io"
 name = "wiki2"
 title = "ThreeFold Wiki Staging"
 #http or git url
-url = "https://github.com/threefoldfoundation/info_threefold"
+url = "https://github.com/threefoldfoundation/info_foundation"
 path = ""
 autocommit = false
 branch = "development"
@@ -164,18 +152,7 @@ environment = "testing"
 domain = "wiki2.threefold.io"
 
 
-[[wiki]]
-name = "wiki3"
-title = "ThreeFold Wiki Staging"
-#http or git url
-url = "https://github.com/threefoldfoundation/info_threefold"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "wiki3.threefold.io"
+
 
 [[wiki]]
 name = "cw"
@@ -243,7 +220,6 @@ srcdir = "src"
 environment = "production"
 domain = "wiki.bettertoken.com"
 
-
 [[wiki]]
 name = "bettertoken2"
 title = "Bettertoken wiki Staging"
@@ -255,6 +231,31 @@ branchswitch = false
 srcdir = "src"
 environment = "testing"
 domain = "wiki2.bettertoken.com"
+
+[[wiki]]
+name = "internet9"
+title = "internet9 wiki"
+url = "https://github.com/threefoldfoundation/info_internet9"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "info.internet9.me"
+
+[[wiki]]
+name = "internet9_2"
+title = "internet9 wiki Staging"
+url = "https://github.com/threefoldfoundation/info_internet9"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "info2.internet9.me"
+
 
 #website
 [[www]]
@@ -362,7 +363,7 @@ environment = "production"
 name = "tfblog"
 title = "Threefold Blog"
 #http or git url
-url = "https://github.com/threefoldfoundation/blog_threefold"
+url = "https://github.com/threefoldfoundation/www_tfblog"
 #if empty will be auto created
 path = ""
 #commit automatically when there is new info, only works when ssh used
@@ -381,7 +382,7 @@ domain = "blog.threefold.io"
 name = "tfblog2"
 title = "Threefold Blog Staging"
 #http or git url
-url = "https://github.com/threefoldfoundation/blog_threefold"
+url = "https://github.com/threefoldfoundation/www_tfblog"
 #if empty will be auto created
 path = ""
 #commit automatically when there is new info, only works when ssh used
