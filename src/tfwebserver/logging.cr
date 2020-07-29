@@ -49,7 +49,7 @@ module TFWeb
     end
 
     def self.severity=(severity : Log::Severity)
-      Log.builder.bind "*", severity, ColoredBackend.new
+      Log.setup(severity, ColoredBackend.new)
     end
 
     def self.with_colors(for_what : String | Class, severity = Log::Severity::Debug)

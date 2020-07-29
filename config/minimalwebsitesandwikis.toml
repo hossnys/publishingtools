@@ -15,7 +15,7 @@ path = ""
 #commit automatically when there is new info, only works when ssh used
 autocommit = false
 #branch name, of "" then will be the default or what is found on the FS
-branch = "development"
+branch = "master"
 branchswitch = true
 #path in the repo where the info is, std "src"
 srcdir = ""

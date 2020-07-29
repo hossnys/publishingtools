@@ -8,7 +8,10 @@ module TFWeb
 
     include Config
 
-    Logger = Logging.with_colors(self)
+    Logger           = Logging.with_colors(self)
+    UpdateLock       = Mutex.new
+    UpdateRequets    = Atomic(Int32).new(0)
+    MaxUpdateRequets = 4
 
     class SiteCloneStatus
       property name = ""
@@ -162,23 +165,37 @@ module TFWeb
 
     private def self.handle_update(env, name, force)
       Logger.info { "trying to update #{name} force? #{force}" }
-      if Config.wikis.has_key?(name)
-        wiki = Config.wikis[name]
-        wiki.repo.try do |arepo|
-          arepo.pull(force)
-          wiki.prepare_docs
+
+      if UpdateRequets.get == MaxUpdateRequets
+        Logger.info { "maximum update requests reached" }
+        return render "src/tfwebserver/views/update/try_again.ecr"
+      end
+
+      UpdateRequets.add(1)
+
+      UpdateLock.synchronize do
+        if Config.wikis.has_key?(name)
+          wiki = Config.wikis[name]
+          wiki.repo.try do |arepo|
+            arepo.pull(force)
+            wiki.prepare_docs
+          end
+        elsif Config.websites.has_key?(name)
+          Config.websites[name].repo.try do |arepo|
+            arepo.pull(force)
+          end
+        elsif Config.blogs.has_key?(name)
+          Config.blogs[name].repo.try do |arepo|
+            arepo.pull(force)
+            Config.blogs[name].prepare_on_fs
+          end
+        else
+          do404 env, "couldn't pull #{name}"
         end
-      elsif Config.websites.has_key?(name)
-        Config.websites[name].repo.try do |arepo|
-          arepo.pull(force)
-        end
-      elsif Config.blogs.has_key?(name)
-        Config.blogs[name].repo.try do |arepo|
-          arepo.pull(force)
-          Config.blogs[name].prepare_on_fs
-        end
-      else
-        do404 env, "couldn't pull #{name}"
+
+        UpdateRequets.sub(1)
+        Logger.info { "updating done, redirecting..." }
+        return render "src/tfwebserver/views/update/success.ecr"
       end
     end
 
