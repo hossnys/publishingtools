@@ -126,6 +126,30 @@ http://wiki2.threefold.io, https://wiki2.threefold.io {
         proxy / localhost:3000/wiki2
 }
 
+
+
+http://wiki.mazraa.io, https://wiki.mazraa.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/wmazraa
+}
+
+
+http://wiki2.mazraa.io, https://wiki2.mazraa.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/w2mazraa
+}
+
+
 http://info.threefold.io, https://info.threefold.io {
        redir {
            if {scheme} is http

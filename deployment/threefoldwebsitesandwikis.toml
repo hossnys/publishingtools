@@ -151,6 +151,31 @@ srcdir = "src"
 environment = "testing"
 domain = "wiki2.threefold.io"
 
+[[wiki]]
+name = "wmazraa"
+url = "https://github.com/mazraa/info_mazraa"
+title = "Mazraa Wiki"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "wiki.mazraa.io"
+
+
+[[wiki]]
+name = "w2mazraa"
+title = "Mazraa Wiki Staging"
+#http or git url
+url = "https://github.com/mazraa/info_mazraa"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "wiki2.mazraa.io"
 
 
 
