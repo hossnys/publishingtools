@@ -99,12 +99,12 @@ domain = "board.threefold.me"
 
 
 [[wiki]]
-name = "sdk"
+name = "sdk_jsx"
 title = "Grid Manual"
 url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
 autocommit = false
-branch = "master"
+branch = "master_jsx"
 branchswitch = false
 srcdir = "src"
 environment = "production"
@@ -112,7 +112,7 @@ domain = "sdk.threefold.io"
 
 
 [[wiki]]
-name = "sdk2"
+name = "manual2"
 title = "Grid Manual Staging"
 url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
@@ -121,8 +121,20 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
-domain = "sdk2.threefold.io"
+domain = "manual2.threefold.io"
 
+
+[[wiki]]
+name = "manual"
+title = "Grid Manual"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "manual.threefold.io"
 
 
 [[wiki]]
