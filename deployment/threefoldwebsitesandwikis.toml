@@ -104,7 +104,7 @@ title = "Grid Manual"
 url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
 autocommit = false
-branch = "master"
+branch = "master_jsx"
 branchswitch = false
 srcdir = "src"
 environment = "production"
@@ -123,6 +123,18 @@ srcdir = "src"
 environment = "testing"
 domain = "sdk2.threefold.io"
 
+
+[[wiki]]
+name = "sdk2_1"
+title = "Grid Manual"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "manual.threefold.io"
 
 
 [[wiki]]
