@@ -101,9 +101,18 @@ http://manual.threefold.io, https://manual.threefold.io {
         }
         tls info@threefold.io
         proxy /api localhost:3000/
-        proxy / localhost:3000/sdk
+        proxy / localhost:3000/sdk_1
 }
 
+http://manual2.threefold.io, https://manual2.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/sdk2
+}
 
 http://wiki.threefold.io, https://wiki.threefold.io {
        redir {
