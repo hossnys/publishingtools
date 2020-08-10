@@ -451,16 +451,3 @@ srcdir = ""
 #environment name (for example:  production, staging, testing)
 environment = "testing"
 domain = "blog2.threefold.io"
-
-[[wiki]]
-#unique name for the wiki
-name = "legal"
-title = "Legal docs"
-#http or git url
-url = "https://github.com/threefoldfoundation/legal"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = ""
