@@ -107,7 +107,7 @@ autocommit = false
 branch = "master_jsx"
 branchswitch = false
 srcdir = "src"
-environment = "production"
+environment = "legacy"
 domain = "sdk.threefold.io"
 
 
