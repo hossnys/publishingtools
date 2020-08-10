@@ -111,6 +111,23 @@ environment = "production"
 domain = "sdk.threefold.io"
 
 
+
+
+
+[[wiki]]
+name = "legal"
+title = "Legal"
+url = "git@github.com:threefoldfoundation/legal.git"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "legal.threefold.io"
+
+
+
 [[wiki]]
 name = "manual2"
 title = "Grid Manual Staging"
@@ -122,6 +139,8 @@ branchswitch = false
 srcdir = "src"
 environment = "testing"
 domain = "manual2.threefold.io"
+
+
 
 
 [[wiki]]
