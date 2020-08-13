@@ -137,6 +137,18 @@ http://now.threefold.io, https://now.threefold.io {
 }
 
 
+http://now2.threefold.io, https://now2.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/tfnow2
+}
+
+
+
 http://now.threefold.me, https://now.threefold.me {
        redir {
            if {scheme} is http
@@ -145,6 +157,17 @@ http://now.threefold.me, https://now.threefold.me {
         tls info@threefold.io
         proxy /api localhost:3000/
         proxy / localhost:3000/tfnow
+}
+
+
+http://now2.threefold.me, https://now2.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/tfnow2
 }
 
 
