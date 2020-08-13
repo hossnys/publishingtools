@@ -208,7 +208,17 @@ srcdir = "src"
 environment = "testing"
 domain = "wiki2.mazraa.io"
 
-
+[[wiki]]
+name = "tfnow"
+title = "Threefold now"
+url = "https://github.com/threefoldfoundation/info_threefold_now"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "now.threefold.io"
 
 [[wiki]]
 name = "cw"
