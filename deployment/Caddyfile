@@ -177,7 +177,7 @@ http://vdr.threefold.tech, https://vdr.threefold.tech {
            / https://{host}{uri}
         }
         tls info@threefold.io
-	basicauth / "vdr" ThreeFoldFuture
+        basicauth / "vdr" ThreeFoldFuture
         proxy /api localhost:3000/
         proxy / localhost:3000/vdr
 }
