@@ -428,6 +428,8 @@ sudo docker run -it --name crystalalpine -h crystalalpine --privileged -v /opt/c
 
 ```
 
+`/opt/crystalalpine` is the host directory that has the publishingtools code that you want to share in the container 
+
 ### build binaries
 
 to be executed from the alpine container
