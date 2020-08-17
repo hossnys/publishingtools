@@ -171,6 +171,30 @@ http://now2.threefold.me, https://now2.threefold.me {
 }
 
 
+http://vdr.threefold.tech, https://vdr.threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+	basicauth / "vdr" ThreeFoldFuture
+        proxy /api localhost:3000/
+        proxy / localhost:3000/vdr
+}
+
+
+http://vdr2.threefold.tech, https://vdr2.threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        basicauth / "vdr" ThreeFoldFuture
+        proxy /api localhost:3000/
+        proxy / localhost:3000/vdr2
+}
+
+
 http://wiki.mazraa.io, https://wiki.mazraa.io {
        redir {
            if {scheme} is http
