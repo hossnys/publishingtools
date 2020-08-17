@@ -455,7 +455,7 @@ environment = "production"
 [[data]]
 name = "simexports"
 title = "Simulator data repo"
-url = "https://github.com/threefoldfoundation/simulator_export"
+url = "https://github.com/threefoldfoundation/tfsimulator_exports"
 path = ""
 autocommit = false
 branch = "master"
