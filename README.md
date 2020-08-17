@@ -419,6 +419,7 @@ environment = "testing"
 
 
 ## preparing static binaries
+You can build static binaries within alpine crystal container, add required packages and then run the [static binary builder script](https://github.com/crystaluniverse/publishingtools/blob/development/buildstaticbinaries.sh) 
 
 ### alpine container
 
