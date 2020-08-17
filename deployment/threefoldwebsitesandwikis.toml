@@ -209,6 +209,31 @@ environment = "testing"
 domain = "wiki2.mazraa.io"
 
 [[wiki]]
+name = "vdr"
+title = "Virtual Data Room"
+url = "https://github.com/threefoldfoundation/info_vdr"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "vdr.threefold.tech"
+
+
+[[wiki]]
+name = "vdr2"
+title = "Virtual Data Room"
+url = "https://github.com/threefoldfoundation/info_vdr"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "vdr2.threefold.tech"
+
+[[wiki]]
 name = "tfnow"
 title = "Threefold now"
 url = "https://github.com/threefoldfoundation/info_threefold_now"
