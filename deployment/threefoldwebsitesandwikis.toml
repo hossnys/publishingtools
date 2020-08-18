@@ -110,7 +110,17 @@ srcdir = "src"
 environment = "legacy"
 domain = "sdk.threefold.io"
 
-
+[[wiki]]
+name = "manual_testnet"
+title = "Grid Manual"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "development_capacitypool"
+branchswitch = false
+srcdir = "src"
+environment = "testnet"
+domain = "manual-testnet.threefold.io"
 
 
 
