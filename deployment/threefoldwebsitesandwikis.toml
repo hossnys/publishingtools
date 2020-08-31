@@ -84,6 +84,29 @@ environment = "production"
 auth = true
 domain = "advisors.threefold.me"
 
+[[wiki]]
+name = "strategy"
+title = "TF Strategy"
+url = "github.com/threefoldfoundation/info_strategic"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "strategy.threefold.me"
+
+[[wiki]]
+name = "funding"
+title = "TF Strategy"
+url = "github.com/threefoldfoundation/info_strategic"
+path = ""
+autocommit = false
+branch = "funding20"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "funding20.threefold.me"
 
 [[wiki]]
 name = "board"

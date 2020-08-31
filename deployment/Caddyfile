@@ -193,6 +193,29 @@ http://vdr.threefold.tech, https://vdr.threefold.tech {
 }
 
 
+http://strategy.threefold.me, https://strategy.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        basicauth / "admin" kds
+        proxy /api localhost:3000/
+        proxy / localhost:3000/strategy
+}
+
+
+http://funding20.threefold.me, https://funding20.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        basicauth / "admin" kds
+        proxy /api localhost:3000/
+        proxy / localhost:3000/funding
+}
+
 http://vdr2.threefold.tech, https://vdr2.threefold.tech {
        redir {
            if {scheme} is http
