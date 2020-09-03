@@ -136,7 +136,8 @@ http://manual-testnet.threefold.io, https://manual-testnet.threefold.io {
         proxy / localhost:3000/manual_testnet
 }
 
-http://now.threefold.io, https://now.threefold.io {
+http://info-now.threefold.io, https://info-now.threefold.io {
+
        redir {
            if {scheme} is http
            / https://{host}{uri}
@@ -147,7 +148,7 @@ http://now.threefold.io, https://now.threefold.io {
 }
 
 
-http://now2.threefold.io, https://now2.threefold.io {
+http://info-now2.threefold.io, https://info-now2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
