@@ -159,28 +159,14 @@ http://info-now2.threefold.io, https://info-now2.threefold.io {
 }
 
 
-
-http://now.threefold.me, https://now.threefold.me {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy /api localhost:3000/
-        proxy / localhost:3000/tfnow
+http://info-now.threefold.me, https://info-now.threefold.me {
+       redir https://info-now.threefold.io{uri}
 }
 
 
-http://now2.threefold.me, https://now2.threefold.me {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy /api localhost:3000/
-        proxy / localhost:3000/tfnow2
+http://info-now2.threefold.me, https://info-now2.threefold.me {
+       redir https://info-now2.threefold.io{uri}
 }
-
 
 http://vdr.threefold.tech, https://vdr.threefold.tech {
        redir {
