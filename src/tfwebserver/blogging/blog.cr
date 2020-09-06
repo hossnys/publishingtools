@@ -33,6 +33,7 @@ module TFWeb
       property allow_disqus : Bool? = true
       property allow_navbar : Bool? = true
       property allow_footer : Bool? = true
+      property cookie_consent_popup : Bool? = false
 
       property posts_per_page : Int16? = Int16.new(5)
     end
