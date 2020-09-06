@@ -52,7 +52,7 @@
 <svelte:head>
   <title>Blog</title>
 
-  {#if metadata.privacy_popup}
+  {#if metadata.cookie_consent_popup}
     <!-- cookie script -->
     <script type="text/javascript">
       cookieconsent.run({
