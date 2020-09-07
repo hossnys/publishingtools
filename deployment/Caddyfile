@@ -132,7 +132,7 @@ http://legal.threefold.io, https://legal.threefold.io {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls info@threefold.io
+        tls no-reply@threefold.tech
         proxy /api localhost:3000/
         proxy / localhost:3000/legal
 }
