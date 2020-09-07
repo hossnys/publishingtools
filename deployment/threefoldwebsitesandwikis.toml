@@ -160,18 +160,6 @@ environment = "production"
 domain = "legal.threefold.io"
 
 
-[[wiki]]
-name = "legal"
-title = "Legal"
-url = "git@github.com:threefoldfoundation/legal.git"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-domain = "legal2.threefold.io"
-
 
 [[wiki]]
 name = "manual2"
