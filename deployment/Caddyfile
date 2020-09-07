@@ -126,6 +126,28 @@ http://wiki2.threefold.io, https://wiki2.threefold.io {
         proxy / localhost:3000/wiki2
 }
 
+
+http://legal.threefold.io, https://legal.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/legal
+}
+
+
+http://legal2.threefold.io, https://legal2.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/legal2
+}
+
 http://manual-testnet.threefold.io, https://manual-testnet.threefold.io {
        redir {
            if {scheme} is http
