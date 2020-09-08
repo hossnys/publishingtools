@@ -75,16 +75,6 @@ https://matchmakers2.threefold.io {
 }
 
 
-http://sdk.threefold.io, https://sdk.threefold.io {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy / localhost:3000/sdk_jsx
-}
-
-
 http://manual.threefold.io, https://manual.threefold.io {
        redir {
            if {scheme} is http
@@ -103,6 +93,10 @@ http://manual2.threefold.io, https://manual2.threefold.io {
         tls info@threefold.io
         proxy /api localhost:3000/
         proxy / localhost:3000/manual2
+}
+
+http://sdk.threefold.io, https://sdk.threefold.io {
+       redir https://manual.threefold.io{uri}
 }
 
 http://wiki.threefold.io, https://wiki.threefold.io {
