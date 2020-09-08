@@ -362,7 +362,7 @@ http://www2.3bot.org, https://www2.3bot.org {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls info@threefold.io
+        tls no-reply@threefold.tech 
         proxy / localhost:3000/3bot2
 }
 
