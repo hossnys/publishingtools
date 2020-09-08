@@ -421,3 +421,23 @@ srcdir = ""
 #environment name (for example:  production, staging, testing)
 environment = "testing"
 domain = "blog2.threefold.io"
+
+[[www]]
+name = "3bot"
+url = "https://github.com/threefoldtech/www_3bot_org"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+[[www]]
+name = "3bot2"
+url = "https://github.com/threefoldtech/www_3bot_org"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
