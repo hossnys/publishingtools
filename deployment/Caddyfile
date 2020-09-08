@@ -330,7 +330,7 @@ http://info2.internet9.me, https://info2.internet9.me {
         proxy / localhost:3000/internet9_2
 }
 
-http://freeflownation.org, https://freeflownation.org {
+http://www.freeflownation.org, https://www.freeflownation.org {
        redir {
            if {scheme} is http
            / https://{host}{uri}
