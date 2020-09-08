@@ -442,7 +442,7 @@ http://www2.freeflownation.org, https://www2.freeflownation.org {
         proxy / localhost:3000/freeflownation2
 }
 
-http://3bot.org, https://3bot.org {
+http://www.3bot.org, https://www.3bot.org {
        redir {
            if {scheme} is http
            / https://{host}{uri}
