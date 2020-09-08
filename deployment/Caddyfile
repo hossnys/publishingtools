@@ -423,3 +423,22 @@ http://info2.internet9.me, https://info2.internet9.me {
         proxy /api localhost:3000/
         proxy / localhost:3000/internet9_2
 }
+http://freeflownation.org, https://freeflownation.org {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/freeflownation
+}
+
+http://www2.freeflownation.org, https://www2.freeflownation.org {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/freeflownation2
+}
+
+
