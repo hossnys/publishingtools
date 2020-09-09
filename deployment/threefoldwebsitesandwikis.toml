@@ -630,3 +630,25 @@ branchswitch = true
 srcdir = ""
 environment = "testing"
 
+#website
+[[www]]
+name = "vedaretreats"
+url = "https://github.com/veda-websites/www_veda-retreats"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "public"
+environment = "production"
+
+
+#website
+[[www]]
+name = "vedaretreats2"
+url = "https://github.com/veda-websites/www_veda-retreats"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "public"
+environment = "testing"
