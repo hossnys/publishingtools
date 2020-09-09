@@ -565,7 +565,7 @@ http://www.bettertoken.com, https://www.bettertoken.com, http://bettertoken.com,
            / https://{host}{uri}
         }
         tls info@threefold.io
-        proxy / localhost:3000/bettertoken
+        proxy / localhost:3000/bettertoken_site
 }
 
 http://www2.bettertoken.com, https://www2.bettertoken.com {
@@ -574,5 +574,5 @@ http://www2.bettertoken.com, https://www2.bettertoken.com {
            / https://{host}{uri}
         }
         tls info@threefold.io
-        proxy / localhost:3000/bettertoken2
+        proxy / localhost:3000/bettertoken2_site
 }
