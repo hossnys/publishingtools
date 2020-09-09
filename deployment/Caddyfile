@@ -482,3 +482,39 @@ http://www2.bettertoken.com, https://www2.bettertoken.com {
         tls info@threefold.io
         proxy / localhost:3000/bettertoken2_site
 }
+
+http://www.threefold.love, https://www.threefold.love {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/threefoldlove
+}
+
+http://www2.threefold.love, https://www2.threefold.love {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/threefoldlove2
+}
+
+http://www.openly.live, https://www.openly.live {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/openlylive
+}
+
+http://www2.openly.live, https://www2.openly.live {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/openlylive2
+}
