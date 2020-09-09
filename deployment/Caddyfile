@@ -384,4 +384,20 @@ http://www2.enertia.io, https://www2.enertia.io {
         proxy / localhost:3000/enertia2
 }
 
+http://www.freeflowtoken.com, https://www.freeflowtoken.com, http://freeflowtoken.com, https://freeflowtoken.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/freeflowtoken
+}
 
+http://www2.freeflowtoken.com, https://www2.freeflowtoken.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/freeflowtoken2
+}
