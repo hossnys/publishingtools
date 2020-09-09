@@ -566,7 +566,7 @@ environment = "testing"
 
 #website
 [[www]]
-name = "bettertoken"
+name = "bettertoken_site"
 url = "https://github.com/BetterToken/www_bettertoken.com"
 path = ""
 autocommit = false
@@ -577,7 +577,7 @@ environment = "production"
 
 #website
 [[www]]
-name = "bettertoken2"
+name = "bettertoken2_site"
 url = "https://github.com/BetterToken/www_bettertoken.com"
 path = ""
 autocommit = false
