@@ -681,7 +681,7 @@ name = "bettertoken_site"
 url = "https://github.com/BetterToken/www_bettertoken.com"
 path = ""
 autocommit = false
-branch = "production"
+branch = "master"
 branchswitch = true
 srcdir = "html"
 environment = "production"
@@ -692,7 +692,52 @@ name = "bettertoken2_site"
 url = "https://github.com/BetterToken/www_bettertoken.com"
 path = ""
 autocommit = false
-branch = "master"
+branch = "development"
 branchswitch = true
 srcdir = "html"
 environment = "testing"
+
+#website
+[[www]]
+name = "threefoldlove"
+url = "https://github.com/threefold-love/www_threefold_love"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "threefoldlove2"
+url = "https://github.com/threefold-love/www_threefold_love"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+#website
+[[www]]
+name = "openlylive"
+url = "https://github.com/openlylive/www_openly_live"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "openlylive2"
+url = "https://github.com/openlylive/www_openly_live"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
