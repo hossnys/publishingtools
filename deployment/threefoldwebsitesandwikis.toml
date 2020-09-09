@@ -596,3 +596,37 @@ branch = "master"
 branchswitch = true
 srcdir = ""
 environment = "testing"
+
+#website
+[[www]]
+name = "euroflow"
+url = "https://github.com/euroflow-io/www_euroflow_io"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "euroflow2"
+url = "https://github.com/euroflow-io/www_euroflow_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+#website
+[[www]]
+name = "mazraa2"
+url = "https://github.com/mazraa/www_mazraa_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
