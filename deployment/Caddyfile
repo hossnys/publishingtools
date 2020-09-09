@@ -480,5 +480,5 @@ http://www2.bettertoken.com, https://www2.bettertoken.com {
            / https://{host}{uri}
         }
         tls info@threefold.io
-        proxy / localhost:3000/bettertoken2_stie
+        proxy / localhost:3000/bettertoken2_site
 }
