@@ -518,3 +518,39 @@ http://www2.openly.live, https://www2.openly.live {
         tls info@threefold.io
         proxy / localhost:3000/openlylive2
 }
+
+http://www.veda-egypt.com, https://www.veda-egypt.com, http://veda-egypt.com, https://veda-egypt.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/vedaegypt
+}
+
+http://www2.veda-egypt.com, https://www2.veda-egypt.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/vedaegypt2
+}
+
+http://www.cultivo.earth, https://www.cultivo.earth, http://cultivo.earth, https://cultivo.earth {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/cultivo
+}
+
+http://www2.cultivo.earth, https://www2.cultivo.earth {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/cultivo2
+}
