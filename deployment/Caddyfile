@@ -428,3 +428,21 @@ http://www2.mazraa.io, https://www2.mazraa.io {
         tls info@threefold.io
         proxy / localhost:3000/mazraa2
 }
+
+http://www.veda-retreats.com, https://www.veda-retreats.com, http://veda-retreats.com, https://veda-retreats.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/vedaretreats
+}
+
+http://www2.veda-retreats.com, https://www2.veda-retreats.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/vedaretreats2
+}
