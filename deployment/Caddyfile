@@ -424,7 +424,7 @@ http://info2.internet9.me, https://info2.internet9.me {
         proxy / localhost:3000/internet9_2
 }
 
-http://www.freeflownation.org, https://www.freeflownation.org {
+http://www.freeflownation.org, https://www.freeflownation.org, http://freeflownation.org, https://freeflownation.org {
        redir {
            if {scheme} is http
            / https://{host}{uri}
@@ -442,7 +442,7 @@ http://www2.freeflownation.org, https://www2.freeflownation.org {
         proxy / localhost:3000/freeflownation2
 }
 
-http://www.3bot.org, https://www.3bot.org {
+http://www.3bot.org, https://www.3bot.org , http://3bot.org, https://3bot.org {
        redir {
            if {scheme} is http
            / https://{host}{uri}
@@ -459,4 +459,23 @@ http://www2.3bot.org, https://www2.3bot.org {
         tls no-reply@threefold.tech 
         proxy / localhost:3000/3bot2
 }
+
+http://www.enertia.io, https://www.enertia.io, http://enertia.io, https://enertia.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/enertia
+}
+
+http://www2.enertia.io, https://www2.enertia.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/enertia2
+}
+
 
