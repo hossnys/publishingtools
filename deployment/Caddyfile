@@ -540,3 +540,39 @@ http://www2.veda-retreats.com, https://www2.veda-retreats.com {
         tls info@threefold.io
         proxy / localhost:3000/vedaretreats2
 }
+
+http://www.es.veda-egypt.com, https://www.es.veda-egypt.com, http://es.veda-egypt.com, https://es.veda-egypt.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/esveda
+}
+
+http://www2.es.veda-egypt.com, https://www2.es.veda-egypt.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/esveda2
+}
+
+http://www.bettertoken.com, https://www.bettertoken.com, http://bettertoken.com, https://bettertoken.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/bettertoken
+}
+
+http://www2.bettertoken.com, https://www2.bettertoken.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/bettertoken2
+}

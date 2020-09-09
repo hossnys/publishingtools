@@ -652,3 +652,47 @@ branch = "development"
 branchswitch = true
 srcdir = "public"
 environment = "testing"
+
+#website
+[[www]]
+name = "esveda"
+url = "https://github.com/veda-egypt/www_es.veda-egypt.com"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "esveda2"
+url = "https://github.com/veda-egypt/www_es.veda-egypt.com"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+#website
+[[www]]
+name = "bettertoken"
+url = "https://github.com/BetterToken/www_bettertoken.com"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
+#website
+[[www]]
+name = "bettertoken2"
+url = "https://github.com/BetterToken/www_bettertoken.com"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "html"
+environment = "testing"
