@@ -441,3 +441,27 @@ branch = "development"
 branchswitch = true
 srcdir = ""
 environment = "testing"
+
+#website
+[[www]]
+name = "enertia"
+url = "https://github.com/enertia-io/www_enertia_io"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "enertia2"
+url = "https://github.com/enertia-io/www_enertia_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
