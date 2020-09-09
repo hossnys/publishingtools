@@ -575,4 +575,24 @@ branchswitch = true
 srcdir = ""
 environment = "testing"
 
+#website
+[[www]]
+name = "freeflowtoken"
+url = "https://github.com/freeflowtoken/www_freeflowtoken_com"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
 
+#website
+[[www]]
+name = "freeflowtoken2"
+url = "https://github.com/freeflowtoken/www_freeflowtoken_com"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
