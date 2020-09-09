@@ -741,3 +741,48 @@ branchswitch = true
 srcdir = ""
 environment = "testing"
 
+#website
+[[www]]
+name = "vedaegypt"
+url = "https://github.com/veda-egypt/www_veda-egypt_com"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "vedaegypt2"
+url = "https://github.com/veda-egypt/www_veda-egypt_com"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+#website
+[[www]]
+name = "cultivo"
+url = "https://github.com/cultivo/www_cultivo_earth"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "cultivo2"
+url = "https://github.com/cultivo/www_cultivo_earth"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
