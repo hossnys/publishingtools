@@ -666,3 +666,39 @@ http://www2.goldflow.io, https://www2.goldflow.io {
         tls info@threefold.io
         proxy / localhost:3000/goldflow2
 }
+
+http://www.farmer.threefold.io, https://www.farmer.threefold.io, http://farmer.threefold.io, https://farmer.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/farmerthreefold
+}
+
+http://www2.farmer.threefold.io, https://www2.farmer.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/farmerthreefold2
+}
+
+http://www.crystalhome.org, https://www.crystalhome.org, http://crystalhome.org, https://crystalhome.org {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/crystalhome
+}
+
+http://www2.crystalhome.org, https://www2.crystalhome.org {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/crystalhome2
+}
