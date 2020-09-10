@@ -554,3 +554,21 @@ http://www2.cultivo.earth, https://www2.cultivo.earth {
         tls info@threefold.io
         proxy / localhost:3000/cultivo2
 }
+
+http://www.goldflow.io, https://www.goldflow.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/goldflow
+}
+
+http://www2.goldflow.io, https://www2.goldflow.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/goldflow2
+}

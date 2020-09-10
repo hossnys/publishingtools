@@ -675,3 +675,24 @@ srcdir = ""
 environment = "testing"
 
 
+#website
+[[www]]
+name = "goldflow"
+url = "https://github.com/goldflow-io/www_goldflow_io"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "goldflow2"
+url = "https://github.com/goldflow-io/www_goldflow_io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
