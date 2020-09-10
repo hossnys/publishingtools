@@ -555,7 +555,7 @@ http://www2.cultivo.earth, https://www2.cultivo.earth {
         proxy / localhost:3000/cultivo2
 }
 
-http://www.goldflow.io, https://www.goldflow.io {
+http://www.goldflow.io, https://www.goldflow.io, http://goldflow.io, https://goldflow.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
