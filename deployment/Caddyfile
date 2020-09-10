@@ -702,3 +702,40 @@ http://www2.crystalhome.org, https://www2.crystalhome.org {
         tls info@threefold.io
         proxy / localhost:3000/crystalhome2
 }
+
+http://www.veda-masters.com, https://www.veda-masters.com, http://veda-masters.com, https://veda-masters.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/vedamasters
+}
+
+http://www2.veda-masters.com, https://www2.veda-masters.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/vedamasters2
+}
+
+http://www.inid.io, https://www.inid.io, http://inid.io, https://inid.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/inidio
+}
+
+http://www2.inid.io, https://www2.inid.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/inidio2
+}
+
