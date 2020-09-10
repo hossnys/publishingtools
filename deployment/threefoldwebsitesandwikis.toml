@@ -741,3 +741,47 @@ branch = "development"
 branchswitch = true
 srcdir = ""
 environment = "testing"
+
+#website
+[[www]]
+name = "vedamasters"
+url = "https://github.com/veda-websites/www_veda-masters_com"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "vedamasters2"
+url = "https://github.com/veda-websites/www_veda-masters_com"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+#website
+[[www]]
+name = "inidio"
+url = "https://github.com/threefoldtech/www_inid.io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "inidio2"
+url = "https://github.com/threefoldtech/www_inid.io"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
