@@ -696,3 +696,48 @@ branch = "master"
 branchswitch = true
 srcdir = ""
 environment = "testing"
+
+#website
+[[www]]
+name = "farmerthreefold"
+url = "https://github.com/threefoldfoundation/www_farmer_threefold.io"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "farmerthreefold2"
+url = "https://github.com/threefoldfoundation/www_farmer_threefold.io"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+#website
+[[www]]
+name = "crystalhome"
+url = "https://github.com/crystal-home/www_crystalhome"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "crystalhome2"
+url = "https://github.com/crystal-home/www_crystalhome"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
