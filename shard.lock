@@ -14,11 +14,11 @@ shards:
 
   crystaltools:
     git: https://github.com/crystaluniverse/crystaltools.git
-    version: 0.1.0+git.commit.0a0cf69f522f4fd8e67c8efcead1c83623059aa5
+    version: 0.1.0+git.commit.2ab891de488a1533d2388b82213e6f54aa83f141
 
   crystar:
     git: https://github.com/naqvis/crystar.git
-    version: 0.1.7
+    version: 0.1.8
 
   docker:
     git: https://github.com/aca-labs/crystal-docker.git
@@ -42,7 +42,11 @@ shards:
 
   markd:
     git: https://github.com/icyleaf/markd.git
-    version: 0.2.0
+    version: 0.2.1
+
+  msgpack:
+    git: https://github.com/crystal-community/msgpack-crystal.git
+    version: 0.17.1
 
   neph:
     git: https://github.com/tbrand/neph.git
@@ -57,7 +61,7 @@ shards:
     version: 0.3.9
 
   redis:
-    git: https://github.com/stefanwille/crystal-redis.git
+    git: https://github.com/crystaluniverse/crystal-redis.git
     version: 2.6.0
 
   ssh2:
