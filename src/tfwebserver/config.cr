@@ -49,6 +49,58 @@ module TFWeb
       end
     end
 
+    class DuplicateSiteError < Exception
+    end
+
+    HTTP_REPO_URL = /((http|https):\/\/)?(?P<provider>.+)(?P<suffix>\..+)\/(?P<account>.+)\/(?P<repo>.+)/
+    SSH_REPO_URL  = /(ssh:\/\/)?(git@)(?P<provider>.+)(?P<suffix>\..+)\:(?P<account>.+)\/(?P<repo>.+)(?:.git)?/
+
+    def self.normalize_repo_url(url)
+      url = url.strip
+      match = HTTP_REPO_URL.match(url)
+      if match.nil?
+        match = SSH_REPO_URL.match(url)
+      end
+
+      if match.nil?
+        return url
+      end
+
+      data = match.to_h
+      provider = data["provider"]
+      suffix = data["suffix"]
+      account = data["account"]
+      repo = data["repo"]
+      "#{provider}.#{suffix}/#{account}/#{repo}"
+    end
+
+    def self.load_sites_of_type(config, config_key, site_type, collection, prev_sites)
+      unless config.has_key?(config_key)
+        return
+      end
+
+      config[config_key].as(Array).each do |site_config|
+        site = site_type.from_json(site_config.as(Hash).to_json)
+
+        # check duplicates
+        unless site.url.strip.empty?
+          normalized_url = normalize_repo_url(site.url)
+          if prev_sites.has_key?(normalized_url)
+            prev_site = prev_sites[normalized_url]
+            if prev_site.environment == site.environment
+              raise DuplicateSiteError.new(
+                "duplicate repository in the same environment between #{prev_site.type}:#{prev_site.name} and #{site.type}:#{site.name}"
+              )
+            end
+          else
+            prev_sites[normalized_url] = site
+          end
+        end
+
+        collection[site.name] = site
+      end
+    end
+
     def self.load_from_file(path)
       @@config = TOML.parse_file(path)
       # p @@config
@@ -69,24 +121,18 @@ module TFWeb
           aclgroup.save
         end
 
-        okconfig.has_key?("wiki") && okconfig["wiki"].as(Array).each do |wikiel|
-          wiki = Wiki.from_json(wikiel.as(Hash).to_json)
-          @@wikis[wiki.name] = wiki
-        end
+        # for duplication check
+        prev_sites = Hash(String, Site).new
 
-        okconfig.has_key?("www") && okconfig["www"].as(Array).each do |websiteel|
-          website = Website.from_json(websiteel.as(Hash).to_json)
-          @@websites[website.name] = website
-        end
-
-        okconfig.has_key?("data") && okconfig["data"].as(Array).each do |datael|
-          datasite = Data.from_json(datael.as(Hash).to_json)
-          @@datasites[datasite.name] = datasite
-        end
-
-        okconfig.has_key?("blog") && okconfig["blog"].as(Array).each do |blogel|
-          blog = Blog.from_json(blogel.as(Hash).to_json)
-          @@blogs[blog.name] = blog
+        begin
+          load_sites_of_type(okconfig, "wiki", Wiki, @@wikis, prev_sites)
+          load_sites_of_type(okconfig, "www", Website, @@websites, prev_sites)
+          load_sites_of_type(okconfig, "data", Data, @@datasites, prev_sites)
+          load_sites_of_type(okconfig, "blog", Blog, @@blogs, prev_sites)
+        rescue exception : DuplicateSiteError
+          Logger.error { exception.message }
+          Logger.error { "Plese fix the config and try again, aborting..." }
+          exit(1)
         end
       end
     end

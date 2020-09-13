@@ -22,14 +22,14 @@ module TFWeb
       property hardware_types = Set(String).new
       property growths = Set(Int64).new
       property token_prices = Set(String).new
-      property unit_price_ranges = Set(Int8).new
+      property unit_price_ranges = Set(String).new
     end
 
     def self.create_simulator_wiki(options : Options)
       hardware_type = options.hardware_type
       growth = options.growth
       token_price = options.token_price
-      unit_price_range = options.unit_price_range.to_i
+      unit_price_range = options.unit_price_range
 
       params = [hardware_type, "#{growth}", "tft_#{token_price}", "price_#{unit_price_range}"]
       name = "sim_" + params.join("_")
@@ -81,7 +81,7 @@ module TFWeb
               available_options.token_prices << token_price.gsub("tft_", "")
               price_ranges_path = File.join(token_prices_path, token_price)
               list_dirs(price_ranges_path) do |unit_price_range|
-                available_options.unit_price_ranges << unit_price_range.gsub("price_", "").to_i8
+                available_options.unit_price_ranges << unit_price_range.gsub("price_", "")
               end
             end
           end

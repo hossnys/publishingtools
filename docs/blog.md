@@ -2,8 +2,6 @@
 
 Here we discuss blog configurations and a typical structure for a blog.
 
-
-
 ## Blog structure
 
 ```
@@ -84,6 +82,7 @@ images_dir: "assets/images"
 github_username: "xmonader"
 posts_per_page: 6
 allow_disqus: false
+cookie_consent_popup: false
 
 sidebar_links:
   - title: google
@@ -128,6 +127,7 @@ github_username: "xmonader"
 posts_per_page: 6
 allow_disqus: false
 allow_navbar: true
+cookie_consent_popup: false
 
 ```
 - blog title: sets the title of blog pages
@@ -140,8 +140,10 @@ allow_navbar: true
 - images dir: where your images for the blog exist (default `assets/images`)
 - posts_per_page: number of posts to show in page
 - allow_disqus: to allow disqus plugin
-- allow_navbar: to allow navigation links 
+- allow_navbar: to allow navigation links
 - allow_footer: to show the footer.
+- cookie_consent_popup: to show/hide cookie consent popup (defaults to false)
+
 
 ### Sidebar config
 
@@ -205,7 +207,7 @@ more markdown omitted...
 ```
 - title: describes post title
 - author: to override the global author name
-- author_image: to override the global author image `me.jpg` 
+- author_image: to override the global author image `me.jpg`
 - tags: to define tags for the post
 - published at: the date `YEAR-MONTH-DAY`
 - post_image: custom post image
@@ -238,7 +240,7 @@ environment = "production"
 ### Development
 
 
-#### UI 
+#### UI
 - UI code exists in `publishingtools/src/static/blog_src/src`
 - `build_blog.sh` can be used to rebuild the sapper app.
 

@@ -84,6 +84,29 @@ environment = "production"
 auth = true
 domain = "advisors.threefold.me"
 
+[[wiki]]
+name = "strategy"
+title = "TF Strategy"
+url = "github.com/threefoldfoundation/info_strategic"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "strategy.threefold.me"
+
+[[wiki]]
+name = "funding"
+title = "TF Strategy"
+url = "github.com/threefoldfoundation/info_strategic"
+path = ""
+autocommit = false
+branch = "funding20"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "funding20.threefold.me"
 
 [[wiki]]
 name = "board"
@@ -99,20 +122,47 @@ domain = "board.threefold.me"
 
 
 [[wiki]]
-name = "sdk"
+name = "sdk_jsx"
 title = "Grid Manual"
 url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "master_jsx"
+branchswitch = false
+srcdir = "src"
+environment = "legacy"
+domain = "sdk.threefold.io"
+
+[[wiki]]
+name = "manual_testnet"
+title = "Grid Manual"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "development_testnet"
+branchswitch = false
+srcdir = "src"
+environment = "testnet"
+domain = "manual-testnet.threefold.io"
+
+
+
+[[wiki]]
+name = "legal"
+title = "Legal"
+url = "git@github.com:threefoldfoundation/legal.git"
 path = ""
 autocommit = false
 branch = "master"
 branchswitch = false
 srcdir = "src"
 environment = "production"
-domain = "sdk.threefold.io"
+domain = "legal.threefold.io"
+
 
 
 [[wiki]]
-name = "sdk2"
+name = "manual2"
 title = "Grid Manual Staging"
 url = "https://github.com/threefoldfoundation/info_gridmanual"
 path = ""
@@ -121,8 +171,22 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
-domain = "sdk2.threefold.io"
+domain = "manual2.threefold.io"
 
+
+
+
+[[wiki]]
+name = "manual"
+title = "Grid Manual"
+url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "manual.threefold.io"
 
 
 [[wiki]]
@@ -151,7 +215,80 @@ srcdir = "src"
 environment = "testing"
 domain = "wiki2.threefold.io"
 
+[[wiki]]
+name = "wmazraa"
+url = "https://github.com/mazraa/info_mazraa"
+title = "Mazraa Wiki"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "wiki.mazraa.io"
 
+
+[[wiki]]
+name = "w2mazraa"
+title = "Mazraa Wiki Staging"
+#http or git url
+url = "https://github.com/mazraa/info_mazraa"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "wiki2.mazraa.io"
+
+[[wiki]]
+name = "vdr"
+title = "Virtual Data Room"
+url = "https://github.com/threefoldfoundation/info_vdr"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "vdr.threefold.tech"
+
+
+[[wiki]]
+name = "vdr2"
+title = "Virtual Data Room"
+url = "https://github.com/threefoldfoundation/info_vdr"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "vdr2.threefold.tech"
+
+[[wiki]]
+name = "tfnow"
+title = "Threefold now"
+url = "https://github.com/threefoldfoundation/info_threefold_now"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "info-now.threefold.io"
+
+[[wiki]]
+name = "tfnow2"
+title = "Threefold now"
+url = "https://github.com/threefoldfoundation/info_threefold_now"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "info-now2.threefold.io"
 
 
 [[wiki]]
@@ -280,6 +417,7 @@ srcdir = "src"
 environment = "testing"
 domain = "info2.threefold.tech"
 
+
 #website
 [[www]]
 name = "freetft2"
@@ -374,7 +512,7 @@ environment = "production"
 [[data]]
 name = "simexports"
 title = "Simulator data repo"
-url = "https://github.com/threefoldfoundation/simulator_export"
+url = "https://github.com/threefoldfoundation/tfsimulator_exports"
 path = ""
 autocommit = false
 branch = "master"

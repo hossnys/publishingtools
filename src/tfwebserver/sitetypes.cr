@@ -30,6 +30,9 @@ module TFWeb
     @[JSON::Field(ignore: true)]
     property mdocs = MarkdownDocs.new("")
 
+    @[JSON::Field(ignore: true)]
+    property type = ""
+
     def to_s
       "#{@name} #{@auth} #{@environment} "
     end
@@ -53,6 +56,10 @@ module TFWeb
 
     def self.new_empty
       self.from_json("{}")
+    end
+
+    def type
+      @type
     end
 
     def srcpath
@@ -111,6 +118,8 @@ module TFWeb
   end
 
   class Wiki < Site
+    property type = "wiki"
+
     private def prepare_index
       if self.repo.nil?
         url_as_https = ""
@@ -144,15 +153,19 @@ module TFWeb
   end
 
   class Website < Site
+    property type = "www"
   end
 
   class Blog < Site
+    property type = "blog"
+
     def blog
       Blogging::Loader.new(self).blog
     end
   end
 
   class Data < Site
+    property type = "data"
   end
 
   class SiteCollection(T)

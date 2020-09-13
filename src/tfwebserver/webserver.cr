@@ -8,7 +8,10 @@ module TFWeb
 
     include Config
 
-    Logger = Logging.with_colors(self)
+    Logger           = Logging.with_colors(self)
+    UpdateLock       = Mutex.new
+    UpdateRequets    = Atomic(Int32).new(0)
+    MaxUpdateRequets = 4
 
     class SiteCloneStatus
       property name = ""
@@ -91,14 +94,15 @@ module TFWeb
 
     # checks the loaded metadata to find the required md file or image file
     # TODO: phase 2, in future we need to change this to use proper objects: MDDoc, Image, ...
-    def self.get_wiki_file_path(wikiname, filename)
+    def self.get_wiki_file_path(wikiname, path)
       wiki = Config.wikis[wikiname]
-      full_path = File.join(wiki.path, wiki.srcdir, filename)
+      full_path = File.join(wiki.path, wiki.srcdir, path.to_s)
       if File.exists?(full_path)
         # good, found on file system
         return full_path
       end
 
+      filename = path.basename
       if filename.downcase == "readme.md"
         # special case for readme
         get_readme_path(wiki, filename)
@@ -117,12 +121,12 @@ module TFWeb
       end
     end
 
-    def self.serve_wikifile(env, wikiname, filename)
+    def self.serve_wikifile(env, wikiname, path)
       Logger.debug { "Got request for wiki:#{name} url:#{env.params.url}" }
-      filepath = self.get_wiki_file_path(wikiname, filename)
+      filepath = self.get_wiki_file_path(wikiname, path)
 
       if filepath.nil?
-        msg = "could not find file '#{filename}' in '#{wikiname}'"
+        msg = "could not find file '#{path}' in '#{wikiname}'"
         Logger.error { msg }
         do404 env, msg
       else
@@ -144,41 +148,55 @@ module TFWeb
       end
     end
 
-    def self.serve_staticsite(env, sitename, filename)
+    def self.serve_staticsite(env, sitename, path)
       website = Config.websites[sitename]
       website_src_path = File.join(website.path, website.srcdir)
-      path = File.join(website_src_path, filename)
+      fullpath = File.join(website_src_path, path.to_s)
 
-      if File.directory?(path)
-        path = File.join(path, "index.html")
+      if File.directory?(fullpath)
+        fullpath = File.join(fullpath, "index.html")
       end
 
-      if File.exists?(path)
-        send_file env, path
+      if File.exists?(fullpath)
+        send_file env, fullpath
       else
-        do404 env, "file #{path} is not found"
+        do404 env, "file #{fullpath} is not found"
       end
     end
 
     private def self.handle_update(env, name, force)
       Logger.info { "trying to update #{name} force? #{force}" }
-      if Config.wikis.has_key?(name)
-        wiki = Config.wikis[name]
-        wiki.repo.try do |arepo|
-          arepo.pull(force)
-          wiki.prepare_docs
+
+      if UpdateRequets.get == MaxUpdateRequets
+        Logger.info { "maximum update requests reached" }
+        return render "src/tfwebserver/views/update/try_again.ecr"
+      end
+
+      UpdateRequets.add(1)
+
+      UpdateLock.synchronize do
+        if Config.wikis.has_key?(name)
+          wiki = Config.wikis[name]
+          wiki.repo.try do |arepo|
+            arepo.pull(force)
+            wiki.prepare_docs
+          end
+        elsif Config.websites.has_key?(name)
+          Config.websites[name].repo.try do |arepo|
+            arepo.pull(force)
+          end
+        elsif Config.blogs.has_key?(name)
+          Config.blogs[name].repo.try do |arepo|
+            arepo.pull(force)
+            Config.blogs[name].prepare_on_fs
+          end
+        else
+          do404 env, "couldn't pull #{name}"
         end
-      elsif Config.websites.has_key?(name)
-        Config.websites[name].repo.try do |arepo|
-          arepo.pull(force)
-        end
-      elsif Config.blogs.has_key?(name)
-        Config.blogs[name].repo.try do |arepo|
-          arepo.pull(force)
-          Config.blogs[name].prepare_on_fs
-        end
-      else
-        do404 env, "couldn't pull #{name}"
+
+        UpdateRequets.sub(1)
+        Logger.info { "updating done, redirecting..." }
+        return render "src/tfwebserver/views/update/success.ecr"
       end
     end
 
@@ -242,10 +260,11 @@ module TFWeb
 
     get "/:name" do |env|
       name = env.params.url["name"]
+      indexpath = Path.new("index.html")
       if Config.wikis.has_key?(name)
-        self.serve_wikifile(env, name, "index.html")
+        self.serve_wikifile(env, name, indexpath)
       elsif Config.websites.has_key?(name)
-        self.serve_staticsite(env, name, "index.html")
+        self.serve_staticsite(env, name, indexpath)
       else
         self.do404 env, "file index.html doesn't exist on wiki/website #{name}"
       end
@@ -289,18 +308,17 @@ module TFWeb
 
     get "/:name/*filepath" do |env|
       name = env.params.url["name"]
-      filepath = env.params.url["filepath"]
+      path = Path.new(env.params.url["filepath"])
       if Config.wikis.has_key?(name)
-        path = Path.new(filepath)
         if [".toml", ".json"].includes?(path.extension)
           self.handle_datafile(env, name, path)
         else
-          self.serve_wikifile(env, name, path.basename)
+          self.serve_wikifile(env, name, path)
         end
       elsif Config.websites.has_key?(name)
-        self.serve_staticsite(env, name, filepath)
+        self.serve_staticsite(env, name, path)
       else
-        self.do404 env, "file #{filepath} doesn't exist on wiki/website #{name}"
+        self.do404 env, "file #{path} doesn't exist on wiki/website #{name}"
       end
     end
 

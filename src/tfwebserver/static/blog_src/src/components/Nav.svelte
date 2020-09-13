@@ -23,6 +23,11 @@
     <div class="container">
       <a class="logo mr-auto" href="/blog/{username}/posts">
         <img src="img/TFN-LOGO.png" alt="TFN Logo" />
+        {#if metadata.blog_description}
+          <div class="blog-description" style="margin-left: 30px;">
+            {metadata.blog_description}
+          </div>
+        {/if}
       </a>
     </div>
   </nav>

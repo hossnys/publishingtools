@@ -75,25 +75,6 @@ https://matchmakers2.threefold.io {
 }
 
 
-http://sdk.threefold.io, https://sdk.threefold.io {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy / localhost:3000/sdk
-}
-
-
-http://sdk2.threefold.io, https://sdk2.threefold.io {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy / localhost:3000/sdk2
-}
-
 http://manual.threefold.io, https://manual.threefold.io {
        redir {
            if {scheme} is http
@@ -101,9 +82,22 @@ http://manual.threefold.io, https://manual.threefold.io {
         }
         tls info@threefold.io
         proxy /api localhost:3000/
-        proxy / localhost:3000/sdk
+        proxy / localhost:3000/manual
 }
 
+http://manual2.threefold.io, https://manual2.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/manual2
+}
+
+http://sdk.threefold.io, https://sdk.threefold.io {
+       redir https://manual.threefold.io{uri}
+}
 
 http://wiki.threefold.io, https://wiki.threefold.io {
        redir {
@@ -125,6 +119,129 @@ http://wiki2.threefold.io, https://wiki2.threefold.io {
         proxy /api localhost:3000/
         proxy / localhost:3000/wiki2
 }
+
+
+http://legal.threefold.io, https://legal.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls no-reply@threefold.tech
+        proxy /api localhost:3000/
+        proxy / localhost:3000/legal
+}
+
+
+http://manual-testnet.threefold.io, https://manual-testnet.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/manual_testnet
+}
+
+http://info-now.threefold.io, https://info-now.threefold.io {
+
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/tfnow
+}
+
+
+http://info-now2.threefold.io, https://info-now2.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/tfnow2
+}
+
+
+http://info-now.threefold.me, https://info-now.threefold.me {
+       redir https://info-now.threefold.io{uri}
+}
+
+
+http://info-now2.threefold.me, https://info-now2.threefold.me {
+       redir https://info-now2.threefold.io{uri}
+}
+
+http://vdr.threefold.tech, https://vdr.threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        basicauth / "vdr" ThreeFoldFuture
+        proxy /api localhost:3000/
+        proxy / localhost:3000/vdr
+}
+
+
+http://strategy.threefold.me, https://strategy.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        basicauth / "admin" kds
+        proxy /api localhost:3000/
+        proxy / localhost:3000/strategy
+}
+
+
+http://funding20.threefold.me, https://funding20.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        basicauth / "admin" kds
+        proxy /api localhost:3000/
+        proxy / localhost:3000/funding
+}
+
+http://vdr2.threefold.tech, https://vdr2.threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        basicauth / "vdr" ThreeFoldFuture
+        proxy /api localhost:3000/
+        proxy / localhost:3000/vdr2
+}
+
+
+http://wiki.mazraa.io, https://wiki.mazraa.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/wmazraa
+}
+
+
+http://wiki2.mazraa.io, https://wiki2.mazraa.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/w2mazraa
+}
+
 
 http://info.threefold.io, https://info.threefold.io {
        redir {
@@ -250,7 +367,6 @@ http://info2.threefold.tech, https://info2.threefold.tech {
         proxy /api localhost:3000/
         proxy / localhost:3000/tftechwiki2
 }
-
 
 
 http://blog.threefold.io, https://blog.threefold.io {

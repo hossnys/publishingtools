@@ -51,6 +51,21 @@
 
 <svelte:head>
   <title>Blog</title>
+
+  {#if metadata.cookie_consent_popup}
+    <!-- cookie script -->
+    <script type="text/javascript">
+      cookieconsent.run({
+        notice_banner_type: "headline",
+        consent_type: "express",
+        palette: "light",
+        language: "en",
+        website_name: "https://blog.threefold.io/",
+        cookies_policy_url: "https://wiki.threefold.io/#/privacypolicy"
+      });
+    </script>
+  {/if}
+
 </svelte:head>
 
 {#await posts then value}

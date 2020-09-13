@@ -419,6 +419,7 @@ environment = "testing"
 
 
 ## preparing static binaries
+You can build static binaries within alpine crystal container, add required packages and then run the [static binary builder script](https://github.com/crystaluniverse/publishingtools/blob/development/buildstaticbinaries.sh) 
 
 ### alpine container
 
@@ -426,6 +427,8 @@ environment = "testing"
 sudo docker run -it --name crystalalpine -h crystalalpine --privileged -v /opt/crystalalpine:/opt crystallang/crystal:0.35.1-alpine sh
 
 ```
+
+`/opt/crystalalpine` is the host directory that has the publishingtools code that you want to share in the container 
 
 ### build binaries
 
