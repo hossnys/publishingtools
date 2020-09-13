@@ -258,32 +258,6 @@ domain = "info2.internet9.me"
 
 
 [[wiki]]
-name = "bettertoken"
-url = "https://github.com/BetterToken/info_bettertoken"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
-environment = "production"
-auth = true
-domain = "wiki.bettertoken.com"
-
-
-[[wiki]]
-name = "bettertoken2"
-url = "https://github.com/BetterToken/info_bettertoken"
-path = ""
-autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
-environment = "testing"
-auth = true
-domain = "wiki2.bettertoken.com"
-
-
-[[wiki]]
 name = "tftechwiki"
 url = "https://github.com/threefoldtech/info_tftech"
 path = ""
