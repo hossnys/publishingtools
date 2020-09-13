@@ -292,7 +292,6 @@ branch = "master"
 branchswitch = false
 srcdir = "src"
 environment = "production"
-auth = true
 domain = "info.threefold.tech"
 
 
@@ -305,7 +304,6 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
-auth = true
 domain = "info2.threefold.tech"
 
 #website
