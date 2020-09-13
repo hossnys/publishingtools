@@ -778,3 +778,22 @@ http://www2.incubaid.com, https://www2.incubaid.com {
         tls info@threefold.io
         proxy / localhost:3000/incubaid2
 }
+
+http://www.faircoffee.trade, https://www.faircoffee.trade, http://faircoffee.trade, https://faircoffee.trade {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/faircoffee
+}
+
+http://www2.faircoffee.trade, https://www2.faircoffee.trade {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/faircoffee2
+}
+

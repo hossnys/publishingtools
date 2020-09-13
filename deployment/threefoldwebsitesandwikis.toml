@@ -928,3 +928,25 @@ branch = "development"
 branchswitch = true
 srcdir = ""
 environment = "testing"
+
+#website
+[[www]]
+name = "faircoffee"
+url = "https://github.com/faircoffee-trade/www_faircoffe_trade"
+path = ""
+autocommit = false
+branch = "production"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "faircoffee2"
+url = "https://github.com/faircoffee-trade/www_faircoffe_trade"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "testing"
