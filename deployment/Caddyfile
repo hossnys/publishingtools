@@ -352,7 +352,7 @@ http://info.threefold.tech, https://info.threefold.tech {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls info@threefold.io
+        tls support@threefold.tech 
         proxy /api localhost:3000/
         proxy / localhost:3000/tftechwiki
 }
@@ -363,7 +363,7 @@ http://info2.threefold.tech, https://info2.threefold.tech {
            if {scheme} is http
            / https://{host}{uri}
         }
-        tls info@threefold.io
+        tls support@threefold.tech 
         proxy /api localhost:3000/
         proxy / localhost:3000/tftechwiki2
 }
