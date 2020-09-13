@@ -443,6 +443,21 @@ branchswitch = true
 srcdir = "html"
 environment = "testing"
 
+
+#website
+[[www]]
+name = "incubaid"
+url = "git@github.com:Incubaid/www_incubaid.git"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+
+
+#website
 [[www]]
 name = "incubaid2"
 url = "git@github.com:Incubaid/www_incubaid.git"

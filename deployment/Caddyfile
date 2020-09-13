@@ -761,3 +761,20 @@ http://www2.inid.io, https://www2.inid.io {
         proxy / localhost:3000/inidio2
 }
 
+http://www.incubaid.com, https://www.incubaid.com, http://incubaid.com, https://incubaid.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/incubaid
+}
+
+http://www2.incubaid.com, https://www2.incubaid.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/incubaid2
+}
