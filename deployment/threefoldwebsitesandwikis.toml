@@ -503,15 +503,6 @@ branchswitch = true
 srcdir = "html"
 environment = "production"
 
-[[www]]
-name = "incubaid"
-url = "git@github.com:Incubaid/www_incubaid.git"
-path = ""
-autocommit = false
-branch = "master"
-branchswitch = true
-srcdir = ""
-environment = "production"
 
 #website
 [[www]]
