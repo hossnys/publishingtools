@@ -396,6 +396,7 @@ domain = "info2.internet9.me"
 
 [[wiki]]
 name = "tftechwiki"
+title = "Threefoldtech wiki"
 url = "https://github.com/threefoldtech/info_tftech"
 path = ""
 autocommit = false
@@ -408,6 +409,7 @@ domain = "info.threefold.tech"
 
 [[wiki]]
 name = "tftechwiki2"
+title = "Threefoldtech wiki staging"
 url = "https://github.com/threefoldtech/info_tftech"
 path = ""
 autocommit = false
