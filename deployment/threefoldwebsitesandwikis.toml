@@ -394,6 +394,30 @@ environment = "testing"
 domain = "info2.internet9.me"
 
 
+[[wiki]]
+name = "tftechwiki"
+url = "https://github.com/threefoldtech/info_tftech"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = false
+srcdir = "src"
+environment = "production"
+domain = "info.threefold.tech"
+
+
+[[wiki]]
+name = "tftechwiki2"
+url = "https://github.com/threefoldtech/info_tftech"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+domain = "info2.threefold.tech"
+
+
 #website
 [[www]]
 name = "freetft2"
