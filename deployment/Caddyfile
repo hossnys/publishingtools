@@ -252,6 +252,28 @@ http://wiki2.bettertoken.com, https://wiki2.bettertoken.com {
 }
 
 
+http://info.threefold.tech, https://info.threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/tftechwiki
+}
+
+
+http://info2.threefold.tech, https://info2.threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/
+        proxy / localhost:3000/tftechwiki2
+}
+
+
 
 http://blog.threefold.io, https://blog.threefold.io {
         redir {
