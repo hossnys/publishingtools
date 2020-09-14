@@ -797,3 +797,21 @@ http://www2.faircoffee.trade, https://www2.faircoffee.trade {
         proxy / localhost:3000/faircoffee2
 }
 
+http://www.es.freeflownation.org, https://www.es.freeflownation.org, http://es.freeflownation.org, https://es.freeflownation.org {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/es-freeflownation
+}
+
+http://www2.es.freeflownation.org, https://www2.es.freeflownation.org {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/es-freeflownation2
+}
+

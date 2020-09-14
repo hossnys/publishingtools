@@ -950,3 +950,26 @@ branch = "master"
 branchswitch = true
 srcdir = ""
 environment = "testing"
+
+#website
+[[www]]
+name = "es-freeflownation"
+url = "https://github.com/freeflownation/www_freeflownation_es"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "es-freeflownation2"
+url = "https://github.com/freeflownation/www_freeflownation_es"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
