@@ -8,11 +8,18 @@ module TFWeb
     @path = ""
     @repo_key = ""
 
+    def get_repo
+      # get repo from datasites config or directly from a factory
+      unless Config.datasites.has_key?(@repo_key)
+        raise "could not find a configured data site for #{@repo_key}"
+      end
+
+      Config.datasites[@repo_key].repo.not_nil!
+    end
+
     def path
+      repo = get_repo
       if (value = @path) == ""
-        gitrepo_factory = CrystalTools::GITRepoFactory.new
-        repo = gitrepo_factory.get(url: REPO_URLS[@repo_key])
-        repo.pull
         @path = File.join(repo.path, @repo_key)
       else
         value
@@ -32,7 +39,7 @@ module TFWeb
             if affiliate_file.starts_with?(start_with) && ext == ".toml"
               toml_path = file_path
             elsif IMG_EXT.includes?(ext)
-              avatar = file_path
+              avatar = File.join(affiliate, affiliate_file)
             end
           end
           affiliate_data = TOML.parse_file(toml_path)

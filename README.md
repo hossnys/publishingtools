@@ -25,7 +25,7 @@ export DEBUG=1
 ```
 
 
-#### Server config section 
+#### Server config section
 ```toml
 [server]
 port = 3000
@@ -87,7 +87,7 @@ srcdir = ""
 #environment name (for example:  production, staging, testing)
 environment = "production"
 ```
-the same as wiki, but in `[[www]]` array instead, used to serve static websites 
+the same as wiki, but in `[[www]]` array instead, used to serve static websites
 
 
 
@@ -360,7 +360,7 @@ NOTE: Make sure that you have 80, 443 connections configured on the sshtool conf
 in your hosts file
 ```
 127.0.0.1 sdk.threefold.io
-127.0.0.1 sdk3.threefold.io                       
+127.0.0.1 sdk3.threefold.io
 127.0.0.1 wiki.threefold.io
 127.0.0.1 wiki3.threefold.io
 127.0.0.1 boardthreefold.me
@@ -408,7 +408,7 @@ environment = "testing"
 
 
 - Here we define a group named `admin` and of users `ahmedthabet`
-- We want to limit access to sdk to that admin group, so we need to define `groups = ["admin"]` and set `auth = true` 
+- We want to limit access to sdk to that admin group, so we need to define `groups = ["admin"]` and set `auth = true`
 - in case of failed login attempts you will find the user who tried in `~/ftweb.access`
 
 
@@ -419,7 +419,7 @@ environment = "testing"
 
 
 ## preparing static binaries
-You can build static binaries within alpine crystal container, add required packages and then run the [static binary builder script](https://github.com/crystaluniverse/publishingtools/blob/development/buildstaticbinaries.sh) 
+You can build static binaries within alpine crystal container, add required packages and then run the [static binary builder script](https://github.com/crystaluniverse/publishingtools/blob/development/buildstaticbinaries.sh)
 
 ### alpine container
 
@@ -428,7 +428,7 @@ sudo docker run -it --name crystalalpine -h crystalalpine --privileged -v /opt/c
 
 ```
 
-`/opt/crystalalpine` is the host directory that has the publishingtools code that you want to share in the container 
+`/opt/crystalalpine` is the host directory that has the publishingtools code that you want to share in the container
 
 ### build binaries
 
@@ -442,3 +442,49 @@ shards build --static --link-flags "$(pkg-config libxml-2.0 --libs --static)" --
 ```
 
 - you might need to install libssh2-static package `apk add libssh2-static libssh2 libssh2-dev`
+
+## Team API
+
+We provided team/partners/farmers api implementation to get all information needed, but the user need to configure the source data sites for each API, see the following example:
+
+```
+[[data]]
+name = "team"
+url = "https://github.com/threefoldfoundation/data_team"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "team"
+environment = "production"
+
+[[data]]
+name = "partners"
+url = "https://github.com/threefoldfoundation/data_partners"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "partners"
+environment = "production"
+
+[[data]]
+name = "farmers"
+url = "https://github.com/threefoldfoundation/data_farmers"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "farmers"
+environment = "production"
+```
+
+Now the following api endpoints can be used and the data itself (e.g. avatars or logos) will be served too:
+
+* `GET /api/members/list`
+* `GET /api/partners/list`
+* `GET /api/farmers/list`
+
+For logos, it will be served as configured, from the `srcdir`, e.g. for edge cloud logo at farmers data repo:
+
+ `/farmers/Dragon_Edge_Cloud/Black_logo_no_background.png`

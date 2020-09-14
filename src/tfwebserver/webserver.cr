@@ -64,7 +64,7 @@ module TFWeb
       Kemal.config.port = Config.server_config["port"].to_i32
       Kemal.config.host_binding = Config.server_config["addr"].to_s
 
-      Kemal.config.add_handler RefererMiddleware.new(wikis: Config.wikis, websites: Config.websites, blogs: Config.blogs)
+      Kemal.config.add_handler RefererMiddleware.new
       Kemal.run
     end
 
@@ -164,6 +164,18 @@ module TFWeb
       end
     end
 
+    def self.serve_datasite(env, sitename, path)
+      datasite = Config.datasites[sitename]
+      datasite_path = File.join(datasite.path, datasite.srcdir)
+      fullpath = File.join(datasite_path, path.to_s)
+
+      if File.exists?(fullpath)
+        send_file env, fullpath
+      else
+        do404 env, "file #{fullpath} is not found"
+      end
+    end
+
     private def self.handle_update(env, name, force)
       Logger.info { "trying to update #{name} force? #{force}" }
 
@@ -189,6 +201,10 @@ module TFWeb
           Config.blogs[name].repo.try do |arepo|
             arepo.pull(force)
             Config.blogs[name].prepare_on_fs
+          end
+        elsif Config.datasites.has_key?(name)
+          Config.datasites[name].repo.try do |arepo|
+            arepo.pull(force)
           end
         else
           do404 env, "couldn't pull #{name}"
@@ -317,6 +333,8 @@ module TFWeb
         end
       elsif Config.websites.has_key?(name)
         self.serve_staticsite(env, name, path)
+      elsif Config.datasites.has_key?(name)
+        self.serve_datasite(env, name, path)
       else
         self.do404 env, "file #{path} doesn't exist on wiki/website #{name}"
       end

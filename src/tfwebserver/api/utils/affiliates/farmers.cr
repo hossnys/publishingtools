@@ -9,15 +9,15 @@ module TFWeb
     property type : String
     property contact : String
     property url : String
-    property avatar : String
+    property logo : String
 
-    def initialize(name, description, type, contact, url, avatar)
+    def initialize(name, description, type, contact, url, logo)
       @name = name
       @description = description
       @type = type
       @contact = contact
       @url = url
-      @avatar = avatar
+      @logo = logo
     end
   end
 
@@ -33,9 +33,9 @@ module TFWeb
         type = farmer_data.fetch("type", "").as(String)
         contact = farmer_data.fetch("contact", "").as(String)
         url = farmer_data.fetch("url", "").as(String)
-        avatar = farmer_data.fetch("avatar", "").as(String)
+        logo = farmer_data.fetch("avatar", "").as(String)
 
-        farmer = Farmer.new(name, description, type, contact, url, avatar)
+        farmer = Farmer.new(name, description, type, contact, url, logo)
         farmers << farmer
       end
       farmers.to_json

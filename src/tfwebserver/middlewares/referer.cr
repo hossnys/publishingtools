@@ -1,12 +1,5 @@
 module TFWeb
   class RefererMiddleware < Kemal::Handler
-    def initialize(
-      @wikis : Hash(String, Wiki),
-      @websites : Hash(String, Website),
-      @blogs : Hash(String, Blog)
-    )
-    end
-
     def call(env)
       path = env.request.path
       path_parts = path.strip("/").split("/")
@@ -17,14 +10,14 @@ module TFWeb
         return call_next env
       end
 
-      unless @wikis.has_key?(sitename) || @websites.has_key?(sitename)
+      unless Config.wikis.has_key?(sitename) || Config.websites.has_key?(sitename) || Config.datasites.has_key?(sitename)
         if env.request.headers.has_key?("Referer")
           referer = URI.parse env.request.headers["Referer"]
           referer_path = referer.path
           referer_path_parts = referer_path.strip("/").split("/")
           referer_sitename = referer_path_parts.shift
 
-          if @wikis.has_key?(referer_sitename) || @websites.has_key?(referer_sitename)
+          if Config.wikis.has_key?(referer_sitename) || Config.websites.has_key?(referer_sitename)
             return env.redirect "/#{referer_sitename}#{path}"
           end
         end
