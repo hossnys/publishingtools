@@ -959,7 +959,7 @@ path = ""
 autocommit = false
 branch = "master"
 branchswitch = true
-srcdir = "html"
+srcdir = ""
 environment = "production"
 
 #website
