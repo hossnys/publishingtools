@@ -18,6 +18,22 @@ module TFWeb
           end
         end
       end
+
+      def walk_files(root, skips = [] of String, &block : String ->)
+        Dir.each_child(root) do |entry|
+          if skips.includes?(entry.strip.downcase)
+            Logger.debug { "skipping '#{entry}' at '#{root}'" }
+            next
+          end
+
+          path = File.join(root, entry)
+          if File.directory?(path)
+            walk_files(path, &block)
+          else
+            yield path
+          end
+        end
+      end
     end
   end
 end

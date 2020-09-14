@@ -4,6 +4,8 @@ require "file_utils"
 
 module TFWeb
   class MarkdownDocs
+    include Utils::FS
+
     property dirfilesinfo
     property docspath = ""
 
@@ -94,15 +96,6 @@ module TFWeb
       @dirfilesinfo["errors.md"] = ferrors
     end
 
-    private def should_skip?(path)
-      @skips.each do |skipped|
-        if path.includes?(skipped)
-          return true
-        end
-      end
-      return false
-    end
-
     private def cp_r2(src_path : String, dest_path : String)
       if Dir.exists?(src_path)
         Dir.mkdir(dest_path) unless Dir.exists?(dest_path)
@@ -120,9 +113,7 @@ module TFWeb
       @errors = Hash(String, String).new # reset errors.
 
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new # reset.
-      Dir.glob("#{path}/**/*") do |thepath|
-        next if Dir.exists?(thepath) || should_skip?(thepath)
-
+      walk_files(path, @skips) do |thepath|
         child = File.basename(thepath)
         # next if child.starts_with?("_")
         if !@dirfilesinfo.has_key?(child.to_s)
@@ -148,10 +139,8 @@ module TFWeb
     # walk over filesystem to buildup the fixer
     private def _fix(path)
       seen = Array(String).new
-      Dir.glob("#{path}/**/*") do |thepath|
-        next if should_skip?(thepath) || thepath.downcase == "#{docspath}/readme.md"
-        next if seen.includes?(thepath)
-        seen << thepath.to_s
+      walk_files(path, @skips) do |thepath|
+        next if thepath.downcase == "#{docspath}/readme.md"
 
         path_obj = Path.new(thepath)
         next if path_obj.basename.starts_with?("_")
