@@ -815,3 +815,13 @@ http://www2.es.freeflownation.org, https://www2.es.freeflownation.org {
         proxy / localhost:3000/es-freeflownation2
 }
 
+http://www.support.grid.tf, https://www.support.grid.tf, http://support.grid.tf, https://support.grid.tf {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/tf_support
+}
+
+
