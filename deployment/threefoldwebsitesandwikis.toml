@@ -973,3 +973,14 @@ branchswitch = true
 srcdir = ""
 environment = "testing"
 
+#website
+[[www]]
+name = "tf_support"
+url = "https://github.com/threefoldtech/tf-support-live"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
