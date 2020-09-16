@@ -841,23 +841,3 @@ http://www2.freeflowmatchmakers.com, https://www2.freeflowmatchmakers.com {
         tls info@threefold.io
         proxy / localhost:3000/ffmatchmakers2
 }
-
-
-http://www.getfreetft.threefold.io, https://www.getfreetft.threefold.io, http://getfreetft.threefold.io, https://getfreetft.threefold.io {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy / localhost:3000/getfree_tft
-}
-
-http://www2.getfreetft.threefold.io, https://www2.getfreetft.threefold.io {
-       redir {
-           if {scheme} is http
-           / https://{host}{uri}
-        }
-        tls info@threefold.io
-        proxy / localhost:3000/getfree_tft2
-}
-
