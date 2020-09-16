@@ -1006,3 +1006,27 @@ branchswitch = true
 srcdir = ""
 environment = "testing"
 
+#website
+[[www]]
+name = "getfree_tft"
+url = "https://github.com/threefoldfoundation/www_getfreetft"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+
+#website
+[[www]]
+name = "getfree_tft2"
+url = "https://github.com/threefoldfoundation/www_getfreetft"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
