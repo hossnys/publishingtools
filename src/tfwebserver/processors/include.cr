@@ -55,6 +55,7 @@ module TFWeb
 
             linker = LinkIncludeProcessor.new(wiki_name)
             content = linker.apply(content)
+            content = Config.link_expander.apply(content)
             return apply(content, current_wiki: wiki_name)
           end
         end
