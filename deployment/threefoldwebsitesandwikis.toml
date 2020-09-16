@@ -984,3 +984,25 @@ branchswitch = true
 srcdir = ""
 environment = "production"
 
+#website
+[[www]]
+name = "ffmatchmakers"
+url = "https://github.com/freeflownation/www_freeflowmatchmakers"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = ""
+environment = "production"
+
+#website
+[[www]]
+name = "ffmatchmakers2"
+url = "https://github.com/freeflownation/www_freeflowmatchmakers"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
