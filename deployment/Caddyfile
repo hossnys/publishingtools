@@ -166,7 +166,7 @@ http://now2.threefold.io, https://now2.threefold.io {
 
 
 http://now.threefold.me, https://now.threefold.me {
-       redir https://info-now.threefold.io{uri}
+       redir https://now.threefold.io{uri}
 }
 
 
