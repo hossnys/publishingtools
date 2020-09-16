@@ -824,4 +824,21 @@ http://www.support.grid.tf, https://www.support.grid.tf, http://support.grid.tf,
         proxy / localhost:3000/tf_support
 }
 
+http://www.freeflowmatchmakers.com, https://www.freeflowmatchmakers.com, http://freeflowmatchmakers.com, https://freeflowmatchmakers.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/ffmatchmakers
+}
+
+http://www2.freeflowmatchmakers.com, https://www2.freeflowmatchmakers.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/ffmatchmakers2
+}
 
