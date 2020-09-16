@@ -142,7 +142,7 @@ http://manual-testnet.threefold.io, https://manual-testnet.threefold.io {
         proxy / localhost:3000/manual_testnet
 }
 
-http://info-now.threefold.io, https://info-now.threefold.io {
+http://now.threefold.io, https://now.threefold.io {
 
        redir {
            if {scheme} is http
@@ -154,7 +154,7 @@ http://info-now.threefold.io, https://info-now.threefold.io {
 }
 
 
-http://info-now2.threefold.io, https://info-now2.threefold.io {
+http://now2.threefold.io, https://now2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
@@ -165,13 +165,13 @@ http://info-now2.threefold.io, https://info-now2.threefold.io {
 }
 
 
-http://info-now.threefold.me, https://info-now.threefold.me {
-       redir https://info-now.threefold.io{uri}
+http://now.threefold.me, https://now.threefold.me {
+       redir https://now.threefold.io{uri}
 }
 
 
-http://info-now2.threefold.me, https://info-now2.threefold.me {
-       redir https://info-now2.threefold.io{uri}
+http://now2.threefold.me, https://now2.threefold.me {
+       redir https://now2.threefold.io{uri}
 }
 
 http://vdr.threefold.tech, https://vdr.threefold.tech {
