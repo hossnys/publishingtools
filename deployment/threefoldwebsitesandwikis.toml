@@ -276,7 +276,7 @@ branch = "master"
 branchswitch = false
 srcdir = "src"
 environment = "production"
-domain = "info-now.threefold.io"
+domain = "now.threefold.io"
 
 [[wiki]]
 name = "tfnow2"
@@ -288,7 +288,7 @@ branch = "development"
 branchswitch = false
 srcdir = "src"
 environment = "testing"
-domain = "info-now2.threefold.io"
+domain = "now2.threefold.io"
 
 
 [[wiki]]
