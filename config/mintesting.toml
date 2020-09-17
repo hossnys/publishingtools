@@ -1,0 +1,65 @@
+#can be many wiki & many www sites
+
+[server]
+port = 3000
+addr = "0.0.0.0"
+
+
+
+
+[[wiki]]
+name = "wiki2"
+title = "ThreeFold Wiki Staging"
+#http or git url
+url = "https://github.com/threefoldfoundation/info_threefold"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+
+
+[[wiki]]
+name = "manual2"
+title = "ThreeFold Wiki Staging"
+#http or git url
+url = "https://github.com/threefoldfoundation/info_gridmanual"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = false
+srcdir = "src"
+environment = "testing"
+
+
+#website
+
+[[www]]
+name = "incubaid"
+url = "git@github.com:Incubaid/www_incubaid.git"
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = ""
+environment = "testing"
+
+
+[[blog]]
+name = "tfblog"
+title = "Threefold Blog"
+#http or git url
+url = "https://github.com/threefoldfoundation/blog_threefold"
+#if empty will be auto created
+path = ""
+#commit automatically when there is new info, only works when ssh used
+autocommit = false
+#branch name, of "" then will be the default or what is found on the FS
+branch = "development"
+branchswitch = true
+#path in the repo where the info is, std "src"
+srcdir = ""
+#environment name (for example:  production, staging, testing)
+environment = "testing"

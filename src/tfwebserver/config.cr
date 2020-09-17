@@ -10,6 +10,8 @@ module TFWeb
     GROUPS = Hash(String, ACLGroup).new
 
     @@include_processor = IncludeProcessor.new
+    @@include_raw_processor = IncludeRawProcessor.new
+
     @@link_expander = LinkExpander.new
 
     class ACLGroup
@@ -163,6 +165,10 @@ module TFWeb
 
     def self.include_processor
       @@include_processor
+    end
+
+    def self.include_raw_processor
+      @@include_raw_processor
     end
 
     def self.link_expander

@@ -139,7 +139,13 @@ module TFWeb
             send_file env, filepath
           else
             env.response.content_type = "text/plain"
-            return new_content
+            new_content2 = Config.include_raw_processor.apply(new_content, current_wiki: wikiname)
+
+            if new_content2.nil?
+              return new_content
+            else
+              return new_content2
+            end
           end
         else
           send_file env, filepath
