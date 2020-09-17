@@ -20,7 +20,6 @@ module TFWeb
       @docsifyreadmefixer = DocsifyReadmeFixerProcessor.new
       @namefixer = NameFixerProcessor.new
 
-      @skips = [".git", "_archive", "out", "_beta"]
       @errors = Hash(String, String).new
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new
 
@@ -113,7 +112,7 @@ module TFWeb
       @errors = Hash(String, String).new # reset errors.
 
       @dirfilesinfo = Hash(String, TFWeb::FInfoTracker).new # reset.
-      walk_files(path, @skips) do |thepath|
+      walk_files(path) do |thepath|
         child = File.basename(thepath)
         # next if child.starts_with?("_")
         if !@dirfilesinfo.has_key?(child.to_s)
@@ -139,7 +138,7 @@ module TFWeb
     # walk over filesystem to buildup the fixer
     private def _fix(path)
       seen = Array(String).new
-      walk_files(path, @skips) do |thepath|
+      walk_files(path) do |thepath|
         next if thepath.downcase == "#{docspath}/readme.md"
 
         path_obj = Path.new(thepath)
