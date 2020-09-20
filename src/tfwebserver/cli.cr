@@ -11,7 +11,7 @@ module TFWeb
     BUILD_LAST_TAG = {{ `git describe --abbrev=0 --tags`.chomp.stringify }}
     SHARDS_VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
 
-    VERSION = "tfweb #{BUILD_LAST_TAG} (#{BUILD_BRANCH})##{BUILD_COMMIT})"
+    VERSION = "tfweb #{BUILD_LAST_TAG} (#{BUILD_BRANCH}: ##{BUILD_COMMIT})"
 
     def self.main
       theconfigpath = ""
