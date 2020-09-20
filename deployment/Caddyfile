@@ -842,7 +842,7 @@ http://www2.freeflowmatchmakers.com, https://www2.freeflowmatchmakers.com {
         proxy / localhost:3000/ffmatchmakers2
 }
 
-http://threefold.io.mido.re, https://threefold.io.mido.re {
+http://www2.threefold.io, https://www2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
@@ -868,7 +868,7 @@ http://threefold.io.mido.re, https://threefold.io.mido.re {
 
 }
 
-http://threefold.me.mido.re, https://threefold.me.mido.re {
+http://www2.threefold.me, https://www2.threefold.me {
        redir {
            if {scheme} is http
            / https://{host}{uri}
@@ -894,7 +894,7 @@ http://threefold.me.mido.re, https://threefold.me.mido.re {
 
 }
 
-http://threefold.tech.mido.re, https://threefold.tech.mido.re {
+http://www2.threefold.tech, https://www2.threefold.tech {
        redir {
            if {scheme} is http
            / https://{host}{uri}
