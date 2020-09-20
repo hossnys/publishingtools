@@ -850,3 +850,60 @@ http://www2.codescalers.com, https://www2.codescalers.com {
         tls info@threefold.io
         proxy / localhost:3000/codescalers2
 }
+
+http://www2.threefold.io, https://www2.threefold.io {
+        proxy /api localhost:3000/api {
+                without /api
+        }
+        proxy /weblibs localhost:3000/weblibs {
+                without /weblibs
+        }
+        proxy /team localhost:3000/team {
+        without /team
+        }
+        proxy /farmers localhost:3000/farmers {
+                without /farmers
+        }
+        proxy /partners localhost:3000/partners {
+                without /partners
+        }
+        proxy / localhost:3000/threefold_io2
+
+
+}
+
+http://www2.threefold.me, https://www2.threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/api {
+                without /api
+        }
+        proxy /weblibs localhost:3000/weblibs {
+                without /weblibs
+        }
+        proxy /team localhost:3000/team {
+        without /team
+        }
+        proxy /farmers localhost:3000/farmers {
+                without /farmers
+        }
+        proxy /partners localhost:3000/partners {
+                without /partenrs
+        }
+        proxy / localhost:3000/threefold_me2
+
+
+}
+
+http://www2.threefold.tech, https://www2.threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/threefold_tech2
+}
+
