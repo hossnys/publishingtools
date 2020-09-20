@@ -18,7 +18,7 @@ module TFWeb
   end
 
   class Community < Affiliate
-    @repo_key = "partners"
+    @datasite_name = "partners"
 
     def list_partners
       partners_data = collect_data("info")

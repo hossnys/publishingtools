@@ -488,3 +488,9 @@ Now the following api endpoints can be used and the data itself (e.g. avatars or
 For logos, it will be served as configured, from the `srcdir`, e.g. for edge cloud logo at farmers data repo:
 
  `/farmers/Dragon_Edge_Cloud/Black_logo_no_background.png`
+
+Data is cached until it gets updated by going to `/<data site name>/merge_update` or `/<data site name>/force_update` (no need to restart the server), examples:
+
+- `/team/merge_update`: will pull latest version of configured team data site.
+- `/partners/merge_update`: will pull latest version of configured partners data site.
+

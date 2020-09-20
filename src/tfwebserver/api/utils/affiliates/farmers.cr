@@ -22,7 +22,7 @@ module TFWeb
   end
 
   class Farmers < Affiliate
-    @repo_key = "farmers"
+    @datasite_name = "farmers"
 
     def list_farmers
       farmers_data = collect_data("info")

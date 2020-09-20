@@ -33,6 +33,9 @@ module TFWeb
     @[JSON::Field(ignore: true)]
     property type = ""
 
+    @[JSON::Field(ignore: true)]
+    property pulled_at = Time.unix(0)
+
     def to_s
       "#{@name} #{@auth} #{@environment} "
     end
@@ -112,6 +115,7 @@ module TFWeb
           repo.ensure
         end
         @path = repo.path
+        @pulled_at = Time.utc
         repo
       end
     end

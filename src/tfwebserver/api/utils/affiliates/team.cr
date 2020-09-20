@@ -38,7 +38,7 @@ module TFWeb
   end
 
   class Team < Affiliate
-    @repo_key = "team"
+    @datasite_name = "team"
 
     private def filter_member_mapping(member, projects, contribution_types)
       Hash.zip(projects, contribution_types).each do |project, contribution|
