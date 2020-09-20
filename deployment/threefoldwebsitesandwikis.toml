@@ -1033,7 +1033,6 @@ environment = "testing"
 [[www]]
 name = "codescalers2"
 url = "https://github.com/codescalers/www-codescalers"
->>>>>>> development
 path = ""
 autocommit = false
 branch = "development"
