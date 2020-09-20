@@ -841,3 +841,65 @@ http://www2.freeflowmatchmakers.com, https://www2.freeflowmatchmakers.com {
         tls info@threefold.io
         proxy / localhost:3000/ffmatchmakers2
 }
+
+http://threefold.io.mido.re, https://threefold.io.mido.re {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/api {
+                without /api
+        }
+        proxy /weblibs localhost:3000/weblibs {
+                without /weblibs
+        }
+        proxy /team localhost:3000/team {
+        without /team
+        }
+        proxy /farmers localhost:3000/farmers {
+                without /farmers
+        }
+        proxy /partners localhost:3000/partners {
+                without /partenrs
+        }
+        proxy / localhost:3000/threefold_io2
+
+
+}
+
+http://threefold.me.mido.re, https://threefold.me.mido.re {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/api {
+                without /api
+        }
+        proxy /weblibs localhost:3000/weblibs {
+                without /weblibs
+        }
+        proxy /team localhost:3000/team {
+        without /team
+        }
+        proxy /farmers localhost:3000/farmers {
+                without /farmers
+        }
+        proxy /partners localhost:3000/partners {
+                without /partenrs
+        }
+        proxy / localhost:3000/threefold_me2
+
+
+}
+
+http://threefold.tech.mido.re, https://threefold.tech.mido.re {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/threefold_tech2
+}
+
