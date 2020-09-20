@@ -842,12 +842,16 @@ http://www2.freeflowmatchmakers.com, https://www2.freeflowmatchmakers.com {
         proxy / localhost:3000/ffmatchmakers2
 }
 
-http://www2.threefold.io, https://www2.threefold.io {
+http://www2.codescalers.com, https://www2.codescalers.com {
        redir {
            if {scheme} is http
            / https://{host}{uri}
         }
         tls info@threefold.io
+        proxy / localhost:3000/codescalers2
+}
+
+http://www2.threefold.io, https://www2.threefold.io {
         proxy /api localhost:3000/api {
                 without /api
         }

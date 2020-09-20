@@ -1029,6 +1029,18 @@ branchswitch = true
 srcdir = ""
 environment = "testing"
 
+#website
+[[www]]
+name = "codescalers2"
+url = "https://github.com/codescalers/www-codescalers"
+>>>>>>> development
+path = ""
+autocommit = false
+branch = "development"
+branchswitch = true
+srcdir = "html"
+environment = "testing"
+
 [[www]]
 name = "threefold_io2"
 url = "git@github.com:threefoldfoundation/www_tfgrid.git"

@@ -13,8 +13,9 @@ module TFWeb
     property contribution_ids : Array(Int32)
     property nationality : String
     property avatar : String
+    property rank : Int32
 
-    def initialize(full_name, description, why_threefold, function, linkedin, project_ids, contribution_ids, nationality, avatar)
+    def initialize(full_name, description, why_threefold, function, linkedin, project_ids, contribution_ids, nationality, avatar, rank)
       @full_name = full_name
       @description = description
       @why_threefold = why_threefold
@@ -24,6 +25,7 @@ module TFWeb
       @contribution_ids = contribution_ids
       @nationality = nationality
       @avatar = avatar
+      @rank = rank
     end
 
     def get_projects_or_contributions(key)
@@ -90,7 +92,13 @@ module TFWeb
         nationality = member_data.fetch("nationality", "").as(String)
         avatar = member_data.fetch("avatar", "").as(String)
 
-        member = Member.new(full_name, description, why_threefold, function, linkedin, project_ids, contribution_ids, nationality, avatar)
+        begin
+          rank = member_data.fetch("rank", 0).as(Int64).to_i
+        rescue exception
+          rank = member_data.fetch("rank", "0").as(String).to_i
+        end
+
+        member = Member.new(full_name, description, why_threefold, function, linkedin, project_ids, contribution_ids, nationality, avatar, rank)
         members << member
       end
       if projects.empty? || contribution_types.empty?
