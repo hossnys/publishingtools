@@ -861,7 +861,7 @@ http://threefold.io.mido.re, https://threefold.io.mido.re {
                 without /farmers
         }
         proxy /partners localhost:3000/partners {
-                without /partenrs
+                without /partners
         }
         proxy / localhost:3000/threefold_io2
 
