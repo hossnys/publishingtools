@@ -907,3 +907,69 @@ http://www2.threefold.tech, https://www2.threefold.tech {
         proxy / localhost:3000/threefold_tech2
 }
 
+http://www.codescalers.com, https://www.codescalers.com, http://codescalers.com, https://codescalers.com {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/codescalers
+}
+
+http://www.threefold.io, https://www.threefold.io, http://threefold.io, https://threefold.io  {
+        proxy /api localhost:3000/api {
+                without /api
+        }
+        proxy /weblibs localhost:3000/weblibs {
+                without /weblibs
+        }
+        proxy /team localhost:3000/team {
+        without /team
+        }
+        proxy /farmers localhost:3000/farmers {
+                without /farmers
+        }
+        proxy /partners localhost:3000/partners {
+                without /partners
+        }
+        proxy / localhost:3000/threefold_io
+
+
+}
+
+
+http://www.threefold.me, https://www.threefold.me, http://threefold.me, https://threefold.me {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy /api localhost:3000/api {
+                without /api
+        }
+        proxy /weblibs localhost:3000/weblibs {
+                without /weblibs
+        }
+        proxy /team localhost:3000/team {
+        without /team
+        }
+        proxy /farmers localhost:3000/farmers {
+                without /farmers
+        }
+        proxy /partners localhost:3000/partners {
+                without /partenrs
+        }
+        proxy / localhost:3000/threefold_me
+
+
+}
+
+http://www.threefold.tech, https://www.threefold.tech, http://threefold.tech, https://threefold.tech {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
+        tls info@threefold.io
+        proxy / localhost:3000/threefold_tech
+}
+

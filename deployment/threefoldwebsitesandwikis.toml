@@ -1114,3 +1114,44 @@ branchswitch = true
 srcdir = "html"
 environment = "testing"
 
+[[www]]
+name = "threefold_me"
+url = "https://github.com/threefoldfoundation/www_tffoundation"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
+[[www]]
+name = "threefold_tech"
+url = "https://github.com/threefoldtech/www_threefold.tech"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
+#website
+[[www]]
+name = "codescalers"
+url = "https://github.com/codescalers/www-codescalers"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
+[[www]]
+name = "threefold_io"
+url = "git@github.com:threefoldfoundation/www_tfgrid.git"
+path = ""
+autocommit = false
+branch = "master"
+branchswitch = true
+srcdir = "html"
+environment = "production"
+
