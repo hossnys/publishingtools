@@ -852,6 +852,10 @@ http://www2.codescalers.com, https://www2.codescalers.com {
 }
 
 http://www2.threefold.io, https://www2.threefold.io {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
         proxy /api localhost:3000/api {
                 without /api
         }
@@ -917,6 +921,10 @@ http://www.codescalers.com, https://www.codescalers.com, http://codescalers.com,
 }
 
 http://www.threefold.io, https://www.threefold.io, http://threefold.io, https://threefold.io  {
+       redir {
+           if {scheme} is http
+           / https://{host}{uri}
+        }
         proxy /api localhost:3000/api {
                 without /api
         }
