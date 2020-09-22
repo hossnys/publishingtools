@@ -981,3 +981,10 @@ http://www.threefold.tech, https://www.threefold.tech, http://threefold.tech, ht
         proxy / localhost:3000/threefold_tech
 }
 
+http://www.freeflowevent.com, https://www.freeflowevent.com, http://freeflowevent.com, https://freeflowevent.com {
+    redir https://www.freeflownation.org{uri}
+}
+
+http://www.freeflowtokens.com, https://www.freeflowtokens.com, http://freeflowtokens.com https://freeflowtokens.com {
+    redir https://freeflowtoken.com{uri}
+}
