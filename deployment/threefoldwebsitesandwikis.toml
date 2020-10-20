@@ -267,29 +267,24 @@ environment = "testing"
 domain = "vdr2.threefold.tech"
 
 [[wiki]]
-name = "tfnow"
-title = "Threefold now"
-url = "https://github.com/threefoldfoundation/info_threefold_now"
+name = "wiki2020"
+url = "github.com/threefoldfoundation/wiki_2020"
 path = ""
 autocommit = false
-branch = "master"
-branchswitch = false
-srcdir = "src"
+branch = "production"
+branchswitch = true
+srcdir = "dist"
 environment = "production"
-domain = "now.threefold.io"
 
 [[wiki]]
-name = "tfnow2"
-title = "Threefold now"
-url = "https://github.com/threefoldfoundation/info_threefold_now"
+name = "wiki2020_stag"
+url = "github.com/threefoldfoundation/wiki_2020"
 path = ""
 autocommit = false
-branch = "development"
-branchswitch = false
-srcdir = "src"
+branch = "staging"
+branchswitch = true
+srcdir = "dist"
 environment = "testing"
-domain = "now2.threefold.io"
-
 
 [[wiki]]
 name = "cw"
@@ -1154,4 +1149,7 @@ branch = "master"
 branchswitch = true
 srcdir = "html"
 environment = "production"
+
+
+
 

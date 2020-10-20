@@ -142,35 +142,32 @@ http://manual-testnet.threefold.io, https://manual-testnet.threefold.io {
         proxy / localhost:3000/manual_testnet
 }
 
-http://now10.threefold.io, https://now10.threefold.io {
-
+http://now.threefold.io, https://now.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
         }
         tls info@threefold.io
-        proxy /api localhost:3000/
-        proxy / localhost:3000/tfnow
+        proxy / localhost:3000/wiki2020 {
+                without /wiki2020
+        }
+
 }
-
-
 http://now2.threefold.io, https://now2.threefold.io {
        redir {
            if {scheme} is http
            / https://{host}{uri}
         }
         tls info@threefold.io
-        proxy /api localhost:3000/
-        proxy / localhost:3000/tfnow2
+        proxy / localhost:3000/wiki2020_stag {
+                without /wiki2020_stag
+        }
+
 }
 
 
-http://now10.threefold.me, https://now10.threefold.me {
-       redir https://now10.threefold.io{uri}
-}
 
-
-http://now2.threefold.me, https://now2.threefold.me {
+hittp://now2.threefold.me, https://now2.threefold.me {
        redir https://now2.threefold.io{uri}
 }
 
